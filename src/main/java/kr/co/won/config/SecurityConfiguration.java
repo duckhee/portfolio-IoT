@@ -1,0 +1,63 @@
+package kr.co.won.config;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.util.PathMatcher;
+
+import javax.sql.DataSource;
+
+/**
+ * 우선 순위 설정
+ */
+@Order(2)
+@EnableWebSecurity
+@Configuration
+@RequiredArgsConstructor
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final DataSource dataSource;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        /** http security pattern add */
+        http
+                .authorizeRequests()
+                .mvcMatchers("/**")
+                .permitAll();
+
+        /** form login add */
+
+        /** remember-me add */
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        /** static path ignore security */
+        web.ignoring().mvcMatchers(
+                PathRequest.toH2Console().toString(),
+                PathRequest.toStaticResources().atCommonLocations().toString()
+        );
+        /** security ignore setting */
+
+    }
+
+    /**
+     * Remember me token save repository
+     */
+    @Bean
+    public PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
+    }
+}
