@@ -6,36 +6,29 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode(of = {"idx"})
-@ToString()
 @Entity
-@Table(name = "tbl_user")
+@Table(name = "tbl_user_role")
+@EqualsAndHashCode(of = {"idx"})
+@ToString(exclude = {"user"})
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDomain {
+public class UserRoleDomain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_idx")
+    private UserDomain user;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserRoleDomain> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private UserRoleType role = UserRoleType.USER;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -44,6 +37,5 @@ public class UserDomain {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
 
 }
