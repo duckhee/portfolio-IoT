@@ -22,14 +22,15 @@ import javax.sql.DataSource;
 /**
  * 우선 순위 설정
  */
-@Order(2)
-@EnableWebSecurity
+@Order(value = 3)
+//@EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Qualifier(value = "ormDatasource")
     private final DataSource dataSource;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
