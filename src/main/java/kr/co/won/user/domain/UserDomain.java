@@ -9,12 +9,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 @Getter
 @Setter
 @Builder
 @EqualsAndHashCode(of = {"idx"})
-@ToString()
+@ToString(exclude = {"roles"})
 @Entity
 @Table(name = "tbl_user")
 @NoArgsConstructor
@@ -37,6 +38,9 @@ public class UserDomain {
     @Builder.Default
     private boolean deleteFlag = false;
 
+    @Builder.Default
+    private boolean activeFlag = false;
+
     @Embedded
     private Address address;
 
@@ -53,7 +57,20 @@ public class UserDomain {
     private LocalDateTime updatedAt;
 
 
-    /** domain function */
+    /**
+     * domain function
+     */
 
+    public void addRole(UserRoleDomain role) {
+        this.roles.add(role);
+        role.setUser(this);
+    }
+
+    /**
+     * user role have check
+     */
+    public boolean roleCheck(UserRoleType roleType) {
+        return this.roles.stream().anyMatch(roleDomain -> roleDomain.getRole().equals(roleType));
+    }
 
 }

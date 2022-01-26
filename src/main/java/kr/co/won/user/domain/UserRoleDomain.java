@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "tbl_user_role")
-@EqualsAndHashCode(of = {"idx"})
+@EqualsAndHashCode(of = {"idx", "role"})
 @ToString(exclude = {"user"})
 @NoArgsConstructor
 @AllArgsConstructor
