@@ -15,21 +15,25 @@ import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
 
+/*
 @Slf4j
 @Configuration
 @PropertySource(value = {"classpath:application.properties"})
+*/
+
 public class DataSourceConfiguration {
+/*
 
     @Bean
     @Qualifier(value = "ormDataSourceProperties")
-    @ConfigurationProperties("spring.orm-datasource")
+    @ConfigurationProperties("spring.datasource.seconds")
     public DataSourceProperties ormDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean(name = "ormDatasource")
     @Qualifier(value = "ormDatasource")
-    @ConfigurationProperties("spring.orm-datasource.configuration")
+    @ConfigurationProperties("spring.datasource.seconds.configuration")
     public DataSource ormDataSource(@Qualifier("ormDataSourceProperties") DataSourceProperties dataSourceProperties) {
         log.info("create orm Data source ");
         return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
@@ -45,5 +49,6 @@ public class DataSourceConfiguration {
         log.info("basic datasource");
         return DataSourceBuilder.create().build();
     }
+*/
 
 }
