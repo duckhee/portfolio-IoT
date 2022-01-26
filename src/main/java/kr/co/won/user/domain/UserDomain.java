@@ -1,5 +1,6 @@
 package kr.co.won.user.domain;
 
+import kr.co.won.address.Address;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,6 +35,12 @@ public class UserDomain {
     private String name;
 
     @Builder.Default
+    private boolean deleteFlag = false;
+
+    @Embedded
+    private Address address;
+
+    @Builder.Default
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRoleDomain> roles = new HashSet<>();
 
@@ -44,6 +51,9 @@ public class UserDomain {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+
+    /** domain function */
 
 
 }
