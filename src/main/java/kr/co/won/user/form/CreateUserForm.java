@@ -18,6 +18,9 @@ public class CreateUserForm {
     @Email(message = "required email")
     private String email;
 
+    @NotNull(message = "required name")
+    private String name;
+
     @Pattern(regexp = "^[0-9|a-z|A-Z|!|@|#|$|%|\\^|&]+$", message = "password pattern 0~9 a~z A~Z !@#$%^&")
     @NotNull
     private String password;
