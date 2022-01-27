@@ -1,6 +1,7 @@
 package kr.co.won.user.controller;
 
 import kr.co.won.address.Address;
+import kr.co.won.auth.AuthUser;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.form.CreateUserForm;
 import kr.co.won.user.service.UserService;
@@ -29,6 +30,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
     private final ModelMapper modelMapper;
+    /**
+     * global message
+     */
     private final MessageSource messageSource;
 
     /**
@@ -75,8 +79,12 @@ public class UserController {
         // redirect login page
         return "redirect:/login";
     }
+
     @GetMapping(path = "/profile")
-    public String profilePage(){
+    public String profilePage(@AuthUser UserDomain user, Model model, RedirectAttributes flash) {
+
+        // user setting
+        model.addAttribute("user", user);
         return "users/profilePage";
     }
 }

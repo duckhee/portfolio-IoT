@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -71,6 +72,15 @@ public class UserDomain {
      */
     public boolean roleCheck(UserRoleType roleType) {
         return this.roles.stream().anyMatch(roleDomain -> roleDomain.getRole().equals(roleType));
+    }
+
+    public void removeRole(UserRoleType role) {
+//        this.roles.stream().filter(roleDomain -> roleDomain.getRole().equals(role)).collect(Collectors.toList());
+        // remove role not default user role delete
+        if (!role.equals(UserRoleType.USER)) {
+            roles.removeIf(roleDomain -> roleDomain.getRole().equals(role));
+        }
+
     }
 
 }

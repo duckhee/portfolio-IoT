@@ -5,7 +5,10 @@
 <configuration>
     <!--type alias setting-->
     <typeAliases>
-
+        <!--user domain-->
+        <typeAlias type="kr.co.won.user.domain.UserDomain" alias="user"></typeAlias>
+        <!--user role domain-->
+        <typeAlias type="kr.co.won.user.domain.UserRoleDomain" alias="user_role"></typeAlias>
     </typeAliases>
 
 </configuration>
