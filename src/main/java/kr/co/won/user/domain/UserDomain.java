@@ -75,11 +75,23 @@ public class UserDomain {
         }
     }
 
+    public void addRole(Set<UserRoleDomain> roles) {
+        roles.forEach(role -> this.addRole(role));
+    }
+
     /**
      * user role have check
      */
     public boolean roleCheck(UserRoleType roleType) {
         return this.roles.stream().anyMatch(roleDomain -> roleDomain.getRole().equals(roleType));
+    }
+
+    public boolean roleCheck(UserRoleType... roleTypes) {
+        boolean flag = true;
+        for (int i = 0; i < roleTypes.length; i++) {
+            flag = flag && this.roleCheck(roleTypes[i]);
+        }
+        return flag;
     }
 
     public void removeRole(UserRoleType role) {
