@@ -2,10 +2,14 @@ package kr.co.won.user.domain;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Getter
 @Setter
@@ -22,6 +26,7 @@ public class UserRoleDomain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
+    @OnDelete(action = CASCADE)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_idx")
     private UserDomain user;

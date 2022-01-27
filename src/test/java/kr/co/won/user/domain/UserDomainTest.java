@@ -142,6 +142,43 @@ class UserDomainTest {
         assertThat(builderUser.getRoles().contains(adminRole)).isTrue();
     }
 
+    @DisplayName(value = "06. user role multi delete Test")
+    @Test
+    void userRoleMultiDeleteTests() {
+        String name = "tester";
+        String email = "test@co.kr";
+        String password = "1234";
+        UserDomain builderUser = makeUserDomain(name, email, password);
+
+        /** User Build Test */
+        assertThat(builderUser.getName().equals(name)).isTrue();
+        assertThat(builderUser.getEmail().equals(email));
+        assertEquals(password, builderUser.getPassword());
+
+        /** User Role Builder */
+        UserRoleDomain userRole = makeRole(UserRoleType.USER);
+
+
+        /** user Role add */
+        UserRoleDomain adminRole = makeRole(UserRoleType.ADMIN);
+        UserRoleDomain managerRole = makeRole(UserRoleType.MANAGER);
+        builderUser.addRole(userRole, adminRole, managerRole);
+        assertThat(builderUser.getRoles().size()).isEqualTo(3);
+
+        assertThat(builderUser.getRoles().contains(userRole)).isTrue();
+        assertThat(userRole.getUser().equals(builderUser)).isTrue();
+        assertThat(builderUser.getRoles().contains(adminRole)).isTrue();
+        assertThat(adminRole.getUser().equals(builderUser)).isTrue();
+        assertThat(builderUser.getRoles().contains(managerRole)).isTrue();
+        assertThat(managerRole.getUser().equals(builderUser)).isTrue();
+        builderUser.removeRole(UserRoleType.MANAGER, UserRoleType.ADMIN);
+        assertThat(builderUser.getRoles().size()).isEqualTo(1);
+        assertThat(builderUser.getRoles().contains(adminRole)).isFalse();
+        assertThat(adminRole.getUser()).isNull();
+        assertThat(builderUser.getRoles().contains(managerRole)).isFalse();
+        assertThat(managerRole.getUser()).isNull();
+    }
+
 
     private UserRoleDomain userSetRole(UserDomain builderUser, UserRoleType user) {
         UserRoleDomain userRole = makeRole(user);

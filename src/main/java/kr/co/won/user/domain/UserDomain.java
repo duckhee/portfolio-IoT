@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -85,9 +86,24 @@ public class UserDomain {
 //        this.roles.stream().filter(roleDomain -> roleDomain.getRole().equals(role)).collect(Collectors.toList());
         // remove role not default user role delete
         if (!role.equals(UserRoleType.USER)) {
-            roles.removeIf(roleDomain -> roleDomain.getRole().equals(role));
-        }
+//            roles.removeIf(roleDomain -> roleDomain.getRole().equals(role));
 
+            List<UserRoleDomain> userRoles = this.roles.stream()
+                    .filter(roleDomain -> roleDomain.getRole().equals(role))
+                    .collect(Collectors.toList());
+            // user role set user null
+            userRoles.forEach(userRole -> {
+                roles.remove(userRole);
+                userRole.setUser(null);
+            });
+
+        }
+    }
+
+    public void removeRole(UserRoleType... roles) {
+        for (int i = 0; i < roles.length; i++) {
+            this.removeRole(roles[i]);
+        }
     }
 
 }
