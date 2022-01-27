@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -18,24 +19,25 @@ public class CreateUserForm {
     @Email(message = "required email")
     private String email;
 
-    @NotNull(message = "required name")
+    @NotBlank(message = "required name")
     private String name;
 
     @Pattern(regexp = "^[0-9|a-z|A-Z|!|@|#|$|%|\\^|&]+$", message = "password pattern 0~9 a~z A~Z !@#$%^&")
-    @NotNull
+    @NotBlank(message = "required password.")
     private String password;
 
-    @NotNull
+
     @Pattern(regexp = "^[0-9|a-z|A-Z|!|@|#|$|%|\\^|&]+$", message = "not match password")
+    @NotBlank(message = "required confirm password.")
     private String confirmPassword;
 
-    @NotNull(message = "required")
+    @NotBlank(message = "required")
     private String zipCode;
 
-    @NotNull(message = "required")
+    @NotBlank(message = "required")
     private String roadAddress;
 
-    @NotNull(message = "required")
+    @NotBlank(message = "required")
     private String detailAddress;
 
 }
