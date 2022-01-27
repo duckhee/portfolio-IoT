@@ -25,7 +25,7 @@ public class UserServiceAdminImpl implements UserService {
         UserDomain findUser = userPersistence.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("not login user."));
         /** user Role check */
-        if (!findUser.roleCheck(UserRoleType.ADMIN) || !findUser.roleCheck(UserRoleType.MANAGER)) {
+        if (!findUser.hasRole(UserRoleType.ADMIN) || !findUser.hasRole(UserRoleType.MANAGER)) {
             throw new IllegalArgumentException("access denied.");
         }
         /** user roles set */
@@ -56,13 +56,12 @@ public class UserServiceAdminImpl implements UserService {
         return UserService.super.findUser(userIdx, authUser);
     }
 
-    private UserDomain LoginUserRoleCheck(UserDomain authUser, UserRoleType... roles) {
+    private UserDomain hasAuth(UserDomain authUser, UserRoleType... roles) {
         UserDomain findUser = userPersistence.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("not login user."));
         /** user Role check */
-        boolean flag = false;
-        for (int i = 0; i < roles.length; i++) {
-            flag = flag || findUser.roleCheck(roles[i]);
+        if (!findUser.hasRole(roles)) {
+            throw new IllegalArgumentException("access denied.");
         }
         return findUser;
     }

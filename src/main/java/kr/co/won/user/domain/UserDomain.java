@@ -82,14 +82,14 @@ public class UserDomain {
     /**
      * user role have check
      */
-    public boolean roleCheck(UserRoleType roleType) {
+    public boolean hasRole(UserRoleType roleType) {
         return this.roles.stream().anyMatch(roleDomain -> roleDomain.getRole().equals(roleType));
     }
 
-    public boolean roleCheck(UserRoleType... roleTypes) {
+    public boolean hasRole(UserRoleType... roleTypes) {
         boolean flag = true;
         for (int i = 0; i < roleTypes.length; i++) {
-            flag = flag && this.roleCheck(roleTypes[i]);
+            flag = flag && this.hasRole(roleTypes[i]);
         }
         return flag;
     }

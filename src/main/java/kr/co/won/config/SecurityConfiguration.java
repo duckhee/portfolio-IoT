@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .antMatcher("/**")
                 .authorizeRequests()
-                .mvcMatchers("/users/**")
+                .mvcMatchers("/**")
                 .permitAll();
 
         /** form login add */

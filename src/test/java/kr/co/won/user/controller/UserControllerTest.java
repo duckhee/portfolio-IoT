@@ -29,11 +29,5 @@ class UserControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName(value = "test")
-    @Test
-    void denyTest() throws Exception{
-        mockMvc.perform(get("/users/profile"))
-                .andExpect(status().isForbidden())
-                .andDo(print());
-    }
+
 }
