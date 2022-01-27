@@ -37,6 +37,6 @@ public class CreateUserValidation implements Validator {
 //            errors.rejectValue("email", "already.email", null, messageSource.getMessage("already.email", null, LocaleContextHolder.getLocale()));
             errors.rejectValue("email", "already.email", null, "user email already regsite.");
         }
-        //
+
     }
 }
