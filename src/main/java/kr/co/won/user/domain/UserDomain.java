@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -65,6 +66,12 @@ public class UserDomain {
     public void addRole(UserRoleDomain role) {
         this.roles.add(role);
         role.setUser(this);
+    }
+
+    public void addRole(UserRoleDomain... roles) {
+        for (int i = 0; i < roles.length; i++) {
+            this.addRole(roles[i]);
+        }
     }
 
     /**

@@ -117,6 +117,30 @@ class UserDomainTest {
         assertThat(builderUser.roleCheck(UserRoleType.MANAGER)).isFalse();
     }
 
+    @DisplayName(value = "05. user role multi add Test")
+    @Test
+    void userRoleAllAddTests() {
+        String name = "tester";
+        String email = "test@co.kr";
+        String password = "1234";
+        UserDomain builderUser = makeUserDomain(name, email, password);
+
+        /** User Build Test */
+        assertThat(builderUser.getName().equals(name)).isTrue();
+        assertThat(builderUser.getEmail().equals(email));
+        assertEquals(password, builderUser.getPassword());
+
+        /** User Role Builder */
+        UserRoleDomain userRole = makeRole(UserRoleType.USER);
+
+
+        /** user Role add */
+        UserRoleDomain adminRole = makeRole(UserRoleType.ADMIN);
+        builderUser.addRole(userRole, adminRole);
+        assertThat(builderUser.getRoles().size()).isEqualTo(2);
+        assertThat(adminRole.getUser().equals(builderUser)).isTrue();
+        assertThat(builderUser.getRoles().contains(adminRole)).isTrue();
+    }
 
 
     private UserRoleDomain userSetRole(UserDomain builderUser, UserRoleType user) {

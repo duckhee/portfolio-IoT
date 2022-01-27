@@ -18,10 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.net.URI;
@@ -60,6 +57,7 @@ public class UserApiController {
         // form get user Address
         Address userAddress = new Address(form.getZipCode(), form.getRoadAddress(), form.getDetailAddress());
         mappedUser.setAddress(userAddress);
+
         UserDomain savedUser = userService.createUser(mappedUser);
         // mapping user dto
         UserResourceDto mappedUserResource = modelMapper.map(savedUser, UserResourceDto.class);
@@ -79,7 +77,15 @@ public class UserApiController {
         return ResponseEntity.created(createUri).body(resultResource);
     }
 
-    /** validation failed error resource */
+    @GetMapping(path = "/{idx}")
+    public ResponseEntity findUserResource(@PathVariable(value = "idx") Long idx) {
+
+        return null;
+    }
+
+    /**
+     * validation failed error resource
+     */
     private ResponseEntity validationErrorResponse(Errors errors) {
         // validation error resource
         EntityModel<Errors> errorResource = ValidErrorResource.of(errors);
