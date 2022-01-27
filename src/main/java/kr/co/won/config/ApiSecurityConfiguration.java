@@ -15,13 +15,13 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .mvcMatchers(HttpMethod.POST,"/api/users")
-                .permitAll()
-                .mvcMatchers("/api/**")
-                .hasAnyRole("ROLE_USER");
 
+        http.antMatcher("/api/**")
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/users")
+                .permitAll()
+                .anyRequest()
+                .hasAnyRole("ROLE_USER");
         /** http csrf disable setting */
         http
                 .csrf()

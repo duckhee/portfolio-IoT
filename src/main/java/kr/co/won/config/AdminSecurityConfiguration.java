@@ -1,13 +1,15 @@
 package kr.co.won.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-@Order(value = 1)
+@Order(value = 0)
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -17,10 +19,11 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         /** setting security ADMIN access /admin/*/
         http
+                .antMatcher("/admin/**")
                 .authorizeRequests()
-                .mvcMatchers("/admin/login")
+                .antMatchers("/admin/login")
                 .permitAll()
-                .mvcMatchers("/admin/**")
+                .antMatchers("/admin/**")
                 .hasAnyRole("ROLE_ADMIN");
 
         /** csrf and cors set */
@@ -28,5 +31,17 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf();
         http
                 .cors();
+    }
+
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        /** static path ignore security */
+        web.ignoring().mvcMatchers(
+                PathRequest.toH2Console().toString(),
+                PathRequest.toStaticResources().atCommonLocations().toString()
+        );
+        /** security ignore setting */
+
     }
 }

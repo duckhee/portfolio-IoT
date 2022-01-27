@@ -37,8 +37,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         /** http security pattern add */
         http
+                .antMatcher("/**")
                 .authorizeRequests()
-                .mvcMatchers("/**")
+                .mvcMatchers("/users/**")
                 .permitAll();
 
         /** form login add */
