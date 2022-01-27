@@ -17,6 +17,7 @@ public class PageDto  {
 
     /** Default page constructor */
     public PageDto() {
+//        this.page = 0;
         this.page = 1;
         this.size = DEFAULT_PAGE_SIZE;
     }
