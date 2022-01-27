@@ -28,7 +28,7 @@ public class UserRoleDomain {
 
     @OnDelete(action = CASCADE)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_idx")
+    @JoinColumn(name = "user_idx", nullable = false)
     private UserDomain user;
 
     @Builder.Default
