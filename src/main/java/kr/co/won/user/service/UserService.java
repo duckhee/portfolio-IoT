@@ -20,10 +20,25 @@ public interface UserService {
     }
 
     /**
+     * Create User confirm Email
+     */
+    public default UserDomain emailConfirm(String email, String token) {
+        return null;
+    }
+
+    /**
+     * forget password method
+     * Input UserEmail, UserName
+     */
+    public default void forgetPassword(UserDomain forgetUser) {
+        return;
+    }
+
+    /**
      * Spring Security save Login User extends Users
      * User profile
      */
-    public default UserDomain findUser(UserDomain loginUser) {
+    public default UserDomain userProfile(UserDomain loginUser) {
         return null;
     }
 
@@ -33,4 +48,7 @@ public interface UserService {
     public default UserDomain findUser(Long userIdx, UserDomain authUser) {
         return null;
     }
+
+    /** update User */
+
 }

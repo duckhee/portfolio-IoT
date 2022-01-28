@@ -88,6 +88,9 @@ public class UserDomain {
      * domain function
      */
 
+    /**
+     * user role add
+     */
     public void addRole(UserRoleDomain role) {
         this.roles.add(role);
         role.setUser(this);
@@ -110,6 +113,9 @@ public class UserDomain {
         return this.roles.stream().anyMatch(roleDomain -> roleDomain.getRole().equals(roleType));
     }
 
+    /**
+     * user mulit role check
+     */
     public boolean hasRole(UserRoleType... roleTypes) {
         boolean flag = true;
         for (int i = 0; i < roleTypes.length; i++) {
@@ -118,6 +124,9 @@ public class UserDomain {
         return flag;
     }
 
+    /**
+     * user role delete
+     */
     public void removeRole(UserRoleType role) {
 //        this.roles.stream().filter(roleDomain -> roleDomain.getRole().equals(role)).collect(Collectors.toList());
         // remove role not default user role delete
@@ -142,6 +151,9 @@ public class UserDomain {
         }
     }
 
+    /**
+     * email check token create
+     */
     public String makeEmailToken() {
         String token = UUID.randomUUID().toString();
         this.emailCheckToken = token;

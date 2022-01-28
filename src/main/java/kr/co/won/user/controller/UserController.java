@@ -17,10 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
@@ -80,11 +77,17 @@ public class UserController {
         return "redirect:/login";
     }
 
+    @GetMapping(path = "/users/confirm-email")
+    public String emailMsgConfirmPage(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "token", required = true) String token) {
+
+        return "mail/emailConfirmPage";
+    }
+
     @GetMapping(path = "/profile")
     public String profilePage(@AuthUser UserDomain user, Model model, RedirectAttributes flash) {
-
+        UserDomain findUser = userService.userProfile(user);
         // user setting
-        model.addAttribute("user", user);
+        model.addAttribute("user", findUser);
         return "users/profilePage";
     }
 }
