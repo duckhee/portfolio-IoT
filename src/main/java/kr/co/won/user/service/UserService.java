@@ -20,6 +20,14 @@ public interface UserService {
     }
 
     /**
+     * Spring Security save Login User extends Users
+     * User profile
+     */
+    public default UserDomain findUser(UserDomain loginUser) {
+        return null;
+    }
+
+    /**
      * Admin User Find User Service
      */
     public default UserDomain findUser(Long userIdx, UserDomain authUser) {

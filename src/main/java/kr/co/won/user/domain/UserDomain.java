@@ -7,12 +7,18 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+/**
+ * entity Graph
+ */
+@NamedEntityGraph(name = "user.withRole",
+        attributeNodes = {
+                @NamedAttributeNode(value = "roles")
+        }
+)
 
 @Getter
 @Setter
@@ -39,13 +45,31 @@ public class UserDomain {
     private String name;
 
     @Builder.Default
+    @Column(nullable = false)
     private boolean deleteFlag = false;
 
     @Builder.Default
+    @Column(nullable = false)
     private boolean activeFlag = false;
 
     @Embedded
     private Address address;
+
+    private String job;
+
+    private String emailCheckToken;
+
+    private LocalDateTime emailCheckTokenGeneratedTime;
+
+    /**
+     * email verified check
+     */
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean emailVerified = false;
+
+    private LocalDateTime joinTime;
+
 
     @Builder.Default
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -118,4 +142,29 @@ public class UserDomain {
         }
     }
 
+    public String makeEmailToken() {
+        String token = UUID.randomUUID().toString();
+        this.emailCheckToken = token;
+        return token;
+    }
+
+    public boolean isValidToken(String token) {
+        return emailCheckToken.equals(token);
+    }
+
+    /**
+     * user join and active account
+     */
+    public void join() {
+        this.emailVerified = true;
+        this.activeFlag = true;
+        this.setJoinTime(LocalDateTime.now());
+    }
+
+    /**
+     * User Email Send Possible
+     */
+    public boolean canSendConfirmEmail() {
+        return this.emailCheckTokenGeneratedTime.isBefore(LocalDateTime.now().minusHours(1));
+    }
 }

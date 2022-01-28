@@ -12,13 +12,18 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-@Transactional
+@Transactional(readOnly = true)
 @Service(value = "adminUserService")
 @RequiredArgsConstructor
 public class UserServiceAdminImpl implements UserService {
 
+    /**
+     * Login User is detach
+     */
+
     private final UserPersistence userPersistence;
 
+    @Transactional
     @Override
     public UserDomain createUser(UserDomain newUser, UserDomain authUser, UserRoleType... roles) {
         /** login user check */
@@ -51,13 +56,19 @@ public class UserServiceAdminImpl implements UserService {
         return savedUser;
     }
 
+
     @Override
     public UserDomain findUser(Long userIdx, UserDomain authUser) {
-        return UserService.super.findUser(userIdx, authUser);
+        // Login User Role Check and Get User
+        UserDomain findAuthUser = hasAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
+        UserDomain findUser = userPersistence.findWithRoleByIdx(userIdx).orElseThrow(()
+                -> new IllegalArgumentException("not have user."));
+        return findUser;
     }
 
+    // login user role check
     private UserDomain hasAuth(UserDomain authUser, UserRoleType... roles) {
-        UserDomain findUser = userPersistence.findByEmail(authUser.getEmail())
+        UserDomain findUser = userPersistence.findWithRoleByEmail(authUser.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("not login user."));
         /** user Role check */
         if (!findUser.hasRole(roles)) {

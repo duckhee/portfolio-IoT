@@ -3,13 +3,9 @@ package kr.co.won.user.api.resource;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import kr.co.won.user.api.UserApiController;
 import kr.co.won.user.api.dto.UserResourceDto;
-import kr.co.won.user.domain.UserDomain;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.Links;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 

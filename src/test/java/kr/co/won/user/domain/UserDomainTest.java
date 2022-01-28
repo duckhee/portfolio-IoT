@@ -148,6 +148,16 @@ class UserDomainTest {
         assertThat(builderUser.hasRole(UserRoleType.ADMIN)).isTrue();
         assertThat(builderUser.hasRole(UserRoleType.USER, UserRoleType.ADMIN)).isTrue();
         assertThat(builderUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)).isFalse();
+        /** User Email Token generate */
+        String token = builderUser.makeEmailToken();
+        assertThat(builderUser.getEmailCheckToken()).isNotNull();
+        assertThat(builderUser.getEmailCheckToken().equals(token)).isTrue();
+        assertThat(builderUser.isValidToken(token)).isTrue();
+        /** user Join */
+        builderUser.join();
+        assertThat(builderUser.getJoinTime()).isNotNull();
+        assertThat(builderUser.isEmailVerified()).isTrue();
+        assertThat(builderUser.isActiveFlag()).isTrue();
 
     }
 
