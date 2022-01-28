@@ -145,6 +145,7 @@ public class UserDomain {
     public String makeEmailToken() {
         String token = UUID.randomUUID().toString();
         this.emailCheckToken = token;
+        this.emailCheckTokenGeneratedTime = LocalDateTime.now();
         return token;
     }
 

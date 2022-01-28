@@ -43,8 +43,10 @@ public class UserServiceImpl implements UserService {
         return savedUser;
     }
 
+    // send user confirm email
     private void sendConfirmEmail(UserDomain savedUser) {
-        String token = savedUser.makeEmailToken();
+        // generate email token
+        savedUser.makeEmailToken();
         VerifiedMessage emailMsg = new VerifiedMessage();
         emailMsg.setHost(appProperties.getHost());
         emailMsg.setSubject("welcome portfolio site.");
