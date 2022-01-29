@@ -2,6 +2,8 @@ package kr.co.won.user.service;
 
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.util.page.PageDto;
+import org.springframework.data.domain.Page;
 
 public interface UserService {
 
@@ -49,6 +51,22 @@ public interface UserService {
         return null;
     }
 
-    /** update User */
+    /**
+     * update User
+     */
+    public default UserDomain updateUser() {
+        return null;
+    }
+
+    /**
+     * user list - with paging
+     */
+    public default Page pagingUser(PageDto page) {
+        return null;
+    }
+
+    public default Page pagingUser(PageDto page, UserDomain authUser) {
+        return null;
+    }
 
 }

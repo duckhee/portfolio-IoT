@@ -10,8 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class MainController {
 
+    @GetMapping
+    public String mainPage() {
+        return "index";
+    }
+
     @GetMapping(path = "/login")
     public String LoginPage() {
         return "loginPage";
     }
+
+
 }

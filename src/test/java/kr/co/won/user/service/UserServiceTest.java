@@ -17,6 +17,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.context.config.Profiles;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,9 +39,10 @@ class UserServiceTest {
     void createUserWithSuccessTests() {
         EmailService emailService = new EmailServiceConsoleImpl();
         AppProperties appProperties = new AppProperties();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         appProperties.setHost("localhost");
 
-        UserService userService = new UserServiceImpl(userPersistence, emailService, appProperties);
+        UserService userService = new UserServiceImpl(userPersistence, emailService, appProperties, passwordEncoder);
         // make test Address
         Address testAddress = new Address("zipCode", "roadAddress", "detailAddress");
         // make test User
@@ -53,7 +56,7 @@ class UserServiceTest {
         assertThat(savedUser.getIdx()).isNotNull();
         assertThat(savedUser.getEmail()).isEqualTo(email);
         assertThat(savedUser.getName()).isEqualTo(name);
-        assertThat(savedUser.getPassword()).isEqualTo(password);
+        assertThat(passwordEncoder.matches(password, savedUser.getPassword())).isTrue();
         assertThat(savedUser.getRoles().size()).isEqualTo(1);
         // user role check
         assertThat(savedUser.getRoles().stream().anyMatch(roleDomain -> roleDomain.getRole().equals(UserRoleType.USER))).isTrue();

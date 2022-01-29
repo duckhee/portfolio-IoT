@@ -20,6 +20,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.Resource;
+
 @Slf4j
 @Controller
 @RequestMapping(path = "/users")
@@ -35,6 +37,7 @@ public class UserController {
     /**
      * user service
      */
+    @Resource(name = "userService")
     private final UserService userService;
 
     /**

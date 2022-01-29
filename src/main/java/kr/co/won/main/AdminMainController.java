@@ -14,4 +14,6 @@ public class AdminMainController {
     public String adminLoginPage() {
         return "admin/loginPage";
     }
+
+
 }

@@ -5,6 +5,8 @@ import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +19,16 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserServiceAdminImpl implements UserService {
 
+    private final ModelMapper modelMapper;
+
+    private final PasswordEncoder passwordEncoder;
+
     /**
      * Login User is detach
      */
 
     private final UserPersistence userPersistence;
+
 
     @Transactional
     @Override
@@ -51,6 +58,8 @@ public class UserServiceAdminImpl implements UserService {
         });
         /** new user set roles */
         newUser.addRole(userRoles);
+        /** new user password encoding */
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         UserDomain savedUser = userPersistence.save(newUser);
 
         return savedUser;
