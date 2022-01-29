@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         UserDomain findUser = userPersistence.findByEmail(email).orElseThrow(() ->
                 new IllegalArgumentException("not have user."));
         // user email token check
+        // TODO Check return null or throw exception
         if (!findUser.isValidToken(token)) {
             new IllegalArgumentException("not valid token.");
         }
@@ -99,7 +100,7 @@ public class UserServiceImpl implements UserService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 new LoginUser(user),
                 user.getPassword(),
-                List.of(new SimpleGrantedAuthority("USER_ROLE")));
+                List.of(new SimpleGrantedAuthority("ROLE_USER")));
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(token);
     }

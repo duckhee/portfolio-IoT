@@ -81,8 +81,9 @@ public class UserController {
     }
 
     @GetMapping(path = "/users/confirm-email")
-    public String emailMsgConfirmPage(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "token", required = true) String token) {
-
+    public String emailMsgConfirmPage(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "token", required = true) String token, Model model) {
+        UserDomain confirmUser = userService.emailConfirm(email, token);
+        model.addAttribute("user", confirmUser);
         return "mail/emailConfirmPage";
     }
 

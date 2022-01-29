@@ -120,7 +120,7 @@ public class UserServiceAdminImpl implements UserService {
     @Override
     public UserDomain findUser(Long userIdx, UserDomain authUser) {
         // Login User Role Check and Get User
-        UserDomain findAuthUser = hasAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
+        hasAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
         UserDomain findUser = userPersistence.findWithRoleByIdx(userIdx).orElseThrow(()
                 -> new IllegalArgumentException("not have user."));
         return findUser;
@@ -129,8 +129,8 @@ public class UserServiceAdminImpl implements UserService {
     @Override
     public Page pagingUser(PageDto page) {
         Pageable makePageable = page.makePageable(0, "idx");
-
-        return UserService.super.pagingUser(page);
+        Page pagingResult = userPersistence.pagingUser(page.getType(), page.getKeyword(), makePageable);
+        return pagingResult;
     }
 
     @Override
@@ -149,6 +149,7 @@ public class UserServiceAdminImpl implements UserService {
         return findUser;
     }
 
+    // make random password
     private String randomPassword() {
         String random = UUID.randomUUID().toString();
         String stripPassword = random.substring(1, 10);

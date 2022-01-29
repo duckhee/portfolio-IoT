@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserPersistence extends JpaRepository<UserDomain, Long> {
+public interface UserPersistence extends JpaRepository<UserDomain, Long>, UserPersistenceExtension {
 
     /**
      * user email check
