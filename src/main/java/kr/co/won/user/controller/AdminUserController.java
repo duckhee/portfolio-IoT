@@ -2,9 +2,11 @@ package kr.co.won.user.controller;
 
 import kr.co.won.address.Address;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.form.CreateMemberForm;
 import kr.co.won.user.service.UserService;
 import kr.co.won.user.validation.CreateMemberValidation;
+import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 @Controller
 @RequestMapping(path = "/admin/users")
@@ -43,6 +46,11 @@ public class AdminUserController {
         webDataBinder.addValidators(memberValidation);
     }
 
+    @GetMapping
+    public String memberListPage(PageDto pageDto) {
+        return "admin/users/listMemberPage";
+    }
+
     @GetMapping(path = "/create")
     public String memberCreatePage(Model model) {
         model.addAttribute(new CreateMemberForm());
@@ -61,7 +69,18 @@ public class AdminUserController {
                 .email(form.getEmail())
                 .address(memberAddress)
                 .build();
+        // make random password
 
-        return "";
+        Set<UserRoleType> formRoles = null;
+        // user role form data is not null
+        if (formRoles.size() > 0) {
+            formRoles = form.getRoles();
+        }
+
+        userService.createUser(setMember, null, formRoles);
+
+        return "redirect:/admin/users";
     }
+
+
 }

@@ -14,8 +14,11 @@ public class VerifiedMessage extends EmailMessage {
 
     private String confirmUri;
 
-    public VerifiedMessage(String host, String userEmail, String subject, String message, String confirmUri) {
+    private String password;
+
+    public VerifiedMessage(String host, String userEmail, String subject, String message, String confirmUri, String password) {
         super(host, userEmail, subject, message);
         this.confirmUri = confirmUri;
+        this.password = password;
     }
 }

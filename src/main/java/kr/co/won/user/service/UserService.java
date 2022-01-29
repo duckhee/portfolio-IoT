@@ -5,6 +5,8 @@ import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import org.springframework.data.domain.Page;
 
+import java.util.Set;
+
 public interface UserService {
 
     /**
@@ -18,6 +20,13 @@ public interface UserService {
      * create user
      */
     public default UserDomain createUser(UserDomain newUser, UserDomain authUser, UserRoleType... roles) {
+        return null;
+    }
+
+    /**
+     * create member
+     */
+    public default UserDomain createUser(UserDomain newUser, UserDomain authUser, Set<UserRoleType> roles) {
         return null;
     }
 
