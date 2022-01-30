@@ -33,6 +33,9 @@ public class BlogDomain {
     @Column(nullable = false)
     private String writer;
 
+    @Column(nullable = false)
+    private String writerEmail;
+
     @Lob
     private String content;
 
@@ -94,7 +97,7 @@ public class BlogDomain {
      * blog writer
      */
     public boolean isOwner(String email) {
-        return this.writer.equals(email);
+        return this.writerEmail.equals(email);
     }
 
 
