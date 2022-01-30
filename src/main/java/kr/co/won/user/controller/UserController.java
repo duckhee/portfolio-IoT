@@ -46,7 +46,7 @@ public class UserController {
     private final CreateUserValidation createUserValidation;
 
     /**
-     * Create User Form vaildation registe
+     * Create User Form validation registe
      */
     @InitBinder(value = {"createUserForm"})
     public void createUserValidationBinder(WebDataBinder webDataBinder) {
@@ -83,7 +83,15 @@ public class UserController {
     @GetMapping(path = "/users/confirm-email")
     public String emailMsgConfirmPage(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "token", required = true) String token, Model model) {
         UserDomain confirmUser = userService.emailConfirm(email, token);
-        model.addAttribute("user", confirmUser);
+        if (confirmUser == null) {
+            model.addAttribute("error", "not have user");
+            return "mail/emailConfirmPage";
+        }
+        if(!confirmUser.isEmailVerified()){
+            model.addAttribute("error", "not have token");
+            return "mail/emailConfirmPage";
+        }
+            model.addAttribute("user", confirmUser);
         return "mail/emailConfirmPage";
     }
 

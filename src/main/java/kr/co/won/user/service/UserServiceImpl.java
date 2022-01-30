@@ -63,12 +63,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDomain emailConfirm(String email, String token) {
         // find user by email
-        UserDomain findUser = userPersistence.findByEmail(email).orElseThrow(() ->
-                new IllegalArgumentException("not have user."));
+        UserDomain findUser = userPersistence.findByEmail(email).orElse(null);
         // user email token check
         // TODO Check return null or throw exception
+        if (findUser == null) {
+            return null;
+        }
         if (!findUser.isValidToken(token)) {
-            new IllegalArgumentException("not valid token.");
+            return findUser;
         }
         // user join
         findUser.join();

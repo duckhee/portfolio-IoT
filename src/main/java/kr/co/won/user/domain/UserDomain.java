@@ -180,4 +180,5 @@ public class UserDomain {
     public boolean canSendConfirmEmail() {
         return this.emailCheckTokenGeneratedTime.isBefore(LocalDateTime.now().minusHours(1));
     }
+
 }
