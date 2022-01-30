@@ -1,4 +1,4 @@
-package kr.co.won.user.api.dto;
+package kr.co.won.user.api.resource.dto;
 
 import kr.co.won.address.Address;
 import lombok.AllArgsConstructor;
