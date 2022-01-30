@@ -61,7 +61,6 @@ class UserApiControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
 

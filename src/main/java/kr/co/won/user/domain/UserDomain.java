@@ -2,6 +2,7 @@ package kr.co.won.user.domain;
 
 import kr.co.won.address.Address;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
         }
 )
 
+@Slf4j
 @Getter
 @Setter
 @Builder
@@ -120,6 +122,22 @@ public class UserDomain {
         boolean flag = false;
         for (int i = 0; i < roleTypes.length; i++) {
             flag = flag || this.hasRole(roleTypes[i]);
+            log.info("get user role check flag ::: {}", this.hasRole(roleTypes[i]));
+            log.info("role check flag ::: {}", flag);
+        }
+        return flag;
+    }
+
+
+    /**
+     * user mulit role check strong
+     */
+    public boolean hasAllMathRole(UserRoleType... roleTypes) {
+        boolean flag = true;
+        for (int i = 0; i < roleTypes.length; i++) {
+            flag = flag && this.hasRole(roleTypes[i]);
+            log.info("get user role check flag ::: {}", this.hasRole(roleTypes[i]));
+            log.info("role check flag ::: {}", flag);
         }
         return flag;
     }

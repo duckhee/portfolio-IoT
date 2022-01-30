@@ -242,8 +242,10 @@ class UserDomainTest {
         /** user Role Check Function */
         assertThat(builderUser.hasRole(UserRoleType.USER)).isTrue();
         assertThat(builderUser.hasRole(UserRoleType.ADMIN)).isTrue();
+        assertThat(builderUser.hasRole(UserRoleType.MANAGER)).isFalse();
         assertThat(builderUser.hasRole(UserRoleType.USER, UserRoleType.ADMIN)).isTrue();
-        assertThat(builderUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)).isFalse();
+        /** user role strong check */
+        assertThat(builderUser.hasAllMathRole(UserRoleType.ADMIN, UserRoleType.MANAGER)).isFalse();
 
 
     }
