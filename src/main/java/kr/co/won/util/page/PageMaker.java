@@ -12,47 +12,54 @@ import java.util.List;
 @ToString(exclude = {"pageList"})
 public class PageMaker<T> {
 
-    private Page<T> resultPage;
+
+    private Page<T> result;
     private Pageable prevPage;
     private Pageable nextPage;
+
+    private int currentPageNum;
+    private int totalPageNum;
+
     private Pageable currentPage;
 
-    private int totalPageNumber;
-    private int currentPageNumber;
     private List<Pageable> pageList;
 
-    public PageMaker(Page<T> resultPage) {
-        this.resultPage = resultPage;
-        this.currentPage = resultPage.getPageable();
-        this.currentPageNumber = resultPage.getTotalPages();
+    public PageMaker(Page<T> result) {
+        this.result = result;
+
+        this.currentPage = result.getPageable();
+        this.currentPageNum = currentPage.getPageNumber() + 1;
+        this.totalPageNum = result.getTotalPages();
         this.pageList = new ArrayList<>();
 
-        calcPage();
+        calcPages();
     }
 
-    private void calcPage() {
-        int tempEndNumber = (int) (Math.ceil(this.currentPageNumber / 10.0) * 10);
-        int startNumber = tempEndNumber - 9;
+    private void calcPages() {
+        int tempEndNum = (int)(Math.ceil(this.currentPageNum/10.0) * 10);
+        int startNum = tempEndNum - 9;
 
         Pageable startPage = this.currentPage;
 
-        for (int i = startNumber; i < this.currentPageNumber; i++) {
+        for(int i = startNum; i < this.currentPageNum; i++) {
             startPage = startPage.previousOrFirst();
         }
 
         this.prevPage = startPage.getPageNumber() <= 0 ? null : startPage.previousOrFirst();
 
-        if (this.totalPageNumber < tempEndNumber) {
-            tempEndNumber = this.totalPageNumber;
+
+        if(this.totalPageNum < tempEndNum) {
+            tempEndNum = this.totalPageNum;
             this.nextPage = null;
         }
 
-        for (int i = startNumber; i < tempEndNumber; i++) {
+        for(int i = startNum; i <= tempEndNum; i++) {
             pageList.add(startPage);
             startPage = startPage.next();
         }
-
-        this.nextPage = startPage.getPageNumber() < totalPageNumber ? startPage : null;
+        /** */
+        this.nextPage = startPage.getPageNumber() < totalPageNum ? startPage : null;
     }
+
 
 }

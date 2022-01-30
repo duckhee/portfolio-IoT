@@ -69,6 +69,7 @@ class AdminUserControllerTest {
 
     }
 
+    @TestUser(authLevel = UserRoleType.ADMIN)
     @DisplayName(value = "03. list member test - with ADMIN")
     @Test
     void listMemberPageWithADMINTests() throws Exception {
@@ -77,7 +78,6 @@ class AdminUserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("page"))
                 .andExpect(model().attributeExists("user"))
-                .andExpect(flash().attributeExists("msg"))
                 .andExpect(view().name("admin/users/listMemberPage"));
     }
 }
