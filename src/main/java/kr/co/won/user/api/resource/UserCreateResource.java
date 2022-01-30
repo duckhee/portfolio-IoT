@@ -15,12 +15,12 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class UserResource extends EntityModel<UserResource> {
+public class UserCreateResource extends EntityModel<UserCreateResource> {
 
     @JsonUnwrapped
     private UserCreateResourceDto user;
 
-    UserResource(UserCreateResourceDto user) {
+    UserCreateResource(UserCreateResourceDto user) {
         this.user = user;
     }
 
@@ -30,7 +30,7 @@ public class UserResource extends EntityModel<UserResource> {
     public static EntityModel<UserCreateResourceDto> of(UserCreateResourceDto user) {
         // get self links
         List<Link> links = getSelfLink(user);
-        return UserResource.of(user, links);
+        return UserCreateResource.of(user, links);
     }
 
     public static EntityModel<UserCreateResourceDto> of(UserCreateResourceDto user, String profile) {
@@ -38,7 +38,7 @@ public class UserResource extends EntityModel<UserResource> {
         List<Link> links = getSelfLink(user);
         // profile link add
         links.add(Link.of(profile, "profile"));
-        return UserResource.of(user, links);
+        return UserCreateResource.of(user, links);
     }
 
     private static List<Link> getSelfLink(UserCreateResourceDto user) {

@@ -16,7 +16,7 @@ import java.util.Set;
 
 @NoArgsConstructor
 @Relation(collectionRelation = "users")
-public class UserListResourceDto extends RepresentationModel<UserListResourceDto> {
+public class UserResourceDto extends RepresentationModel<UserResourceDto> {
 
     private Long idx;
 

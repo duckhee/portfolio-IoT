@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,25 @@ public class UserFactory {
 
     private final UserPersistence userPersistence;
     private final PasswordEncoder passwordEncoder;
+
+    public UserDomain testUser(String name, String email, String password) {
+        Address testAddress = new Address("zipCode", "roadAddress", "detailAddress");
+        UserDomain testUser = UserDomain.builder()
+                .name(name)
+                .email(email)
+                .activeFlag(true)
+                .emailVerified(true)
+                .address(testAddress)
+                .password(passwordEncoder.encode(password))
+                .build();
+        UserRoleDomain testRole = UserRoleDomain.builder()
+                .role(UserRoleType.USER)
+                .build();
+        testUser.addRole(testRole);
+        UserDomain savedUser = userPersistence.save(testUser);
+        savedUser.makeEmailToken();
+        return savedUser;
+    }
 
     public List<UserDomain> bulkInsertTestUser(int makeUserNumber, String name, String password) {
         if (makeUserNumber <= 0) {

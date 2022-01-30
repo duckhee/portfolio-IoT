@@ -39,7 +39,8 @@ public class RootExceptionHandler {
                 .uri(request.getRequestURI())
                 .build();
         EntityModel<ErrorDto> errorResources = AccessDeniedErrorResource.modelOf(errorDto);
-        log.info("error resources ::: {}", errorResources.toString());
+        exception.printStackTrace();
+        log.error("access denied uri ::: {}, url ::: {}", request.getRequestURI(), request.getRequestURL());
         return ResponseEntity.badRequest().body(errorResources);
     }
 }

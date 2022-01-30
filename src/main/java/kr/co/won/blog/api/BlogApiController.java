@@ -2,6 +2,7 @@ package kr.co.won.blog.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
+import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.errors.resource.ValidErrorResource;
@@ -45,6 +46,8 @@ public class BlogApiController {
         if (errors.hasErrors()) {
             return validationResources(errors);
         }
+        BlogDomain newBlog = modelMapper.map(form, BlogDomain.class);
+        BlogDomain savedBlog = blogService.creatBlog(newBlog, loginUser);
         return null;
     }
 

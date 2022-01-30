@@ -4,9 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.address.Address;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.errors.resource.ValidErrorResource;
-import kr.co.won.user.api.assembler.PageUserAssembler;
+import kr.co.won.user.api.assembler.UserAssembler;
 import kr.co.won.user.api.resource.dto.UserCreateResourceDto;
-import kr.co.won.user.api.resource.UserResource;
+import kr.co.won.user.api.resource.UserCreateResource;
+import kr.co.won.user.api.resource.dto.UserResourceDto;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.form.CreateMemberForm;
 import kr.co.won.user.form.CreateUserForm;
@@ -54,12 +55,12 @@ public class UserApiController {
      * paging assembler
      */
     private final PagedResourcesAssembler pagedResourcesAssembler;
-    private final PageUserAssembler pageUserAssembler;
+    private final UserAssembler userAssembler;
 
     @GetMapping
     public ResponseEntity listUserResource(PageDto page) {
         Page pagingResult = adminUserService.pagingUser(page);
-        PagedModel resultResource = pagedResourcesAssembler.toModel(pagingResult, pageUserAssembler);
+        PagedModel resultResource = pagedResourcesAssembler.toModel(pagingResult, userAssembler);
         // webLink Base
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(UserApiController.class);
         resultResource.add(Link.of("/docs/index.html#user-list-resources", "profile"));
@@ -89,7 +90,7 @@ public class UserApiController {
         UserCreateResourceDto mappedUserResource = modelMapper.map(savedUser, UserCreateResourceDto.class);
         mappedUserResource.setActive(savedUser.isActiveFlag());
         // make resource
-        EntityModel<UserCreateResourceDto> resultResource = UserResource.of(mappedUserResource);
+        EntityModel<UserCreateResourceDto> resultResource = UserCreateResource.of(mappedUserResource);
         // base hateoas controller link
         WebMvcLinkBuilder baseLink = linkTo(UserApiController.class);
         //resultResource.add(baseLink.withRel("list-users"));
@@ -114,8 +115,8 @@ public class UserApiController {
     public ResponseEntity findUserResource(@AuthUser UserDomain authUser, @PathVariable(value = "idx") Long idx) {
         // TODO Admin User find detail
         UserDomain findUserWithAdmin = adminUserService.findUser(idx, authUser);
-
-        return ResponseEntity.ok().build();
+        UserResourceDto userResources = userAssembler.toModel(findUserWithAdmin);
+        return ResponseEntity.ok().body(userResources);
     }
 
     /**

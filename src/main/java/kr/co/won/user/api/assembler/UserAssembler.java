@@ -1,14 +1,13 @@
 package kr.co.won.user.api.assembler;
 
 import kr.co.won.user.api.UserApiController;
-import kr.co.won.user.api.resource.dto.UserListResourceDto;
+import kr.co.won.user.api.resource.dto.UserResourceDto;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
@@ -18,13 +17,13 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class PageUserAssembler implements RepresentationModelAssembler<UserDomain, UserListResourceDto> {
+public class UserAssembler implements RepresentationModelAssembler<UserDomain, UserResourceDto> {
 
     private final ModelMapper modelMapper;
 
     @Override
-    public UserListResourceDto toModel(UserDomain entity) {
-        UserListResourceDto mappedUser = modelMapper.map(entity, UserListResourceDto.class);
+    public UserResourceDto toModel(UserDomain entity) {
+        UserResourceDto mappedUser = modelMapper.map(entity, UserResourceDto.class);
 
         Set<UserRoleType> roles = entity.getRoles().stream().map(UserRoleDomain::getRole).collect(Collectors.toSet());
         mappedUser.setAddress(entity.getAddress());
@@ -40,7 +39,7 @@ public class PageUserAssembler implements RepresentationModelAssembler<UserDomai
     }
 
     @Override
-    public CollectionModel<UserListResourceDto> toCollectionModel(Iterable<? extends UserDomain> entities) {
+    public CollectionModel<UserResourceDto> toCollectionModel(Iterable<? extends UserDomain> entities) {
 
         return RepresentationModelAssembler.super.toCollectionModel(entities);
     }

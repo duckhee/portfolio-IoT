@@ -1,5 +1,6 @@
 package kr.co.won.user.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.address.Address;
 import kr.co.won.auth.TestUser;
 import kr.co.won.config.RestDocsConfiguration;
@@ -27,7 +28,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +38,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.relaxedRequestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,7 +65,12 @@ class UserApiControllerTest {
     @Autowired
     private UserPersistence userPersistence;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private UserFactory userFactory;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     @AfterEach
     void userDelete() {
@@ -141,13 +146,13 @@ class UserApiControllerTest {
     @DisplayName(value = "02. user find api Test - success")
     @Test
     void userFindSuccessTests() throws Exception {
-        /**
-         mockMvc.perform(get("/api/users/{idx}", 1L)
-         .contentType(MediaTypes.HAL_JSON))
-         .andExpect(status().isOk())
-         .andExpect(jsonPath("_links.self").exists())
-         .andExpect(jsonPath("_links.profile").exists());
-         */
+        UserDomain testUser = userFactory.testUser("testings", "testings@co.kr", "1234");
+
+        mockMvc.perform(get("/api/users/{idx}", testUser.getIdx())
+                        .contentType(MediaTypes.HAL_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
     }
 
     @TestUser(authLevel = UserRoleType.ADMIN)
