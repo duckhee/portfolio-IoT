@@ -48,6 +48,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         /** form login add */
 
         /** remember-me add */
+
+        /** http resources */
+        http
+                .antMatcher("/resources/**")
+                .authorizeRequests()
+                .mvcMatchers("/resources/h2-console")
+                .permitAll()
+                .and()
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .sameOrigin();
+
     }
 
     @Override
