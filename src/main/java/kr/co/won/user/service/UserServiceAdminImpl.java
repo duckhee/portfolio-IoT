@@ -97,9 +97,6 @@ public class UserServiceAdminImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("not login user."));
 
         if (!findUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
-            /** user Role check */
-            log.info("admin user ::: {}", findUser);
-            log.info("admin user role ::: {}", findUser.getRoles().toString());
             throw new IllegalArgumentException("access denied.");
         }
         /** user roles set */
@@ -114,7 +111,7 @@ public class UserServiceAdminImpl implements UserService {
             Set<UserRoleDomain> collectRoles = roles.stream().map(userRoleType -> UserRoleDomain.builder().role(userRoleType).build()).collect(Collectors.toSet());
             userRoles.addAll(collectRoles);
         }
-        log.info("user roles ::: {}", userRoles.toString());
+
         /** make random password create */
         String password = randomPassword();
         newUser.setPassword(password);
