@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 /** Spring security get expression */
-@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : user")
+@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ?  null : user")
 public @interface AuthUser {
 }

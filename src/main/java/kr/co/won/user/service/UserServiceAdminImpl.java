@@ -126,8 +126,17 @@ public class UserServiceAdminImpl implements UserService {
     public UserDomain findUser(Long userIdx, UserDomain authUser) {
         // Login User Role Check and Get User
         isAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
-        UserDomain findUser = userPersistence.findWithRoleByIdx(userIdx).orElseThrow(()
-                -> new IllegalArgumentException("not have user."));
+        UserDomain findUser = userPersistence.findWithRoleByIdx(userIdx).orElseThrow(() ->
+                new IllegalArgumentException("not have user."));
+        return findUser;
+    }
+
+    @Override
+    public UserDomain findUserByEmail(String email, UserDomain authUser) {
+        // Login User Role Check and Get User
+        isAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
+        UserDomain findUser = userPersistence.findByEmail(email).orElseThrow(() ->
+                new IllegalArgumentException("not have user."));
         return findUser;
     }
 

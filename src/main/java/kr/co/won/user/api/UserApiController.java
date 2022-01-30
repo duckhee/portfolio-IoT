@@ -34,6 +34,9 @@ public class UserApiController {
 
     private final ObjectMapper objectMapper;
 
+    @Resource(name = "adminUserService")
+    private final UserService adminUserService;
+
     @Resource(name = "userService")
     private final UserService userService;
 
@@ -79,6 +82,8 @@ public class UserApiController {
 
     @GetMapping(path = "/{idx}")
     public ResponseEntity findUserResource(@PathVariable(value = "idx") Long idx) {
+        // TODO Admin User find detail
+        UserDomain findUserWithAdmin = adminUserService.findUser(idx, null);
 
         return null;
     }

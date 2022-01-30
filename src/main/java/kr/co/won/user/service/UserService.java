@@ -61,6 +61,13 @@ public interface UserService {
     }
 
     /**
+     * Admin User Find by user email
+     */
+    public default UserDomain findUserByEmail(String email, UserDomain authUser) {
+        return null;
+    }
+
+    /**
      * update User
      */
     public default UserDomain updateUser() {

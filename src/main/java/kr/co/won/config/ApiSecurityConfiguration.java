@@ -21,7 +21,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/users")
                 .permitAll()
                 .anyRequest()
-                .hasAnyRole("ROLE_USER");
+                .hasAnyRole("USER", "ADMIN", "MANAGER");
         /** http csrf disable setting */
         http
                 .csrf()

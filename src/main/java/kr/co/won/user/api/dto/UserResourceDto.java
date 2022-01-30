@@ -24,6 +24,10 @@ public class UserResourceDto {
 
     private boolean active;
 
+    private String job;
+
+    private boolean emailVerified;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

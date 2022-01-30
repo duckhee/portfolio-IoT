@@ -1,53 +1,38 @@
 package kr.co.won.user.api;
 
 import kr.co.won.address.Address;
-import kr.co.won.auth.TestUser;
-import kr.co.won.config.AppConfiguration;
 import kr.co.won.config.RestDocsConfiguration;
-import kr.co.won.config.SecurityConfiguration;
-import kr.co.won.config.datasources.DataSourceConfiguration;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.form.CreateUserForm;
-import kr.co.won.user.persistence.UserPersistence;
-import kr.co.won.user.service.UserService;
-import kr.co.won.user.validation.CreateUserValidation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.test.context.annotation.SecurityTestExecutionListeners;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithSecurityContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @ExtendWith(value = {MockitoExtension.class})
@@ -64,11 +49,11 @@ class UserApiControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
 
-    @DisplayName(value = "01. user create api test - success")
+    @DisplayName(value = "01. user create api Test - success")
     @Test
     void userCreateSuccessTests() throws Exception {
         String email = "test@co.kr";
-        String name = "name";
+        String name = "tester";
         String zipCode = "zipCode";
         String road = "road";
         String detail = "detail";
@@ -107,7 +92,9 @@ class UserApiControllerTest {
                                 fieldWithPath("address.zipCode").type(JsonFieldType.STRING).description("회원 가입한 사용자의 우편 번호").optional(),
                                 fieldWithPath("address.roadAddress").type(JsonFieldType.STRING).description("회원 가입한 사용자의 도로명 주소").optional(),
                                 fieldWithPath("address.detailAddress").type(JsonFieldType.STRING).description("회원 가입한 사용자의 상세 주소").optional(),
+                                fieldWithPath("job").type(JsonFieldType.STRING).description("회원 가입한 사용자의 직업 이름").optional(),
                                 fieldWithPath("active").type(JsonFieldType.BOOLEAN).description("회원 가입한 사용자의 활성화 여부").optional(),
+                                fieldWithPath("emailVerified").type(JsonFieldType.BOOLEAN).description("회원 가입한 사용자가 이메일 인증을 했는지 여부를 확인하기 위한 값").optional(),
                                 fieldWithPath("createdAt").type(JsonFieldType.STRING).description("회원 가입한 사용자 생성된 시간").optional(),
                                 fieldWithPath("updatedAt").type(JsonFieldType.STRING).description("회원 가입한 사용자가 업데이트된 시간").optional()
                         ),
@@ -119,6 +106,16 @@ class UserApiControllerTest {
                                 linkWithRel("update-users").description("사용자에 대한 업데이트 링크").optional()
                         )
                 ));
+    }
+
+    @DisplayName(value = "02. user find api Test - success")
+    @Test
+    void userFindSuccessTests() throws Exception {
+        mockMvc.perform(get("/api/users/{idx}", 1L)
+                .contentType(MediaTypes.HAL_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists());
     }
 
     private CreateUserForm testUserForm(String email, String name, String zipCode, String road, String detail, String password, String confirmPassword) {
@@ -133,6 +130,7 @@ class UserApiControllerTest {
                 .build();
     }
 
+    // mocking user
     private UserDomain mockUser(CreateUserForm form) {
         Address testAddress = new Address(form.getZipCode(), form.getRoadAddress(), form.getDetailAddress());
         UserDomain testUser = UserDomain.builder()
@@ -143,6 +141,7 @@ class UserApiControllerTest {
                 .address(testAddress)
                 .build();
         UserRoleDomain testRole = UserRoleDomain.builder()
+                .idx(1L)
                 .role(UserRoleType.USER)
                 .build();
         testUser.addRole(testRole);

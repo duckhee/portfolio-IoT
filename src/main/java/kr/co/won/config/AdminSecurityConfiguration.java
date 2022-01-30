@@ -24,7 +24,7 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/login")
                 .permitAll()
                 .antMatchers("/admin/**")
-                .hasAnyRole("ROLE_ADMIN");
+                .hasAnyRole("ADMIN", "MANAGER");
 
         /** csrf and cors set */
         http

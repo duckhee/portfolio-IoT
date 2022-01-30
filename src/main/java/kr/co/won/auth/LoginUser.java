@@ -23,12 +23,13 @@ public class LoginUser extends User {
     public LoginUser(UserDomain user) {
         // login user set
         super(user.getEmail(), user.getPassword(), makeGrantedAuthorities(user.getRoles()));
+        this.user = user;
     }
     // make user role
     private static Collection<SimpleGrantedAuthority> makeGrantedAuthorities(Set<UserRoleDomain> roles) {
         // role
         List<SimpleGrantedAuthority> authRoles = new ArrayList<>();
-        roles.forEach(roleDomain -> authRoles.add(new SimpleGrantedAuthority("RoLE_" + roleDomain.getRole())));
+        roles.forEach(roleDomain -> authRoles.add(new SimpleGrantedAuthority("ROLE_" + roleDomain.getRole())));
         return authRoles;
     }
 }

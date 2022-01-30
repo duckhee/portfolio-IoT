@@ -1,6 +1,7 @@
 package kr.co.won.user.controller;
 
 import kr.co.won.address.Address;
+import kr.co.won.auth.AuthUser;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.form.CreateMemberForm;
@@ -8,6 +9,7 @@ import kr.co.won.user.service.UserService;
 import kr.co.won.user.validation.CreateMemberValidation;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -15,14 +17,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
+@Slf4j
 @Controller
 @RequestMapping(path = "/admin/users")
 @RequiredArgsConstructor
@@ -52,14 +53,17 @@ public class AdminUserController {
     }
 
     @GetMapping(path = "/create")
-    public String memberCreatePage(Model model) {
+    public String memberCreatePage(@AuthUser UserDomain user, Model model) {
+        log.info("login user : {}", user);
         model.addAttribute(new CreateMemberForm());
+        model.addAttribute("authUser", user);
         return "admin/users/createMemberPage";
     }
 
     @PostMapping(path = "/create")
-    public String memberCreateDo(@Validated CreateMemberForm form, Errors errors, Model model) {
+    public String memberCreateDo(@AuthUser UserDomain user, @Validated CreateMemberForm form, Errors errors, Model model) {
         if (errors.hasErrors()) {
+            model.addAttribute("authUser", user);
             return "admin/users/createMemberPage";
         }
         /** member address */
@@ -77,10 +81,17 @@ public class AdminUserController {
             formRoles = form.getRoles();
         }
 
-        userService.createUser(setMember, null, formRoles);
+        userService.createUser(setMember, user, formRoles);
 
         return "redirect:/admin/users";
     }
 
+    @GetMapping(path = "/info")
+    public String memberInformationPage(@RequestParam(name = "email", required = true) String email, Model model) {
+        UserDomain findUser = userService.findUserByEmail(email, null);
+        // model setting
+        model.addAttribute("member", findUser);
+        return "admin/users/informationMemberPage";
+    }
 
 }
