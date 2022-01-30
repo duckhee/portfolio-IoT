@@ -1,10 +1,12 @@
 package kr.co.won.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -20,7 +22,10 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users")
                 .permitAll()
-                .antMatchers("/api/h2-console")
+                .mvcMatchers("/api/h2-console")
+                .permitAll()
+                // TODO Delete
+                .antMatchers("/api/blogs")
                 .permitAll()
                 .anyRequest()
                 .hasAnyRole("USER", "ADMIN", "MANAGER");
@@ -35,5 +40,14 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .cors()
                 .disable();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .mvcMatchers(
+                        PathRequest.toH2Console().toString()
+                );
+
     }
 }

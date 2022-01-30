@@ -54,7 +54,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         /** static path ignore security */
         web.ignoring().mvcMatchers(
-                PathRequest.toH2Console().toString(),
                 PathRequest.toStaticResources().atCommonLocations().toString()
         );
         /** security ignore setting */
