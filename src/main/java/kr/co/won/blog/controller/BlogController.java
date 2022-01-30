@@ -3,6 +3,7 @@ package kr.co.won.blog.controller;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.form.CreateBlogForm;
+import kr.co.won.blog.service.BlogService;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.Resource;
+
 @Slf4j
 @Controller
 @RequestMapping(path = "/blogs")
@@ -24,6 +27,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BlogController {
 
     private final ModelMapper modelMapper;
+
+    @Resource(name = "blogService")
+    private final BlogService blogService;
 
     @GetMapping(path = "/create")
     public String createBlogPage(Model model) {
@@ -52,6 +58,7 @@ public class BlogController {
 
     @GetMapping(path = "/list")
     public String listBlogPage(PageDto page, Model model) {
+
         return "blogs/listBlogPage";
     }
 
