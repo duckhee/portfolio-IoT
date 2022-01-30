@@ -125,7 +125,7 @@ public class UserServiceAdminImpl implements UserService {
     @Override
     public UserDomain findUser(Long userIdx, UserDomain authUser) {
         // Login User Role Check and Get User
-        hasAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
+        isAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
         UserDomain findUser = userPersistence.findWithRoleByIdx(userIdx).orElseThrow(()
                 -> new IllegalArgumentException("not have user."));
         return findUser;
@@ -144,7 +144,7 @@ public class UserServiceAdminImpl implements UserService {
     }
 
     // login user role check
-    private UserDomain hasAuth(UserDomain authUser, UserRoleType... roles) {
+    private UserDomain isAuth(UserDomain authUser, UserRoleType... roles) {
         UserDomain findUser = userPersistence.findWithRoleByEmail(authUser.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("not login user."));
         /** user Role check */
