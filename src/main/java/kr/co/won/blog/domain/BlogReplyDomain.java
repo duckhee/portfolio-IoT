@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "tbl_blog_reply")
 @Getter
 @Setter
+@Builder
 @EqualsAndHashCode(of = {"idx"})
 @ToString(exclude = {"blog"})
 @NoArgsConstructor

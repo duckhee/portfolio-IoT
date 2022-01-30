@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Table(name = "tbl_blog")
 @Getter
 @Setter
+@Builder
 @ToString(exclude = {"replies"})
 @EqualsAndHashCode(of = {"idx"})
 @NoArgsConstructor

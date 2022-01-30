@@ -21,8 +21,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -73,6 +72,11 @@ class UserApiControllerTest {
                         responseHeaders(
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional(),
                                 headerWithName(HttpHeaders.LOCATION).description("생성된 사용자에 대한 정보를 볼 수 있는 링크").optional()
+                        ),
+                        /** request header*/
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
                         ),
                         /** request body */
                         relaxedRequestFields(

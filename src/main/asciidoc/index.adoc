@@ -63,3 +63,15 @@ agri-Farm;
 | `404 Not Found`
 | 요청한 리소스가 없음.
 |===
+
+[[user-resources]]
+== USER RESOURCE
+
+사용자에 대한 API 정의 및 설명이다.
+
+[[user-create-resources]]
+=== Create User
+
+`POST` 요청으로 사용자를 생성할 수 있다.
+
+operation::create-users[snippets='request-headers,request-fields,request-body,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
