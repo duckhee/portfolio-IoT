@@ -2,7 +2,7 @@ package kr.co.won.user.api.resource;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import kr.co.won.user.api.UserApiController;
-import kr.co.won.user.api.resource.dto.UserResourceDto;
+import kr.co.won.user.api.resource.dto.UserCreateResourceDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -18,22 +18,22 @@ import java.util.List;
 public class UserResource extends EntityModel<UserResource> {
 
     @JsonUnwrapped
-    private UserResourceDto user;
+    private UserCreateResourceDto user;
 
-    UserResource(UserResourceDto user) {
+    UserResource(UserCreateResourceDto user) {
         this.user = user;
     }
 
     // user api link add
     public static WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(UserApiController.class);
 
-    public static EntityModel<UserResourceDto> of(UserResourceDto user) {
+    public static EntityModel<UserCreateResourceDto> of(UserCreateResourceDto user) {
         // get self links
         List<Link> links = getSelfLink(user);
         return UserResource.of(user, links);
     }
 
-    public static EntityModel<UserResourceDto> of(UserResourceDto user, String profile) {
+    public static EntityModel<UserCreateResourceDto> of(UserCreateResourceDto user, String profile) {
         // get self links
         List<Link> links = getSelfLink(user);
         // profile link add
@@ -41,7 +41,7 @@ public class UserResource extends EntityModel<UserResource> {
         return UserResource.of(user, links);
     }
 
-    private static List<Link> getSelfLink(UserResourceDto user) {
+    private static List<Link> getSelfLink(UserCreateResourceDto user) {
         List<Link> links = new ArrayList<>();
         // self link add
         links.add(linkBuilder.slash(user.getIdx()).withSelfRel());

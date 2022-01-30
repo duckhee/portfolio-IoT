@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Relation(collectionRelation = "users")
-public class UserResourceDto {
+public class UserCreateResourceDto {
 
     private Long idx;
 

@@ -5,7 +5,7 @@ import kr.co.won.address.Address;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.errors.resource.ValidErrorResource;
 import kr.co.won.user.api.assembler.PageUserAssembler;
-import kr.co.won.user.api.resource.dto.UserResourceDto;
+import kr.co.won.user.api.resource.dto.UserCreateResourceDto;
 import kr.co.won.user.api.resource.UserResource;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.form.CreateMemberForm;
@@ -86,10 +86,10 @@ public class UserApiController {
 
         UserDomain savedUser = userService.createUser(mappedUser);
         // mapping user dto
-        UserResourceDto mappedUserResource = modelMapper.map(savedUser, UserResourceDto.class);
+        UserCreateResourceDto mappedUserResource = modelMapper.map(savedUser, UserCreateResourceDto.class);
         mappedUserResource.setActive(savedUser.isActiveFlag());
         // make resource
-        EntityModel<UserResourceDto> resultResource = UserResource.of(mappedUserResource);
+        EntityModel<UserCreateResourceDto> resultResource = UserResource.of(mappedUserResource);
         // base hateoas controller link
         WebMvcLinkBuilder baseLink = linkTo(UserApiController.class);
         //resultResource.add(baseLink.withRel("list-users"));
