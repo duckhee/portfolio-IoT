@@ -4,16 +4,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.address.Address;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.errors.resource.ValidErrorResource;
+import kr.co.won.user.api.assembler.PageUserAssembler;
 import kr.co.won.user.api.resource.dto.UserResourceDto;
 import kr.co.won.user.api.resource.UserResource;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.form.CreateMemberForm;
 import kr.co.won.user.form.CreateUserForm;
 import kr.co.won.user.service.UserService;
+import kr.co.won.user.validation.CreateMemberValidation;
 import kr.co.won.user.validation.CreateUserValidation;
+import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -41,7 +48,23 @@ public class UserApiController {
     private final UserService userService;
 
     private final CreateUserValidation createUserValidation;
+    private final CreateMemberValidation memberValidation;
 
+    /**
+     * paging assembler
+     */
+    private final PagedResourcesAssembler pagedResourcesAssembler;
+    private final PageUserAssembler pageUserAssembler;
+
+    @GetMapping
+    public ResponseEntity listUserResource(PageDto page) {
+        Page pagingResult = adminUserService.pagingUser(page);
+        PagedModel resultResource = pagedResourcesAssembler.toModel(pagingResult, pageUserAssembler);
+        // webLink Base
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(UserApiController.class);
+        resultResource.add(Link.of("/docs/index.html#user-list-resources", "profile"));
+        return ResponseEntity.ok(resultResource);
+    }
 
     @PostMapping
     public ResponseEntity createUserResource(@Validated @RequestBody CreateUserForm form, Errors errors) {
@@ -64,6 +87,7 @@ public class UserApiController {
         UserDomain savedUser = userService.createUser(mappedUser);
         // mapping user dto
         UserResourceDto mappedUserResource = modelMapper.map(savedUser, UserResourceDto.class);
+        mappedUserResource.setActive(savedUser.isActiveFlag());
         // make resource
         EntityModel<UserResourceDto> resultResource = UserResource.of(mappedUserResource);
         // base hateoas controller link
@@ -79,6 +103,11 @@ public class UserApiController {
         URI createUri = baseLink.slash(savedUser.getIdx()).toUri();
         // return result
         return ResponseEntity.created(createUri).body(resultResource);
+    }
+
+    @PostMapping(path = "/auth")
+    public ResponseEntity createMemberResource(@Validated @RequestBody CreateMemberForm form, Errors errors) {
+        return null;
     }
 
     @GetMapping(path = "/{idx}")

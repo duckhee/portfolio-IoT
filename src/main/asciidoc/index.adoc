@@ -75,3 +75,10 @@ agri-Farm;
 `POST` 요청으로 사용자를 생성할 수 있다.
 
 operation::create-users[snippets='request-headers,request-fields,request-body,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
+
+[[user-list-resources]]
+=== List User
+
+`GET` 요청으로 회원에 대한 목록을 볼 수 있다.
+
+operation::list-users[snippets='request-headers,request-parameters,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']

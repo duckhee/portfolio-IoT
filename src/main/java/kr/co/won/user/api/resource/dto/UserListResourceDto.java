@@ -1,20 +1,22 @@
 package kr.co.won.user.api.resource.dto;
 
 import kr.co.won.address.Address;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import kr.co.won.user.domain.UserRoleType;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
-@Data
-@Builder
+@Getter
+@Setter
+
 @NoArgsConstructor
-@AllArgsConstructor
 @Relation(collectionRelation = "users")
-public class UserResourceDto {
+public class UserListResourceDto extends RepresentationModel<UserListResourceDto> {
 
     private Long idx;
 
@@ -22,15 +24,18 @@ public class UserResourceDto {
 
     private String name;
 
-    private Address address;
+    private boolean delete;
 
     private boolean active;
 
-    private String job;
+    private Address address;
 
     private boolean emailVerified;
+
+    private Set<UserRoleType> roles;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
 }
