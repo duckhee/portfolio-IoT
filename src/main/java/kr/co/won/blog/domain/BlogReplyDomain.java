@@ -33,6 +33,9 @@ public class BlogReplyDomain {
     @Column(nullable = false)
     private String replyer;
 
+    @Column(nullable = false)
+    private String replyerEmail;
+
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -40,4 +43,6 @@ public class BlogReplyDomain {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    /** reply function */
 }
