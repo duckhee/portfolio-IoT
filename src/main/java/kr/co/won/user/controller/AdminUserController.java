@@ -12,12 +12,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Size;
@@ -61,9 +64,9 @@ public class AdminUserController {
     }
 
     @PostMapping(path = "/create")
-    public String memberCreateDo(@AuthUser UserDomain user, @Validated CreateMemberForm form, Errors errors, Model model) {
+    public String memberCreateDo(@AuthUser UserDomain authUser, @Validated CreateMemberForm form, Errors errors, Model model, RedirectAttributes flash) {
         if (errors.hasErrors()) {
-            model.addAttribute("authUser", user);
+            model.addAttribute("authUser", authUser);
             return "admin/users/createMemberPage";
         }
         /** member address */
@@ -80,9 +83,12 @@ public class AdminUserController {
         if (formRoles.size() > 0) {
             formRoles = form.getRoles();
         }
-
-        userService.createUser(setMember, user, formRoles);
-
+        // save member
+        UserDomain savedMember = userService.createUser(setMember, authUser, formRoles);
+        // flash message setting
+        flash.addFlashAttribute("msg", messageSource.getMessage("create.member",
+                        new String[]{savedMember.getName()},
+                LocaleContextHolder.getLocale()));
         return "redirect:/admin/users";
     }
 
@@ -94,4 +100,11 @@ public class AdminUserController {
         return "admin/users/informationMemberPage";
     }
 
+    @GetMapping(path = "/list")
+    public String memberListPage(@AuthUser UserDomain authUser, PageDto pageDto, Model model) {
+        Page pagingResult = userService.pagingUser(pageDto);
+        model.addAttribute("page", pagingResult);
+        model.addAttribute("user", authUser);
+        return "admin/users/listMemberPage";
+    }
 }

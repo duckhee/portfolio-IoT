@@ -6,6 +6,7 @@ import kr.co.won.config.RestDocsConfiguration;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.form.CreateUserForm;
 import kr.co.won.user.persistence.UserPersistence;
 import kr.co.won.util.page.PageDto;
@@ -50,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(value = {MockitoExtension.class})
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-@Import(value = {RestDocsConfiguration.class})
+@Import(value = {RestDocsConfiguration.class, UserFactory.class})
 class UserApiControllerTest {
 
     private final String HAL_JSON = "HAL JSON";

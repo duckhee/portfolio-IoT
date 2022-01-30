@@ -2,6 +2,7 @@ package kr.co.won.user.controller;
 
 import kr.co.won.auth.TestUser;
 import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(value = {UserFactory.class})
 class AdminUserControllerTest {
 
     @Autowired
@@ -32,8 +35,11 @@ class AdminUserControllerTest {
     @Autowired
     private UserPersistence userPersistence;
 
+    @Autowired
+    private UserFactory userFactory;
+
     @AfterEach
-    private void userDelete(){
+    private void userDelete() {
         userPersistence.deleteAll();
     }
 
@@ -49,9 +55,29 @@ class AdminUserControllerTest {
                 .andExpect(view().name("admin/users/createMemberPage"));
     }
 
-    @DisplayName(value = "02. create member do Test - with ADMIN")
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "01. create member do Test - with ADMIN")
     @Test
-    void createMemberDoWithADMINTests() throws Exception{
+    void createMemberDoWithADMINTests() throws Exception {
 
+    }
+
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "02. find member Test - with ADMIN")
+    @Test
+    void findMemberPageWithADMINTests() throws Exception {
+
+    }
+
+    @DisplayName(value = "03. list member test - with ADMIN")
+    @Test
+    void listMemberPageWithADMINTests() throws Exception {
+        userFactory.bulkInsertTestUser(10, "testingUser", "test");
+        mockMvc.perform(get("/admin/users/list"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("page"))
+                .andExpect(model().attributeExists("user"))
+                .andExpect(flash().attributeExists("msg"))
+                .andExpect(view().name("admin/users/listMemberPage"));
     }
 }
