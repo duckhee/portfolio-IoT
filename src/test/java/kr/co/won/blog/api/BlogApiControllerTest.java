@@ -1,7 +1,12 @@
 package kr.co.won.blog.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.won.auth.TestUser;
 import kr.co.won.blog.form.CreateBlogForm;
+import kr.co.won.blog.persistence.BlogPersistence;
+import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.persistence.UserPersistence;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -38,6 +43,19 @@ class BlogApiControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private UserPersistence userPersistence;
+
+    @Autowired
+    private BlogPersistence blogPersistence;
+
+    @AfterEach
+    public void testDataInit(){
+        userPersistence.deleteAll();
+        blogPersistence.deleteAll();
+    }
+
+    @TestUser(authLevel = UserRoleType.USER)
     @DisplayName(value = "01. create Blog Test ")
     @Test
     void createBlogTests() throws Exception {

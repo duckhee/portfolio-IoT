@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Relation(collectionRelation = "replies")
 public class ReplyResourceDto {
 
     private Long idx;
