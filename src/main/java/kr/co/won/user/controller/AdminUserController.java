@@ -80,7 +80,7 @@ public class AdminUserController {
 
         Set<UserRoleType> formRoles = null;
         // user role form data is not null
-        if (formRoles.size() > 0) {
+        if (form.getRoles() != null) {
             formRoles = form.getRoles();
         }
         // save member

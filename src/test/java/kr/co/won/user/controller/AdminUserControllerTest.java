@@ -17,6 +17,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -59,7 +64,26 @@ class AdminUserControllerTest {
     @DisplayName(value = "01. create member do Test - with ADMIN")
     @Test
     void createMemberDoWithADMINTests() throws Exception {
+        String email = "testing@co.kr";
+        String name = "testing";
+        String zipCode = "zipCode";
+        String roadAddress = "roadAddress";
+        String detailAddress = "detailAddress";
 
+        mockMvc.perform(post("/admin/users/create")
+                        .with(csrf())
+                        .param("email", email)
+                        .param("name", name)
+                        .param("zipCode", zipCode)
+                        .param("roadAddress", roadAddress)
+                        .param("detailAddress", detailAddress)
+                        .param("roles", String.valueOf(UserRoleType.MANAGER))
+                        .param("roles", String.valueOf(UserRoleType.ADMIN))
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/users"))
+                .andExpect(flash().attributeExists("msg"))
+                .andExpect(view().name("redirect:/admin/users"));
     }
 
     @TestUser(authLevel = UserRoleType.ADMIN)

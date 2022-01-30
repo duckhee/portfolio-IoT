@@ -109,8 +109,12 @@ public class UserServiceAdminImpl implements UserService {
                 .role(UserRoleType.USER)
                 .build();
         userRoles.add(defaultRole);
-        Set<UserRoleDomain> collectRoles = roles.stream().map(userRoleType -> UserRoleDomain.builder().role(userRoleType).build()).collect(Collectors.toSet());
-        userRoles.addAll(collectRoles);
+        // if member role form have
+        if(roles != null){
+            Set<UserRoleDomain> collectRoles = roles.stream().map(userRoleType -> UserRoleDomain.builder().role(userRoleType).build()).collect(Collectors.toSet());
+            userRoles.addAll(collectRoles);
+        }
+        log.info("user roles ::: {}", userRoles.toString());
         /** make random password create */
         String password = randomPassword();
         newUser.setPassword(password);
