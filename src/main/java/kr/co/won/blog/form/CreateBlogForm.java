@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.net.URI;
 
 @Data
 @Builder
@@ -17,5 +18,7 @@ public class CreateBlogForm {
     private String title;
 
     private String content;
+
+    private URI projectUri;
 
 }

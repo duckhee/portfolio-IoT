@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.net.URI;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -53,10 +55,12 @@ class BlogControllerTest {
     void createBlogDoSuccessTests() throws Exception {
         String title = "title";
         String cont = "blog content";
+        String uri = URI.create("github.com/testUser/project").toString();
         mockMvc.perform(post("/blogs/create")
                         .with(csrf())
                         .param("title", title)
-                        .param("content", cont))
+                        .param("content", cont)
+                        .param("projectUri", uri))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/blogs/list"))
                 .andExpect(flash().attributeExists("msg"))
@@ -68,10 +72,12 @@ class BlogControllerTest {
     void createBlogDoFailedNotLoginUserTests() throws Exception {
         String title = "title";
         String cont = "blog content";
+        String uri = URI.create("github.com/testUser/project").toString();
         mockMvc.perform(post("/blogs/create")
                         .with(csrf())
                         .param("title", title)
-                        .param("content", cont))
+                        .param("content", cont)
+                        .param("projectUri", uri))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"))
                 .andExpect(flash().attributeExists("msg"))

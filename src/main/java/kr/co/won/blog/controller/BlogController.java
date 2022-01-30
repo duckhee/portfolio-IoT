@@ -6,6 +6,7 @@ import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@Slf4j
 @Controller
 @RequestMapping(path = "/blogs")
 @RequiredArgsConstructor
@@ -40,6 +42,7 @@ public class BlogController {
             return "blogs/createBlogPage";
         }
         BlogDomain newBlog = modelMapper.map(form, BlogDomain.class);
+        // user project URI Setting
         newBlog.setWriter(loginUser.getName());
         newBlog.setWriterEmail(loginUser.getEmail());
         // todo flash message
