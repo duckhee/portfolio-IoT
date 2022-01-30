@@ -50,7 +50,7 @@ class AdminUserControllerTest {
 
 
     @TestUser(authLevel = UserRoleType.ADMIN)
-    @DisplayName(value = "01. create member Test - with ADMIN")
+    @DisplayName(value = "01. create member Page Test - with ADMIN")
     @Test
     void createMemberWithADMINTests() throws Exception {
         mockMvc.perform(get("/admin/users/create"))
@@ -61,9 +61,9 @@ class AdminUserControllerTest {
     }
 
     @TestUser(authLevel = UserRoleType.ADMIN)
-    @DisplayName(value = "01. create member do Test - with ADMIN")
+    @DisplayName(value = "01. create member do Test - with ADMIN(SUCCESS)")
     @Test
-    void createMemberDoWithADMINTests() throws Exception {
+    void createMemberDoWithADMINSuccessTests() throws Exception {
         String email = "testing@co.kr";
         String name = "testing";
         String zipCode = "zipCode";
@@ -87,14 +87,14 @@ class AdminUserControllerTest {
     }
 
     @TestUser(authLevel = UserRoleType.ADMIN)
-    @DisplayName(value = "02. find member Test - with ADMIN")
+    @DisplayName(value = "02. find member Page Test - with ADMIN(SUCCESS)")
     @Test
-    void findMemberPageWithADMINTests() throws Exception {
+    void findMemberPageWithADMINSuccessTests() throws Exception {
 
     }
 
     @TestUser(authLevel = UserRoleType.ADMIN)
-    @DisplayName(value = "03. list member test - with ADMIN")
+    @DisplayName(value = "03. list member Page test - with ADMIN")
     @Test
     void listMemberPageWithADMINTests() throws Exception {
         userFactory.bulkInsertTestUser(10, "testingUser", "test");

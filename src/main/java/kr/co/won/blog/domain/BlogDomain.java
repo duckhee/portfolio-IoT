@@ -60,6 +60,8 @@ public class BlogDomain {
      * Blog Function
      */
 
+
+
     /**
      * add reply
      */

@@ -46,7 +46,7 @@ class UserControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName(value = "01. Registe User Do Test - with POST")
+    @DisplayName(value = "01. Registe User Do Test - with POST(SUCCESS)")
     @Test
     void userCreateDoSuccessTests() throws Exception {
         String email = "testing@co.kr";
