@@ -9,6 +9,7 @@ import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Transactional(readOnly = true)
 @Service(value = "adminUserService")
 @RequiredArgsConstructor
@@ -93,8 +95,11 @@ public class UserServiceAdminImpl implements UserService {
         /** login user check */
         UserDomain findUser = userPersistence.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("not login user."));
-        /** user Role check */
-        if (!findUser.hasRole(UserRoleType.ADMIN) || !findUser.hasRole(UserRoleType.MANAGER)) {
+
+        if (!findUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            /** user Role check */
+            log.info("admin user ::: {}", findUser);
+            log.info("admin user role ::: {}", findUser.getRoles().toString());
             throw new IllegalArgumentException("access denied.");
         }
         /** user roles set */

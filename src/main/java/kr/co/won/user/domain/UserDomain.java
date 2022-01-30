@@ -117,9 +117,9 @@ public class UserDomain {
      * user mulit role check
      */
     public boolean hasRole(UserRoleType... roleTypes) {
-        boolean flag = true;
+        boolean flag = false;
         for (int i = 0; i < roleTypes.length; i++) {
-            flag = flag && this.hasRole(roleTypes[i]);
+            flag = flag || this.hasRole(roleTypes[i]);
         }
         return flag;
     }
