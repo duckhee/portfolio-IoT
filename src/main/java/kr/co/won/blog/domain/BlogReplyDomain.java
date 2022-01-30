@@ -28,6 +28,7 @@ public class BlogReplyDomain {
     @ManyToOne(fetch = FetchType.LAZY)
     private BlogDomain blog;
 
+
     @Column(nullable = false)
     private String replyContent;
 

@@ -54,6 +54,7 @@ class UserDomainTest {
         assertThat(builderUser.getRoles().size()).isEqualTo(2);
         assertThat(adminRole.getUser().equals(builderUser)).isTrue();
         assertThat(builderUser.getRoles().contains(adminRole)).isTrue();
+        assertThat(builderUser.getRoles()).contains(userRole, adminRole);
     }
 
     @DisplayName(value = "02. user role multi add Test")

@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Transactional
-@Rollback(value = true)
+@Rollback
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 class UserPersistenceTest {
 

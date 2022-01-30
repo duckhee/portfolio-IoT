@@ -20,8 +20,12 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users")
                 .permitAll()
+                .antMatchers("/api/h2-console")
+                .permitAll()
                 .anyRequest()
                 .hasAnyRole("USER", "ADMIN", "MANAGER");
+
+        http.headers().frameOptions().sameOrigin(); //x-frame-options 동일 출처일경우만
         /** http csrf disable setting */
         http
                 .csrf()

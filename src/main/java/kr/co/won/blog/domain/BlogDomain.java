@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,8 @@ public class BlogDomain {
     @Lob
     private String content;
 
+    private String projectUri;
+
     @Builder.Default
     @Column(nullable = false)
     private Long viewCnt = 0L;
@@ -59,7 +62,6 @@ public class BlogDomain {
     /**
      * Blog Function
      */
-
 
 
     /**
@@ -90,7 +92,7 @@ public class BlogDomain {
     /**
      * remove replies
      */
-    public void removeReplies(BlogReplyDomain... replies) {
+    public void removeReply(BlogReplyDomain... replies) {
         List<BlogReplyDomain> deleteReplies = Arrays.stream(replies).collect(Collectors.toList());
         this.replies.removeAll(deleteReplies);
         deleteReplies.forEach(blogReplyDomain -> blogReplyDomain.setBlog(null));
