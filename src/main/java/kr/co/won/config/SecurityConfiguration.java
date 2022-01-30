@@ -39,6 +39,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .antMatcher("/**")
                 .authorizeRequests()
+                /** api docs permitAll */
+                .mvcMatchers("/docs/index.html")
+                .permitAll()
                 .mvcMatchers("/**")
                 .permitAll();
 

@@ -2,6 +2,7 @@ package kr.co.won.user.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.address.Address;
+import kr.co.won.auth.AuthUser;
 import kr.co.won.errors.resource.ValidErrorResource;
 import kr.co.won.user.api.dto.UserResourceDto;
 import kr.co.won.user.api.resource.UserResource;
@@ -12,6 +13,7 @@ import kr.co.won.user.validation.CreateUserValidation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
@@ -74,6 +76,7 @@ public class UserApiController {
         // default links
         resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("query-users"));
         resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("update-users"));
+        resultResource.add(Link.of("/docs/index.html#user-create-resources", "profile"));
         // create uri
         URI createUri = baseLink.slash(savedUser.getIdx()).toUri();
         // return result
@@ -81,11 +84,11 @@ public class UserApiController {
     }
 
     @GetMapping(path = "/{idx}")
-    public ResponseEntity findUserResource(@PathVariable(value = "idx") Long idx) {
+    public ResponseEntity findUserResource(@AuthUser UserDomain authUser, @PathVariable(value = "idx") Long idx) {
         // TODO Admin User find detail
-        UserDomain findUserWithAdmin = adminUserService.findUser(idx, null);
+        UserDomain findUserWithAdmin = adminUserService.findUser(idx, authUser);
 
-        return null;
+        return ResponseEntity.ok().build();
     }
 
     /**
