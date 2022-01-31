@@ -151,6 +151,9 @@ class UserApiControllerTest {
         mockMvc.perform(get("/api/users/{idx}", testUser.getIdx())
                         .contentType(MediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
+//                .andExpect(jsonPath("_links.self").exists())
+//                .andExpect(jsonPath("_links.update-users").exists())
+//                .andExpect(jsonPath("_links.delete-users").exists())
                 .andDo(print());
 
     }

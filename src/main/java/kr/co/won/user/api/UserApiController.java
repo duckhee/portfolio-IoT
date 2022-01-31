@@ -9,6 +9,7 @@ import kr.co.won.user.api.resource.dto.UserCreateResourceDto;
 import kr.co.won.user.api.resource.UserCreateResource;
 import kr.co.won.user.api.resource.dto.UserResourceDto;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.form.CreateMemberForm;
 import kr.co.won.user.form.CreateUserForm;
 import kr.co.won.user.service.UserService;
@@ -115,7 +116,18 @@ public class UserApiController {
     public ResponseEntity findUserResource(@AuthUser UserDomain authUser, @PathVariable(value = "idx") Long idx) {
         // TODO Admin User find detail
         UserDomain findUserWithAdmin = adminUserService.findUser(idx, authUser);
-        UserResourceDto userResources = userAssembler.toModel(findUserWithAdmin);
+//        UserResourceDto userResources = userAssembler.toModel(findUserWithAdmin);
+        // UserResourceDto convertor Input UserDomain
+        UserResourceDto userResources = new UserResourceDto(findUserWithAdmin);
+
+        // base link builder
+        WebMvcLinkBuilder baseLinkBuilder = WebMvcLinkBuilder.linkTo(UserApiController.class);
+        if (authUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            userResources.add(baseLinkBuilder.slash(findUserWithAdmin.getIdx()).withRel("delete-users"));
+            userResources.add(baseLinkBuilder.slash(findUserWithAdmin.getIdx()).withRel("update-users"));
+        }
+        // profile link add
+        userResources.add(Link.of("/docs/index.html#user-query-resources").withRel("profile"));
         return ResponseEntity.ok().body(userResources);
     }
 
