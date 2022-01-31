@@ -119,6 +119,7 @@ class UserApiControllerTest {
                         ),
                         /** response body */
                         relaxedResponseFields(
+                                fieldWithPath("idx").type(JsonFieldType.NUMBER).description("회원 가입한 사용자의 고유 번호").optional(),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("회원 가입한 사용자의 이메일 주소").optional(),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("회원 가입한 사용자의 이름").optional(),
                                 fieldWithPath("address").type(JsonFieldType.OBJECT).description("회원 가입한 사용자 주소를 담은 객체").optional(),
@@ -134,7 +135,7 @@ class UserApiControllerTest {
                         /** user create links */
                         links(
                                 linkWithRel("self").description("현재 호출된 링크").optional(),
-                                linkWithRel("profile").description("현재 호출된 API의 기능에 대한 설명 되어 있는 document를 볼 수 있는 링크이다.").optional(),
+                                linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명 되어 있는 document를 볼 수 있는 링크이다.").optional(),
                                 linkWithRel("delete-users").description("사용자를 삭제를 할 수 있는 링크").optional(),
                                 linkWithRel("query-users").description("사용자에 대한 정보를 볼 수 있는 링크").optional(),
                                 linkWithRel("update-users").description("사용자에 대한 업데이트 링크").optional()
