@@ -1,22 +1,14 @@
 package kr.co.won.blog.api.resource.dto;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.co.won.blog.api.BlogApiController;
 import kr.co.won.blog.domain.BlogDomain;
-import kr.co.won.blog.domain.BlogReplyDomain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.EntityMode;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.core.Relation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.retry.annotation.Backoff;
 
-import javax.swing.text.html.parser.Entity;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
