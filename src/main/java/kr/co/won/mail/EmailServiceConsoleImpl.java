@@ -8,7 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@Profile(value = {"local", "dev"})
+@Profile(value = {"local", "dev", "docker", "test"})
 @Service(value = "consoleEmailService")
 @RequiredArgsConstructor
 public class EmailServiceConsoleImpl implements EmailService {

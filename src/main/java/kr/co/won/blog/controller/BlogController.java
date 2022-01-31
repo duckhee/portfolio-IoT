@@ -9,6 +9,8 @@ import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -37,12 +39,14 @@ public class BlogController {
         return "blogs/createBlogPage";
     }
 
+//    @Secured(value = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER"})
     @PostMapping(path = "/create")
     public String createBlogDo(@AuthUser UserDomain loginUser, @Validated CreateBlogForm form, Errors errors, Model model, RedirectAttributes flash) {
         if (loginUser == null) {
             flash.addFlashAttribute("msg", "Login First");
             return "redirect:/login";
         }
+        //validation check
         if (errors.hasErrors()) {
             model.addAttribute("user", loginUser);
             return "blogs/createBlogPage";
@@ -58,7 +62,8 @@ public class BlogController {
 
     @GetMapping(path = "/list")
     public String listBlogPage(PageDto page, Model model) {
-
+        Page pagingResult = blogService.pagingBlog(page);
+        model.addAttribute("page", pagingResult);
         return "blogs/listBlogPage";
     }
 
