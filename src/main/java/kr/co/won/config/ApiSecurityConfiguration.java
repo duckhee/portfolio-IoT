@@ -45,9 +45,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .mvcMatchers(
-                        PathRequest.toH2Console().toString()
-                );
+                .mvcMatchers(PathRequest.toH2Console().toString());
 
     }
 }

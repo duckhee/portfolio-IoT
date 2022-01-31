@@ -70,8 +70,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().mvcMatchers(
                 PathRequest.toStaticResources().atCommonLocations().toString()
         );
-        /** security ignore setting */
-
     }
 
     /**

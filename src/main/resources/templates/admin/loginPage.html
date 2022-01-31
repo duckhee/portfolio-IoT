@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<img src="/admin-resource/dist/img/avatar.png" alt="avatar">
+<img th:src="@{/admin-resource/dist/img/avatar.png}" alt="test">
 
+<img src="/images/IoT.png" alt="avatar">
+<img th:src="@{/images/IoT.png}" alt="avatar">
+<img src="/imgs/IoT.png" alt="avatar">
+<img th:src="@{/imgs/IoT.png}" alt="avatar">
 </body>
 </html>
