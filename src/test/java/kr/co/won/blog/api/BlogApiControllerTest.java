@@ -2,9 +2,11 @@ package kr.co.won.blog.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.TestUser;
+import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.factory.BlogFactory;
 import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.persistence.BlogPersistence;
+import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.persistence.UserPersistence;
@@ -32,6 +34,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -61,6 +64,12 @@ class BlogApiControllerTest {
 
     @Autowired
     private BlogPersistence blogPersistence;
+
+    @Autowired
+    private UserFactory userFactory;
+
+    @Autowired
+    private BlogFactory blogFactory;
 
     @AfterEach
     public void testDataInit() {
@@ -132,7 +141,11 @@ class BlogApiControllerTest {
     @DisplayName(value = "02. blog find api Test")
     @Test
     void findBlogTests() throws Exception {
-
+        UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
+        BlogDomain testBlog = blogFactory.makeBlogWithReply("title", "content", testUser, 10);
+        mockMvc.perform(get("/api/blogs/{idx}", testBlog.getIdx()))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     @TestUser(authLevel = UserRoleType.USER)

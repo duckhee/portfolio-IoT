@@ -53,7 +53,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogDomain readBlog(Long blogIdx) {
-        return BlogService.super.readBlog(blogIdx);
+        BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(()->
+                new IllegalArgumentException("not have blogs."));
+        return findBlog;
     }
 
     @Override

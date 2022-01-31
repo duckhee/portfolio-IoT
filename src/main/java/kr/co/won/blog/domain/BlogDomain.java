@@ -82,6 +82,14 @@ public class BlogDomain {
     }
 
     /**
+     * add replies
+     */
+    public void addReplies(List<BlogReplyDomain> replies) {
+        this.replies.addAll(replies);
+        replies.forEach(reply -> reply.setBlog(this));
+    }
+
+    /**
      * remove reply
      */
     public void removeReply(BlogReplyDomain reply) {

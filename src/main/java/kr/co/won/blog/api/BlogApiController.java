@@ -4,15 +4,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.api.resource.BlogCreateResource;
 import kr.co.won.blog.api.resource.dto.BlogCreateResourceDto;
+import kr.co.won.blog.api.resource.dto.BlogReadResourcesDto;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.errors.resource.ValidErrorResource;
 import kr.co.won.user.domain.UserDomain;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,6 +27,7 @@ import java.net.URI;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/api/blogs")
 @RequiredArgsConstructor
@@ -69,6 +73,17 @@ public class BlogApiController {
         blogResource.add(baseLink.slash(savedBlog.getIdx()).withRel("delete-blogs"));
         blogResource.add(Link.of("/docs/index.html#blog-create-resources", "profile"));
         return ResponseEntity.created(createUri).body(blogResource);
+    }
+
+    @GetMapping(value = "/{idx}")
+    public ResponseEntity findBlogResources(@PathVariable(value = "idx") Long idx, @AuthUser UserDomain loginUser) {
+        // todo
+        if (loginUser == null) {
+            throw new AccessDeniedException("Not Login.");
+        }
+        BlogDomain findBlog = blogService.readBlog(idx);
+        BlogReadResourcesDto blogReadResourcesDto = new BlogReadResourcesDto(findBlog);
+        return ResponseEntity.ok().body(blogReadResourcesDto);
     }
 
     private ResponseEntity validationResources(Errors errors) {
