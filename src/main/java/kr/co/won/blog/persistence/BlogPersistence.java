@@ -11,7 +11,7 @@ public interface BlogPersistence extends JpaRepository<BlogDomain, Long> {
 
     Optional<BlogDomain> findByIdx(Long blogIdx);
 
-    @EntityGraph(value = "board.withReply")
+    @EntityGraph(value = "blog.withReply")
     Optional<BlogDomain> findWithReplyByIdx(Long blogIdx);
 
 }

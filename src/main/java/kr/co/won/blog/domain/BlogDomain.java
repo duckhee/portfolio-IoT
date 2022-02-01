@@ -13,7 +13,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@NamedEntityGraph(name = "board.withReply",
+@NamedEntityGraph(name = "blog.withReply",
+        attributeNodes = {@NamedAttributeNode(value = "replies")}
+)
+
+@NamedEntityGraph(name = "blog.withReplyAndResource",
         attributeNodes = {@NamedAttributeNode(value = "replies")}
 )
 

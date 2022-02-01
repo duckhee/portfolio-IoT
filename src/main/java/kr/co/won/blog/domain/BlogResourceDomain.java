@@ -36,7 +36,8 @@ public class BlogResourceDomain {
     private String extension;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "blog_idx")
     private BlogDomain blog;
 
