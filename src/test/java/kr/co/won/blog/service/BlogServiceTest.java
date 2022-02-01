@@ -95,7 +95,7 @@ class BlogServiceTest {
                 .content(testContent)
                 .writer(writer)
                 .writerEmail(email)
-                .projectUri(projectUri)
+                .projectUrl(projectUri)
                 .build();
         return testBlog;
     }
@@ -104,7 +104,7 @@ class BlogServiceTest {
         BlogDomain builder = BlogDomain.builder()
                 .title(title)
                 .content(content)
-                .projectUri(projectUri)
+                .projectUrl(projectUri)
                 .build();
         return builder;
     }

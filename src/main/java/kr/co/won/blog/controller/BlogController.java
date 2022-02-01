@@ -53,6 +53,8 @@ public class BlogController {
         // user project URI Setting
         newBlog.setWriter(loginUser.getName());
         newBlog.setWriterEmail(loginUser.getEmail());
+        log.info("model mapper ::: {}", newBlog);
+        BlogDomain savedBlog = blogService.createBlog(newBlog, loginUser);
         // todo flash message
         flash.addFlashAttribute("msg", "creat blog");
         return "redirect:/blogs/list";

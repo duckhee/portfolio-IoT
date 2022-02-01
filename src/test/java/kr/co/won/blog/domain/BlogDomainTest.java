@@ -94,7 +94,7 @@ class BlogDomainTest {
                 .writerEmail(email)
                 .content(content)
                 .title(title)
-                .projectUri(uri)
+                .projectUrl(uri)
                 .build();
     }
 

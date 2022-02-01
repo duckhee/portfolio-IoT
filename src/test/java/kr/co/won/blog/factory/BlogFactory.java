@@ -40,7 +40,7 @@ public class BlogFactory {
                 .title(title)
                 .content(content)
                 .writer(writer)
-                .projectUri("/github.com/tester/test-project")
+                .projectUrl("http://github.com/tester/test-project")
                 .writerEmail(writer + "@co.kr")
                 .build();
         BlogDomain savedBlog = blogPersistence.save(testBlog);

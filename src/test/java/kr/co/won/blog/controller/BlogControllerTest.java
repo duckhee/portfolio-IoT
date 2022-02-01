@@ -1,10 +1,12 @@
 package kr.co.won.blog.controller;
 
 import kr.co.won.auth.TestUser;
+import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -22,6 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
 class BlogControllerTest {
@@ -66,6 +70,8 @@ class BlogControllerTest {
                 .andExpect(redirectedUrl("/blogs/list"))
                 .andExpect(flash().attributeExists("msg"))
                 .andExpect(view().name("redirect:/blogs/list"));
+        List<BlogDomain> all = blogPersistence.findAll();
+        log.info("get all blog ::: {}", all.toString());
     }
 
     @DisplayName(value = "01. creat blog do Test - with POST(Not Login)")

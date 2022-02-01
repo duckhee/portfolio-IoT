@@ -21,23 +21,33 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .antMatcher("/admin/**")
                 .authorizeRequests()
-                .antMatchers("/admin/login", "/admin/**")
+                .mvcMatchers("/admin/login")
                 .permitAll()
-                ;
-//                .antMatchers("/admin/**")
-//                .hasAnyRole("ADMIN", "MANAGER");
+                .antMatchers("/admin/**")
+                .hasAnyRole("ADMIN", "MANAGER")
+                .and().csrf().and().cors();
+        /** csrf and cors set */
+
         /** form Login */
         http
                 .formLogin()
                 .loginPage("/admin/login")
+                .loginProcessingUrl("/admin/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .permitAll();
-        /** csrf and cors set */
-        http
+                .successForwardUrl("/admin")
+                .defaultSuccessUrl("/admin")
+                .and()
                 .csrf();
+        /** logout */
         http
-                .cors();
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .permitAll();
     }
 
 
@@ -45,8 +55,8 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         /** static path ignore security */
         web.ignoring().mvcMatchers(
-                        PathRequest.toStaticResources().atCommonLocations().toString(),
-                        "/admin-resource/**"
-                );
+                PathRequest.toStaticResources().atCommonLocations().toString(),
+                "/admin-resource/**"
+        );
     }
 }

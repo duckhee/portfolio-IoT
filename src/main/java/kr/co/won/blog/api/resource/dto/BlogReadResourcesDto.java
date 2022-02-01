@@ -47,7 +47,7 @@ public class BlogReadResourcesDto extends RepresentationModel<BlogReadResourcesD
         this.writer = blog.getWriter();
         this.writerEmail = blog.getWriterEmail();
         this.viewCnt = blog.getViewCnt();
-        this.projectUri = (blog.getProjectUri() != null) ? URI.create(blog.getProjectUri()) : null;
+        this.projectUri = (blog.getProjectUrl() != null) ? URI.create(blog.getProjectUrl()) : null;
         this.createdAt = blog.getCreatedAt();
         this.updatedAt = blog.getUpdatedAt();
         this.replies = blog.getReplies().stream().map(reply -> new ReplyResourceDto(reply)).collect(Collectors.toList());

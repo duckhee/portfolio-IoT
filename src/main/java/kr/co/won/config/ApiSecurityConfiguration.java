@@ -30,14 +30,16 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .hasAnyRole("USER", "ADMIN", "MANAGER");
 
-        http.headers().frameOptions().sameOrigin(); //x-frame-options 동일 출처일경우만
+        http.antMatcher("/api/**").headers()
+                .frameOptions().sameOrigin(); //x-frame-options 동일 출처일경우만
         /** http csrf disable setting */
         http
                 .csrf()
-                .disable();
+                .ignoringAntMatchers("/api/**");
 
         /** http cross domain setting */
         http
+                .antMatcher("/api/**")
                 .cors()
                 .disable();
     }
