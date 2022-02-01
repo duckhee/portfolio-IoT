@@ -2,6 +2,7 @@ package kr.co.won.blog.service;
 
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.persistence.BlogPersistence;
+import kr.co.won.blog.persistence.BlogReplyPersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserDomainBuilderFactory;
@@ -33,12 +34,13 @@ class BlogServiceTest {
     @Mock
     private BlogPersistence blogPersistence;
 
-
+    @Mock
+    private BlogReplyPersistence blogReplyPersistence;
 
     @DisplayName(value = "01. create blog Test")
     @Test
     void createBlogTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence);
+        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence);
 
         String title = "test";
         String content = "testContent";
@@ -62,7 +64,7 @@ class BlogServiceTest {
     @DisplayName(value = "01. create blog Test - with user")
     @Test
     void createBlogWithUserTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence);
+        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence);
 
         String title = "test";
         String content = "testContent";

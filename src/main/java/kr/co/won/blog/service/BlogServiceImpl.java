@@ -1,7 +1,9 @@
 package kr.co.won.blog.service;
 
 import kr.co.won.blog.domain.BlogDomain;
+import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.persistence.BlogPersistence;
+import kr.co.won.blog.persistence.BlogReplyPersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ public class BlogServiceImpl implements BlogService {
     private final ModelMapper modelMapper;
 
     private final BlogPersistence blogPersistence;
+
+    private final BlogReplyPersistence blogReplyPersistence;
 
 
     @Transactional
@@ -91,5 +95,22 @@ public class BlogServiceImpl implements BlogService {
         }
 
         blogPersistence.delete(findBlog);
+    }
+
+
+    /**
+     * Blog Reply
+     */
+    @Transactional
+    @Override
+    public BlogReplyDomain createReply(Long blogIdx, BlogReplyDomain reply, UserDomain loginUser) {
+        BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
+                new IllegalArgumentException("not have blog."));
+        reply.setReplyer(loginUser.getName());
+        reply.setReplyerEmail(loginUser.getEmail());
+        findBlog.addReply(reply);
+//        BlogReplyDomain savedReply = blogReplyPersistence.save(reply);
+//        findBlog.addReply(savedReply);
+        return reply;
     }
 }

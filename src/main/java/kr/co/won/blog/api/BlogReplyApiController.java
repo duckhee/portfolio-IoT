@@ -2,6 +2,8 @@ package kr.co.won.blog.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
+import kr.co.won.blog.api.resource.ReplyCreateResource;
+import kr.co.won.blog.api.resource.dto.ReplyResourceDto;
 import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.form.CreateReplyForm;
 import kr.co.won.blog.service.BlogService;
@@ -37,7 +39,7 @@ public class BlogReplyApiController {
     }
 
     @PostMapping
-    public ResponseEntity createBlogRepliesResource(@AuthUser UserDomain loginUser, @PathVariable(name = "blogIdx") Long blogIdx, @Validated CreateReplyForm form, Errors errors) {
+    public ResponseEntity createBlogRepliesResource(@AuthUser UserDomain loginUser, @PathVariable(name = "blogIdx") Long blogIdx, @Validated @RequestBody CreateReplyForm form, Errors errors) {
         if (loginUser == null) {
             throw new AccessDeniedException("login first.");
         }
@@ -48,7 +50,9 @@ public class BlogReplyApiController {
                 .replyContent(form.getReplyContent())
                 .build();
         BlogReplyDomain savedReply = blogService.createReply(blogIdx, newReply, loginUser);
-        return null;
+        ReplyResourceDto mappedResource = modelMapper.map(savedReply, ReplyResourceDto.class);
+        EntityModel<ReplyResourceDto> resultResource = ReplyCreateResource.of(savedReply.getBlog(), mappedResource);
+        return ResponseEntity.ok().body(resultResource);
     }
 
 
