@@ -66,16 +66,16 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li th:classappend="${currentMenu == 'memberCreate'}">
+                    <li th:classappend="${currentMenu == 'memberCreate'}? 'active'">
                         <a href="#member-create" th:href="@{/admin/users/create}"><i class="fa fa-circle-o"></i> Users Create</a></li>
-                    <li th:classappend="${currentMenu == 'memberlist'}? active">
+                    <li th:classappend="${currentMenu == 'memberlist'}? 'active'">
                         <a href="#member-list" th:href="@{/admin/users/list}">
                             <i class="fa fa-circle-o"></i> Users List
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview" th:classappend="${menu == 'blog'}? 'active'">
                 <a href="#">
                     <i class="fa  fa-newspaper-o"></i> <span>BLog</span>
                     <span class="pull-right-container">
@@ -83,8 +83,8 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class=""><a href="#"><i class="fa fa-circle-o"></i> Blog Create</a></li>
-                    <li class=""><a href="#"><i class="fa fa-circle-o"></i> Blog List</a></li>
+                    <li class="" th:classappend="${currentMenu == 'blogCreate'}? 'active'"><a href="#blog-create" th:href="@{/admin/blogs/create}"><i class="fa fa-circle-o"></i> Blog Create</a></li>
+                    <li class="" th:classappend="${currentMenu == 'blogList'}? 'active'"><a href="#blog-list" th:href="@{/admin/blogs/list}"><i class="fa fa-circle-o"></i> Blog List</a></li>
                 </ul>
             </li>
             <li class="treeview">
