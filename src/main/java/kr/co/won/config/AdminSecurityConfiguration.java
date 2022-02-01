@@ -21,10 +21,11 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .antMatcher("/admin/**")
                 .authorizeRequests()
-                .antMatchers("/admin/login")
+                .antMatchers("/admin/login", "/admin/**")
                 .permitAll()
-                .antMatchers("/admin/**")
-                .hasAnyRole("ADMIN", "MANAGER");
+                ;
+//                .antMatchers("/admin/**")
+//                .hasAnyRole("ADMIN", "MANAGER");
         /** form Login */
         http
                 .formLogin()

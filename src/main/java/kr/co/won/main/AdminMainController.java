@@ -21,6 +21,11 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AdminMainController {
 
+    @GetMapping
+    public String adminMainPage() {
+        return "admin/index";
+    }
+
     @GetMapping(path = "/login")
     public String adminLoginPage() {
         UserDomain loginUser = getLoginUser();

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @NamedEntityGraph(name = "blog.withReplyAndResource",
         attributeNodes = {@NamedAttributeNode(value = "replies")}
+
 )
 
 @Entity
