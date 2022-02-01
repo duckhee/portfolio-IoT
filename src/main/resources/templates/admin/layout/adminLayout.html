@@ -41,16 +41,16 @@
 
     </header>
     <!-- Left side column. contains the logo and sidebar -->
-    <aside th:replace="~{admin/layout/fragments/templateLeftNav::leftNav}">
+    <aside th:replace="~{admin/layout/fragments/templateLeftNav::leftNav(${menu},${currentMenu})}">
 
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper" >
+    <main class="content-wrapper">
         <th:block layout:fragment="mainContent">
 
         </th:block>
-    </div>
+    </main>
     <!-- /.content-wrapper -->
 
     <footer th:replace="~{admin/layout/fragments/templateFooter::footer}">

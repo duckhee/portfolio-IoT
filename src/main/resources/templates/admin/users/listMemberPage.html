@@ -1,10 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{admin/layout/adminLayout(menu='member',currentMenu='memberlist')}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Member LIST</title>
 </head>
 <body>
+<th:block layout:fragment="mainContent">
+    <section class="content-header">
+        <h1>
+            Portfolio Won
+            <small>Version 1.0</small>
+        </h1>
+        <!--./header title-->
+        <ol class="breadcrumb">
+            <li><a href="#" th:href="@{/admin}"><i class="fa fa-users"></i>Home</a></li>
+            <li><a href="#"> Member</a></li>
+            <li class="active">List Page</li>
+        </ol>
+    </section>
+    <!--./content-header-->
+    <section class="content">
+        <section class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Member LIST Page</h3>
 
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i></button>
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip"
+                            title="Remove">
+                        <i class="fa fa-times"></i></button>-->
+                </div>
+                <!--./box-tool-tip-->
+            </div>
+            <!--./box-header-->
+            <div class="box-body">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <td style="width:10px;">
+                            <input type="checkbox" name="th_checkAll" id="th_checkAll" onclick="allCheck();">
+                        </td>
+                        <th >number</th>
+                        <th>email</th>
+                        <th>name</th>
+                        <th>job</th>
+                        <th>address</th>
+                        <th>active</th>
+                        <th>role</th>
+                        <th>join Time</th>
+                    </tr>
+                    </thead>
+                    <!--./table-header-->
+                    <tbody style="text-align: center;">
+                    <tr th:if="${page?.result != null}" th:each="member : ${page?.result}">
+                        <td><input type="checkbox" name="checkRow" value="${member.idx}"></td>
+                        <td th:text="${page.getCurrentPage().getPageNumber()*10+memberStat.index+1}"></td>
+                        <td>
+                            <a th:href="@{/admin/users/info?email={email}(email=${member.email})}" th:text="${member.email}">user
+                                email</a>
+                        </td>
+                        <td th:text="${member.name}"></td>
+                        <td>
+                            <span class="label label-success" th:text="${member.job}"></span>
+                        </td>
+                        <td th:text="${member.address}"></td>
+                        <td th:text="${member.activeFlag}"></td>
+                        <td>
+                            <th:block th:each="roleVaraible : ${member.roles}">
+                                <span th:text="${roleVaraible.role.name}" class="badge"
+                                      th:classappend="(${roleVaraible.role.name} == 'ADMIN'?'bg-light-blue':(${roleVaraible.role.name} =='MANAGER'?'bg-yellow':'bg-red'))">
+                                    role bage
+                                </span>
+                            </th:block>
+                        </td>
+                        <td th:text="${#temporals.format(member.joinTime, 'yyyy년MM월dd일 HH시mm분')}"></td>
+                    </tr>
+                    </tbody>
+                    <!--./th-each for member-->
+                </table>
+                <!--./member-list-table-->
+            </div>
+            <!--./box-body-->
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="dataTables_paginate paging_simple_numbers" style="text-align: center;">
+                            <ul class="pagination" th:if="${page != null}">
+                                <li id="previousPage" class="paginate_button previous" th:if="${page.prevPage}">
+                                    <a th:href="@{'/admin/users/list'(page=${page.prevPage.pageNumber}+1)}">Previous</a>
+                                </li>
+                                <li id="previousPage" class="paginate_button previous disabled"
+                                    th:if="${page.prevPage} == null">
+                                    <a href="#">Previous</a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${p.pageNumber == page.currentPageNum -1}?active: '' "
+                                    th:each="p:${page.pageList}">
+                                    <a th:href="@{'/admin/users/list'(page=${p.pageNumber}+1)}">[[${p.pageNumber}
+                                        +1]]</a>
+                                </li>
+
+                                <li id="nextPage" class="paginate_button next" th:if="${page.nextPage}">
+                                    <a th:href="@{'/admin/users/list'(page=${page.nextPage.pageNumber} + 1)}">Next</a>
+                                </li>
+                                <li id="nextPage" class="paginate_button next disabled"
+                                    th:if="${page.nextPage} == null">
+                                    <a href="#">Next</a>
+                                </li>
+                            </ul>
+                            <!-- ./pagination -->
+                        </div>
+                        <!-- ./paging-list -->
+                    </div>
+                    <!-- ./paging--col-sm-12 -->
+                    <div class="col-sm-12">
+                        <div class="pull-left">
+                            <button id="deleteBtn" type="button" class="btn btn-flat btn-danger"><i
+                                    class="fa fa-fw fa-trash" style="margin-right:10px;"></i>Delete
+                            </button>
+                        </div>
+                        <!-- ./pull-left -->
+                        <div class="pull-right">
+                            <button id="registeBtn" type="button" class="btn btn-flat btn-primary"><i
+                                    class="fa fa-fw fa-save" style="margin-right:10px;"></i>Regite
+                            </button>
+                        </div>
+                        <!-- ./pull-right -->
+                    </div>
+                    <!--./col-sm-12-->
+                </div>
+                <!--./row-->
+            </div>
+            <!--./box-footer-->
+        </section>
+        <!--./list-box-->
+    </section>
+    <!--./content-->
+</th:block>
+<!--./main-->
+<th:block layout:fragment="addScript">
+    <script>
+        /** Check All Row */
+        function allCheck() {
+            if ($("#th_checkAll").is(":checked")) {
+                $("input[name=checkRow]").prop("checked", true);
+            } else {
+                $("input[name=checkRow]").prop("checked", false);
+            }
+        };
+        $(document).ready(function () {
+            allCheck();
+        });
+    </script>
+</th:block>
+<!--./add javascript-->
 </body>
 </html>

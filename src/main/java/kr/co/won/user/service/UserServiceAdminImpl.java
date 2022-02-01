@@ -1,5 +1,6 @@
 package kr.co.won.user.service;
 
+import kr.co.won.address.Address;
 import kr.co.won.mail.EmailService;
 import kr.co.won.mail.form.VerifiedMessage;
 import kr.co.won.properties.AppProperties;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -135,7 +138,8 @@ public class UserServiceAdminImpl implements UserService {
     @Override
     public UserDomain findUserByEmail(String email, UserDomain authUser) {
         // Login User Role Check and Get User
-        isAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
+        // TODO Set
+//        isAuth(authUser, UserRoleType.MANAGER, UserRoleType.ADMIN);
         UserDomain findUser = userPersistence.findByEmail(email).orElseThrow(() ->
                 new IllegalArgumentException("not have user."));
         return findUser;
@@ -184,5 +188,28 @@ public class UserServiceAdminImpl implements UserService {
 
     }
 
+    @PostConstruct
+    public void adminUser() {
+        Address address = new Address("zipCode", "roadAddress", "detailAddress");
+        UserDomain testUser = UserDomain.builder()
+                .email("admin@co.kr")
+                .name("testing")
+                .password(passwordEncoder.encode("1234"))
+                .emailVerified(true)
+                .job("DEVELOPER")
+                .activeFlag(true)
+                .address(address)
+                .joinTime(LocalDateTime.now())
+                .build();
+        testUser.makeEmailToken();
+        UserRoleDomain defaultRole = UserRoleDomain.builder()
+                .role(UserRoleType.USER)
+                .build();
+        UserRoleDomain testUserAdmin = UserRoleDomain.builder()
+                .role(UserRoleType.ADMIN)
+                .build();
+        testUser.addRole(defaultRole, testUserAdmin);
+        userPersistence.save(testUser);
+    }
 
 }

@@ -8,6 +8,7 @@ import kr.co.won.user.form.CreateMemberForm;
 import kr.co.won.user.service.UserService;
 import kr.co.won.user.validation.CreateMemberValidation;
 import kr.co.won.util.page.PageDto;
+import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -94,6 +95,7 @@ public class AdminUserController {
 
     @GetMapping(path = "/info")
     public String memberInformationPage(@RequestParam(name = "email", required = true) String email, Model model) {
+        log.info("get information ");
         UserDomain findUser = userService.findUserByEmail(email, null);
         // model setting
         model.addAttribute("member", findUser);
@@ -103,7 +105,9 @@ public class AdminUserController {
     @GetMapping(path = "/list")
     public String memberListPage(@AuthUser UserDomain authUser, PageDto pageDto, Model model) {
         Page pagingResult = userService.pagingUser(pageDto);
-        model.addAttribute("page", pagingResult);
+        // make paging result
+        PageMaker paging = new PageMaker<>(pagingResult);
+        model.addAttribute("page", paging);
         model.addAttribute("user", authUser);
         return "admin/users/listMemberPage";
     }

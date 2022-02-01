@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{admin/layout/adminLayout(menu='member', currentMenu='memberCreate')}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ADMIN MAIN</title>
 </head>
 <body>
+<th:block layout:fragment="mainContent">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Portfolio Won
+            <small>Version 1.0</small>
+        </h1>
+        <!--./header title-->
+        <ol class="breadcrumb">
+            <li><a href="#" th:href="@{/admin}"><i class="fa fa-users"></i>Home</a></li>
+            <li><a href="#"> Member</a></li>
+            <li class="active">Registe Page</li>
+        </ol>
+    </section>
+    <!--./content-header-->
+    <!-- Main content -->
+    <section class="content">
 
+    </section>
+    <!-- /.content -->
+</th:block>
 </body>
 </html>
