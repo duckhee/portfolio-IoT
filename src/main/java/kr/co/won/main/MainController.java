@@ -22,6 +22,9 @@ public class MainController {
 
     @GetMapping(path = "/login")
     public String LoginPage() {
+        if (isLogin()) {
+            return "redirect:/";
+        }
         return "loginPage";
     }
 

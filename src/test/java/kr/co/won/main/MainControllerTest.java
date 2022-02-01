@@ -16,29 +16,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class AdminMainControllerTest {
+class MainControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-
-    @DisplayName(value = "01. admin user login Test - with Success")
+    @DisplayName(value = "01. login page Test - with SUCCESS")
     @Test
-    void adminLoginPageWithGetTests() throws Exception{
-        mockMvc.perform(get("/admin/login"))
+    void loginPageSuccessTests() throws Exception {
+        mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("admin/loginPage"));
+                .andExpect(view().name("loginPage"));
     }
 
-
-    @TestUser(authLevel = UserRoleType.ADMIN)
-    @DisplayName(value = "01. admin user login Test - with Failed")
+    @TestUser(authLevel = UserRoleType.USER)
+    @DisplayName(value = "01. login page Test - with failed already login")
     @Test
-    void adminLoginPageWithGetAndLoginDoneTests() throws Exception{
-        mockMvc.perform(get("/admin/login"))
+    void loginPageWithLoginUserFailedTests() throws Exception {
+        mockMvc.perform(get("/login"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin"))
-                .andExpect(view().name("redirect:/admin"));
+                .andExpect(redirectedUrl("/"))
+                .andExpect(view().name("redirect:/"));
     }
 
 }

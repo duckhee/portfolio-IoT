@@ -23,13 +23,31 @@ public class AdminMainController {
 
     @GetMapping(path = "/login")
     public String adminLoginPage() {
-        if(isAuth()){
-            return "redirect:/";
+        UserDomain loginUser = getLoginUser();
+        if (loginUser == null) {
+            return "admin/loginPage";
         }
 
-        return "admin/loginPage";
+        if (loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            return "redirect:/admin";
+
+        }
+        return "redirect:/";
     }
 
+    /**
+     * get user information
+     */
+    private UserDomain getLoginUser() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+        // login user
+        LoginUser principal = (LoginUser) authentication.getPrincipal();
+        return principal.getUser();
+    }
 
 
     /**
