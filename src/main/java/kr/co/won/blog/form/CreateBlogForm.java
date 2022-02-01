@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.net.URI;
+import java.net.URL;
 
 @Data
 @Builder
@@ -19,6 +20,8 @@ public class CreateBlogForm {
 
     private String content;
 
-    private URI projectUri;
+    private URL projectUrl;
+
+
 
 }

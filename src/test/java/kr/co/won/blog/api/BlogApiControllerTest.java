@@ -28,6 +28,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URI;
+import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
@@ -84,8 +85,9 @@ class BlogApiControllerTest {
         CreateBlogForm blogForm = CreateBlogForm.builder()
                 .title("testing")
                 .content("content")
-                .projectUri(URI.create("github.com/project/uri"))
+                .projectUrl(new URL("http://github.com/project/uri"))
                 .build();
+
         mockMvc.perform(post("/api/blogs")
                         .contentType(MediaTypes.HAL_JSON)
                         .content(objectMapper.writeValueAsString(blogForm)))

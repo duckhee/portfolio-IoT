@@ -49,7 +49,7 @@ public class BlogDomain {
     @Lob
     private String content;
 
-    private String projectUri;
+    private String projectUrl;
 
     @Builder.Default
     @Column(nullable = false)

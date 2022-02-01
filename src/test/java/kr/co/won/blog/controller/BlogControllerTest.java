@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URI;
+import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -55,12 +56,12 @@ class BlogControllerTest {
     void createBlogDoSuccessTests() throws Exception {
         String title = "title";
         String cont = "blog content";
-        String uri = URI.create("github.com/testUser/project").toString();
+        String uri = new URL("http://github.com/testUser/project").toString();
         mockMvc.perform(post("/blogs/create")
                         .with(csrf())
                         .param("title", title)
                         .param("content", cont)
-                        .param("projectUri", uri))
+                        .param("projectUrl", uri))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/blogs/list"))
                 .andExpect(flash().attributeExists("msg"))
