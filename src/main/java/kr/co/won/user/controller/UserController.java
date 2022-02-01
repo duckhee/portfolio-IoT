@@ -80,6 +80,9 @@ public class UserController {
         return "redirect:/login";
     }
 
+    /**
+     * user email certification
+     */
     @GetMapping(path = "/users/confirm-email")
     public String emailMsgConfirmPage(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "token", required = true) String token, Model model) {
         UserDomain confirmUser = userService.emailConfirm(email, token);
@@ -87,19 +90,39 @@ public class UserController {
             model.addAttribute("error", "not have user");
             return "mail/emailConfirmPage";
         }
-        if(!confirmUser.isEmailVerified()){
+        if (!confirmUser.isEmailVerified()) {
             model.addAttribute("error", "not have token");
             return "mail/emailConfirmPage";
         }
-            model.addAttribute("user", confirmUser);
+        model.addAttribute("user", confirmUser);
         return "mail/emailConfirmPage";
     }
 
+    /**
+     * user profile page
+     */
     @GetMapping(path = "/profile")
     public String profilePage(@AuthUser UserDomain user, Model model, RedirectAttributes flash) {
         UserDomain findUser = userService.userProfile(user);
         // user setting
         model.addAttribute("user", findUser);
         return "users/profilePage";
+    }
+
+    /**
+     * user information update page
+     */
+    @GetMapping(path = "/update")
+    public String updatePage(@AuthUser UserDomain user, Model model) {
+        return "users/updatePage";
+    }
+
+    /**
+     * user information update do
+     * redirect user profile page
+     */
+    @PostMapping(path = "/update")
+    public String updateDo(@AuthUser UserDomain user, Model model, RedirectAttributes flash) {
+        return "";
     }
 }

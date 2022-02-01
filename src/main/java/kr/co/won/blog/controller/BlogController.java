@@ -15,9 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
@@ -39,7 +37,7 @@ public class BlogController {
         return "blogs/createBlogPage";
     }
 
-//    @Secured(value = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER"})
+    //    @Secured(value = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER"})
     @PostMapping(path = "/create")
     public String createBlogDo(@AuthUser UserDomain loginUser, @Validated CreateBlogForm form, Errors errors, Model model, RedirectAttributes flash) {
         if (loginUser == null) {
@@ -67,4 +65,23 @@ public class BlogController {
         return "blogs/listBlogPage";
     }
 
+    @GetMapping(path = "/{idx}")
+    public String readBlogPage(@PathVariable(name = "idx") Long blogIdx) {
+        return "";
+    }
+
+    @GetMapping(path = "/update")
+    public String updateBlogPage(@RequestParam(name = "blog") Long blog, Model model) {
+        return "";
+    }
+
+    @PostMapping(path = "/update")
+    public String updateBlogDo(@AuthUser UserDomain loginUser, @RequestParam(name = "blog") Long blog, Model model, RedirectAttributes flash) {
+        return "";
+    }
+
+    @DeleteMapping(path = "/delete/{blogIdx}")
+    public String deleteBlogDo(@AuthUser UserDomain loginUser, @PathVariable(name = "blogIdx") Long blogIdx, RedirectAttributes flash) {
+        return "";
+    }
 }

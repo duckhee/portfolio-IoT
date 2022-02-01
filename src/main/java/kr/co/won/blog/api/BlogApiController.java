@@ -56,7 +56,7 @@ public class BlogApiController {
             return validationResources(errors);
         }
         BlogDomain newBlog = modelMapper.map(form, BlogDomain.class);
-        BlogDomain savedBlog = blogService.creatBlog(newBlog, loginUser);
+        BlogDomain savedBlog = blogService.createBlog(newBlog, loginUser);
         // mapped BlogResources
         BlogCreateResourceDto mappedNewBlog = modelMapper.map(savedBlog, BlogCreateResourceDto.class);
         // blog resource
@@ -75,15 +75,22 @@ public class BlogApiController {
         return ResponseEntity.created(createUri).body(blogResource);
     }
 
-    @GetMapping(value = "/{idx}")
-    public ResponseEntity findBlogResources(@PathVariable(value = "idx") Long idx, @AuthUser UserDomain loginUser) {
-        // todo
-        if (loginUser == null) {
-            throw new AccessDeniedException("Not Login.");
-        }
+    @GetMapping(path = "/{idx}")
+    public ResponseEntity findBlogResources(@PathVariable(value = "idx") Long idx) {
+
         BlogDomain findBlog = blogService.readBlog(idx);
         BlogReadResourcesDto blogReadResourcesDto = new BlogReadResourcesDto(findBlog);
         return ResponseEntity.ok().body(blogReadResourcesDto);
+    }
+
+    @PutMapping(path = "/{idx}")
+    public ResponseEntity updateBlogPutResource(@PathVariable(name = "idx") Long idx, @AuthUser UserDomain loginUser) {
+        return null;
+    }
+
+    @PatchMapping(path = "/{idx}")
+    public ResponseEntity updateBlogResource(@PathVariable(value = "idx") Long blogIdx, @AuthUser UserDomain loginUser) {
+        return null;
     }
 
     private ResponseEntity validationResources(Errors errors) {

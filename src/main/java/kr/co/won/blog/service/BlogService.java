@@ -27,7 +27,7 @@ public interface BlogService {
     /**
      * Create Blog
      */
-    public default BlogDomain creatBlog(BlogDomain blog, UserDomain loginUser) {
+    public default BlogDomain createBlog(BlogDomain blog, UserDomain loginUser) {
         return null;
     }
 

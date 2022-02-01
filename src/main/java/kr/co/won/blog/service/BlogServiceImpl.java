@@ -42,7 +42,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Transactional
     @Override
-    public BlogDomain creatBlog(BlogDomain blog, UserDomain loginUser) {
+    public BlogDomain createBlog(BlogDomain blog, UserDomain loginUser) {
         if (loginUser == null) {
             throw new IllegalArgumentException("login first.");
         }
@@ -57,6 +57,7 @@ public class BlogServiceImpl implements BlogService {
     public BlogDomain readBlog(Long blogIdx) {
         BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
                 new IllegalArgumentException("not have blogs."));
+        // view cnt update
         findBlog.setViewCnt(findBlog.getViewCnt() + 1);
         return findBlog;
     }

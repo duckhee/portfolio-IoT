@@ -36,4 +36,9 @@ public class BlogReplyApiController {
     public ResponseEntity readBlogRepliesResource(@PathVariable(name = "blogIdx") Long blogIdx, @PathVariable(name = "replyIdx") Long replyIdx) {
         return null;
     }
+
+    @DeleteMapping(path = "/{replyIdx}")
+    public ResponseEntity deleteBlogRepliesResource(@PathVariable(name = "blogIdx") Long blogIdx, @PathVariable(name = "replyIdx") Long replyIdx) {
+        return null;
+    }
 }
