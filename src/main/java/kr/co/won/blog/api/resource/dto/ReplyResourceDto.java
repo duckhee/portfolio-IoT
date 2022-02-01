@@ -2,6 +2,7 @@ package kr.co.won.blog.api.resource.dto;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import kr.co.won.blog.api.BlogApiController;
+import kr.co.won.blog.api.BlogReplyApiController;
 import kr.co.won.blog.domain.BlogReplyDomain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,7 +39,7 @@ public class ReplyResourceDto extends RepresentationModel<ReplyResourceDto> {
         this.createdAt = reply.getCreatedAt();
         this.updatedAt = reply.getUpdatedAt();
 
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogReplyApiController.class, reply.getBlog().getIdx());
         this.add(linkBuilder.slash(this.idx).withSelfRel());
     }
 }

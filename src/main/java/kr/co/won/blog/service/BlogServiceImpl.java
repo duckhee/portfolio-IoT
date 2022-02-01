@@ -55,10 +55,11 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     @Override
     public BlogDomain readBlog(Long blogIdx) {
-        BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
+        BlogDomain findBlog = blogPersistence.findWithReplyByIdx(blogIdx).orElseThrow(() ->
                 new IllegalArgumentException("not have blogs."));
         // view cnt update
         findBlog.setViewCnt(findBlog.getViewCnt() + 1);
+//        log.info("findBlog reply :: {}", findBlog.getReplies());
         return findBlog;
     }
 

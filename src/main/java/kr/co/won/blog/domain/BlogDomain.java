@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@NamedEntityGraph(name = "board.withReply",
+        attributeNodes = {@NamedAttributeNode(value = "replies")}
+)
 
 @Entity
 @Table(name = "tbl_blog")

@@ -25,7 +25,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/api/h2-console")
                 .permitAll()
                 // TODO Delete
-                .antMatchers("/api/blogs")
+                .antMatchers("/api/users/**", "/api/blogs/**")
                 .permitAll()
                 .anyRequest()
                 .hasAnyRole("USER", "ADMIN", "MANAGER");
