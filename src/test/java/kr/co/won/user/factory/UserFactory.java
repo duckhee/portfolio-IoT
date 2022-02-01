@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TestComponent
-//@Transactional
+@Transactional
 @RequiredArgsConstructor
 public class UserFactory {
 
