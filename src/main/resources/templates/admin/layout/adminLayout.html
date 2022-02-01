@@ -31,8 +31,8 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script defer src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script defer src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -46,10 +46,10 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper"  layout:fragment="mainContent">
+    <div class="content-wrapper" >
+        <th:block layout:fragment="mainContent">
 
-
-
+        </th:block>
     </div>
     <!-- /.content-wrapper -->
 
@@ -98,5 +98,8 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../static/admin-resource/dist/js/demo.js"
         th:src="@{/admin-resource/dist/js/demo.js}"></script>
+<th:block layout:fragment="addScript">
+
+</th:block>
 </body>
 </html>

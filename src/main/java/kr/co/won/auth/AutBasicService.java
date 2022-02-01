@@ -31,13 +31,18 @@ public class AutBasicService implements UserDetailsService {
             log.info("Auth service not found user");
             throw new UsernameNotFoundException("해당되는 이메일의 사용자가 없습니다.");
         });
+        // user delete
+        if (findUser.isDeleteFlag()) {
+            log.info("this user deleted.");
+            throw new IllegalArgumentException("not have user.");
+        }
         // user email verified
-        if(!findUser.isEmailVerified()){
+        if (!findUser.isEmailVerified()) {
             log.info("first email verified");
             throw new AccessDeniedException("이메일 인증을 먼저 해주시길 바랍니다.");
         }
         // active check
-        if(!findUser.isActiveFlag()){
+        if (!findUser.isActiveFlag()) {
             log.info("Auth service need to not active");
             throw new DisabledException("계정을 활성화 해주세요.");
         }
