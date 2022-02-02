@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -81,7 +82,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Page pagingBlog(PageDto page) {
-        return BlogService.super.pagingBlog(page);
+        Pageable pageable = page.makePageable(0, "idx");
+        Page pagingResult = blogPersistence.pagingBlog(page.getType(), page.getKeyword(), pageable);
+        return pagingResult;
     }
 
     @Transactional

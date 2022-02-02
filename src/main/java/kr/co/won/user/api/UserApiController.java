@@ -94,6 +94,7 @@ public class UserApiController {
         EntityModel<UserCreateResourceDto> resultResource = UserCreateResource.of(mappedUserResource);
         // base hateoas controller link
         WebMvcLinkBuilder baseLink = linkTo(UserApiController.class);
+        // TODO Admin User Show List Users
         //resultResource.add(baseLink.withRel("list-users"));
         // add hateoas link
         resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("delete-users"));

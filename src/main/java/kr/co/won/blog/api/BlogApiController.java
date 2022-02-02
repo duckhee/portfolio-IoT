@@ -87,7 +87,7 @@ public class BlogApiController {
         blogReadResourcesDto.add(linkBuilder.withRel("create-blogs"));
         blogReadResourcesDto.add(linkBuilder.withRel("update-blogs"));
         blogReadResourcesDto.add(linkBuilder.withRel("delete-blogs"));
-        blogReadResourcesDto.add(Link.of("/docs/index.html#blog-read-reosurces", "profile"));
+        blogReadResourcesDto.add(Link.of("/docs/index.html#blog-read-resources", "profile"));
         return ResponseEntity.ok().body(blogReadResourcesDto);
     }
 

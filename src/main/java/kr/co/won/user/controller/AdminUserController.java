@@ -111,4 +111,14 @@ public class AdminUserController {
         model.addAttribute("user", authUser);
         return "admin/users/listMemberPage";
     }
+
+    @GetMapping(path = "/update")
+    public String memberUpdatePage(@RequestParam(name = "email") String email, @AuthUser UserDomain authUser, Model model){
+        return "";
+    }
+
+    @PostMapping(path = "/update")
+    public String memberUpdateDo(@RequestParam(name = "email") String email, @AuthUser UserDomain authUser, Model model){
+        return "";
+    }
 }

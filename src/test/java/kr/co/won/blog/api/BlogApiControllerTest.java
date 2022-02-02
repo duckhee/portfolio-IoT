@@ -168,8 +168,9 @@ class BlogApiControllerTest {
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
                         )
                         ,
+                        /** path variable */
                         pathParameters(
-                                parameterWithName("idx").description("블로그의 고유 번호 값")
+                                parameterWithName("idx").description("읽어올 블로그의 고유 번호 값")
                         ),
                         /** Response Body */
                         relaxedResponseFields(
@@ -193,8 +194,7 @@ class BlogApiControllerTest {
                                 linkWithRel("update-blogs").description("블로그를 업데이트할 수 있는 링크").optional(),
                                 linkWithRel("delete-blogs").description("블로그를 삭제를 할 수 있는 링크").optional()
                         )
-                ))
-        ;
+                ));
     }
 
     @TestUser(authLevel = UserRoleType.USER)

@@ -82,3 +82,21 @@ operation::create-users[snippets='request-headers,request-fields,request-body,ht
 `GET` 요청으로 회원에 대한 목록을 볼 수 있다.
 
 operation::list-users[snippets='request-headers,request-parameters,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
+
+
+[[blog-reseources]]
+== BLOG RESOURCE
+
+[[blog-create-resources]]
+=== Create Blog
+
+`POST` 요청으로 블로그를 생성할 수 있다.
+
+operation::create-blogs[snippets='request-headers,request-fields,request-body,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
+
+[[blog-read-resources]]
+=== Read Blog
+
+`GET` 요청으로 특정한 블로그에 대한 정보를 가져올 수 있다.
+
+operation::read-blogs[snippets='request-headers,path-parameters,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
