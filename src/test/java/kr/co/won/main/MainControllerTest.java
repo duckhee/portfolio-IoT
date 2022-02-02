@@ -2,6 +2,8 @@ package kr.co.won.main;
 
 import kr.co.won.auth.TestUser;
 import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.persistence.UserPersistence;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,14 @@ class MainControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private UserPersistence userPersistence;
+
+    @AfterEach
+    void testInit() {
+        userPersistence.deleteAll();
+    }
 
     @DisplayName(value = "01. login page Test - with SUCCESS")
     @Test

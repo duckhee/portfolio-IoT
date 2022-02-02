@@ -5,6 +5,7 @@ import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,11 @@ class UserPersistenceTest {
 
     @Autowired
     private UserPersistence userPersistence;
+
+    @AfterEach
+    void testInit(){
+        userPersistence.deleteAll();
+    }
 
     @DisplayName(value = "01. user create Test")
     @Test
