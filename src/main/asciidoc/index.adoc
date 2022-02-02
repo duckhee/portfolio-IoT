@@ -6,7 +6,7 @@ agri-Farm;
 :toc: left
 :toclevels: 4
 :sectlinks:
-:operation-curl-request-title: Example request
+:operation-http-request-title: Example request
 :operation-http-response-title: Example response
 :favicon: /favicon.ico
 [[overview]]

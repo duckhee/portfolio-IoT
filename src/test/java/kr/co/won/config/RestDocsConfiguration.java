@@ -22,6 +22,7 @@ public class RestDocsConfiguration {
         // restdocs snippets set pretty format
         return configurer -> configurer
                 .uris()
+                .withScheme("http")
                 .withHost("example.co.kr")
                 .withPort(80)
                 .and()
