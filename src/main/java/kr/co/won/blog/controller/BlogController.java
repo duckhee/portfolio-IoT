@@ -6,6 +6,7 @@ import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
+import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -63,7 +64,8 @@ public class BlogController {
     @GetMapping(path = "/list")
     public String listBlogPage(PageDto page, Model model) {
         Page pagingResult = blogService.pagingBlog(page);
-        model.addAttribute("page", pagingResult);
+        PageMaker paging = new PageMaker<>(pagingResult);
+        model.addAttribute("page", paging);
         return "blogs/listBlogPage";
     }
 

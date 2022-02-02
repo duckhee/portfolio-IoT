@@ -80,6 +80,14 @@ public class BlogApiController {
 
         BlogDomain findBlog = blogService.readBlog(idx);
         BlogReadResourcesDto blogReadResourcesDto = new BlogReadResourcesDto(findBlog);
+        // add hal links
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
+        blogReadResourcesDto.add(linkBuilder.withRel("list-blogs"));
+        // login user check and writer check
+        blogReadResourcesDto.add(linkBuilder.withRel("create-blogs"));
+        blogReadResourcesDto.add(linkBuilder.withRel("update-blogs"));
+        blogReadResourcesDto.add(linkBuilder.withRel("delete-blogs"));
+        blogReadResourcesDto.add(Link.of("/docs/index.html#blog-read-reosurces", "profile"));
         return ResponseEntity.ok().body(blogReadResourcesDto);
     }
 

@@ -55,7 +55,7 @@ class BlogControllerTest {
     }
 
     @TestUser(authLevel = UserRoleType.USER)
-    @DisplayName(value = "01. creat blog do Test - with POST(Success)")
+    @DisplayName(value = "01. create blog do Test - with POST(Success)")
     @Test
     void createBlogDoSuccessTests() throws Exception {
         String title = "title";
@@ -74,7 +74,7 @@ class BlogControllerTest {
         log.info("get all blog ::: {}", all.toString());
     }
 
-    @DisplayName(value = "01. creat blog do Test - with POST(Not Login)")
+    @DisplayName(value = "01. create blog do Test - with POST(Not Login)")
     @Test
     void createBlogDoFailedNotLoginUserTests() throws Exception {
         String title = "title";
@@ -89,5 +89,14 @@ class BlogControllerTest {
                 .andExpect(redirectedUrl("/login"))
                 .andExpect(flash().attributeExists("msg"))
                 .andExpect(view().name("redirect:/login"));
+    }
+
+    @DisplayName(value = "02. list blog Test - with GET(Success)")
+    @Test
+    void listBlogPageSuccessTests() throws Exception {
+        mockMvc.perform(get("/blogs/list"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("blogs/listBlogPage"));
+//                .andExpect(model().attributeExists("page"));
     }
 }

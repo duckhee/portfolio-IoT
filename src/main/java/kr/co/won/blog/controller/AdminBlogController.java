@@ -26,11 +26,15 @@ public class AdminBlogController {
 
     @GetMapping(path = "/create")
     public String createBlogPage(Model model) {
+        model.addAttribute(new CreateBlogForm());
         return "admin/blogs/createBlogPage";
     }
 
     @PostMapping(path = "/create")
     public String createBlogDo(Model model, @Validated CreateBlogForm form, Errors errors, RedirectAttributes flash) {
+        if (errors.hasErrors()) {
+            return "admin/blogs/createBlogPage";
+        }
         return "redirect:/admin/blogs/list";
     }
 

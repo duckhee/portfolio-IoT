@@ -27,6 +27,8 @@ public class BlogCreateResourceDto extends RepresentationModel<BlogCreateResourc
 
     private String writerEmail;
 
+    private String projectUrl;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
