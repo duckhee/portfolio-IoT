@@ -8,9 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.rest.core.mapping.HttpMethods;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
 
@@ -41,5 +43,10 @@ public class ReplyResourceDto extends RepresentationModel<ReplyResourceDto> {
 
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogReplyApiController.class, reply.getBlog().getIdx());
         this.add(linkBuilder.slash(this.idx).withSelfRel());
+        this.add(linkBuilder.slash(this.idx).withRel("query-reply").withType(HttpMethod.GET.name()));
+        this.add(linkBuilder.slash(this.idx).withRel("update-reply").withType(HttpMethod.PUT.name()));
+        this.add(linkBuilder.slash(this.idx).withRel("delete-reply").withType(HttpMethod.DELETE.name()));
     }
+
+
 }

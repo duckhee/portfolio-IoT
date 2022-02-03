@@ -9,6 +9,7 @@ import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ReplyCreateResource extends EntityModel<ReplyCreateResource> {
 
     public static EntityModel<ReplyResourceDto> of(BlogDomain blog, ReplyResourceDto dto, String profile) {
         List<Link> links = getSelfLink(blog, dto);
-        links.add(Link.of(profile, "profile"));
+        links.add(Link.of(profile, "profile").withType(HttpMethod.GET.name()));
         return ReplyCreateResource.of(dto, links);
     }
 
@@ -51,7 +52,7 @@ public class ReplyCreateResource extends EntityModel<ReplyCreateResource> {
     private static List<Link> getSelfLink(BlogDomain blog, ReplyResourceDto dto) {
         WebMvcLinkBuilder linker = WebMvcLinkBuilder.linkTo(BlogReplyApiController.class, blog.getIdx());
         List<Link> links = new ArrayList<>();
-        links.add(linker.slash(dto.getIdx()).withSelfRel());
+        links.add(linker.slash(dto.getIdx()).withSelfRel().withType(HttpMethod.GET.name()));
         return links;
     }
 

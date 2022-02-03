@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -55,7 +56,7 @@ public class UserResourceDto extends RepresentationModel<UserResourceDto> {
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
 
-        this.add(WebMvcLinkBuilder.linkTo(UserApiController.class).slash(this.idx).withSelfRel());
+        this.add(WebMvcLinkBuilder.linkTo(UserApiController.class).slash(this.idx).withSelfRel().withType(HttpMethod.GET.name()));
     }
 
 }

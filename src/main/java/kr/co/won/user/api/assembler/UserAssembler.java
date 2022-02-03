@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class UserAssembler implements RepresentationModelAssembler<UserDomain, U
         mappedUser.setRoles(roles);
         WebMvcLinkBuilder selfLink = WebMvcLinkBuilder.linkTo(UserApiController.class);
         mappedUser.add(selfLink.slash(entity.getIdx()).withSelfRel());
-//        mappedUser.add(selfLink.slash(entity.getIdx()).withRel("query-users"));
-        mappedUser.add(selfLink.slash(entity.getIdx()).withRel("update-users"));
-        mappedUser.add(selfLink.slash(entity.getIdx()).withRel("delete-users"));
+//        mappedUser.add(selfLink.slash(entity.getIdx()).withRel("query-users").withType(HttpMethod.GET.name()));
+        mappedUser.add(selfLink.slash(entity.getIdx()).withRel("update-users").withType(HttpMethod.PUT.name()));
+        mappedUser.add(selfLink.slash(entity.getIdx()).withRel("delete-users").withType(HttpMethod.DELETE.name()));
         return mappedUser;
     }
 
@@ -49,10 +50,10 @@ public class UserAssembler implements RepresentationModelAssembler<UserDomain, U
         mappedUser.setDelete(entity.isDeleteFlag());
         mappedUser.setRoles(roles);
         WebMvcLinkBuilder selfLink = WebMvcLinkBuilder.linkTo(UserApiController.class);
-        mappedUser.add(selfLink.slash(entity.getIdx()).withSelfRel());
+        mappedUser.add(selfLink.slash(entity.getIdx()).withSelfRel().withType(HttpMethod.GET.name()));
         if (authUser.hasRole(UserRoleType.ADMIN)) {
-            mappedUser.add(selfLink.slash(entity.getIdx()).withRel("update-users"));
-            mappedUser.add(selfLink.slash(entity.getIdx()).withRel("delete-users"));
+            mappedUser.add(selfLink.slash(entity.getIdx()).withRel("update-users").withType(HttpMethod.PUT.name()));
+            mappedUser.add(selfLink.slash(entity.getIdx()).withRel("delete-users").withType(HttpMethod.DELETE.name()));
         }
         return mappedUser;
     }

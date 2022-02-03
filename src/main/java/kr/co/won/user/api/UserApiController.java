@@ -24,6 +24,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -62,9 +63,10 @@ public class UserApiController {
     public ResponseEntity listUserResource(PageDto page) {
         Page pagingResult = adminUserService.pagingUser(page);
         PagedModel resultResource = pagedResourcesAssembler.toModel(pagingResult, userAssembler);
+
         // webLink Base
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(UserApiController.class);
-        resultResource.add(Link.of("/docs/index.html#user-list-resources", "profile"));
+        resultResource.add(Link.of("/docs/index.html#user-list-resources", "profile").withType(HttpMethod.GET.name()));
         return ResponseEntity.ok(resultResource);
     }
 
@@ -97,11 +99,11 @@ public class UserApiController {
         // TODO Admin User Show List Users
         //resultResource.add(baseLink.withRel("list-users"));
         // add hateoas link
-        resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("delete-users"));
+        resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("delete-users").withType(HttpMethod.DELETE.name()));
         // default links
-        resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("query-users"));
-        resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("update-users"));
-        resultResource.add(Link.of("/docs/index.html#user-create-resources", "profile"));
+        resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("query-users").withType(HttpMethod.GET.name()));
+        resultResource.add(baseLink.slash(savedUser.getIdx()).withRel("update-users").withType(HttpMethod.PUT.name()));
+        resultResource.add(Link.of("/docs/index.html#user-create-resources", "profile").withType(HttpMethod.GET.name()));
         // create uri
         URI createUri = baseLink.slash(savedUser.getIdx()).toUri();
         // return result
@@ -124,11 +126,11 @@ public class UserApiController {
         // base link builder
         WebMvcLinkBuilder baseLinkBuilder = WebMvcLinkBuilder.linkTo(UserApiController.class);
         if (authUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
-            userResources.add(baseLinkBuilder.slash(findUserWithAdmin.getIdx()).withRel("delete-users"));
-            userResources.add(baseLinkBuilder.slash(findUserWithAdmin.getIdx()).withRel("update-users"));
+            userResources.add(baseLinkBuilder.slash(findUserWithAdmin.getIdx()).withRel("delete-users").withType(HttpMethod.DELETE.name()));
+            userResources.add(baseLinkBuilder.slash(findUserWithAdmin.getIdx()).withRel("update-users").withType(HttpMethod.PUT.name()));
         }
         // profile link add
-        userResources.add(Link.of("/docs/index.html#user-query-resources").withRel("profile"));
+        userResources.add(Link.of("/docs/index.html#user-query-resources").withRel("profile").withType(HttpMethod.GET.name()));
         return ResponseEntity.ok().body(userResources);
     }
 
@@ -138,7 +140,7 @@ public class UserApiController {
     private ResponseEntity validationErrorResponse(Errors errors) {
         // validation error resource
         EntityModel<Errors> errorResource = ValidErrorResource.of(errors);
-        errorResource.add(linkTo(UserApiController.class).withRel("create-users"));
+        errorResource.add(linkTo(UserApiController.class).withRel("create-users").withType(HttpMethod.POST.name()));
 //        errorResource.add(linkTo("/docs/index.html#create-users-errors").withRel("profile"));
         return ResponseEntity.badRequest().body(errorResource);
     }

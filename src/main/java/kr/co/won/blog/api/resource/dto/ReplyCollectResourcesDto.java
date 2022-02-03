@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import kr.co.won.blog.domain.BlogReplyDomain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.core.ResolvableType;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,4 +23,6 @@ public class ReplyCollectResourcesDto extends CollectionModel<ReplyCollectResour
         replies.forEach(reply -> list.add(new ReplyResourceDto(reply)));
         this.replies = list;
     }
+
+
 }

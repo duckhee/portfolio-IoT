@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
@@ -201,6 +202,11 @@ class BlogApiControllerTest {
     @DisplayName(value = "03. list blog api Test")
     @Test
     void listBlogTests() throws Exception {
-
+        UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
+        blogFactory.makeBulkBlogWithReply(10, "title", "content", testUser, 12);
+        mockMvc.perform(get("/api/blogs")
+                .contentType(MediaTypes.HAL_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }

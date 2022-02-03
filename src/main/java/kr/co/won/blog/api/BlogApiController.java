@@ -2,21 +2,29 @@ package kr.co.won.blog.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
+import kr.co.won.blog.api.assembler.BlogAssembler;
 import kr.co.won.blog.api.resource.BlogCreateResource;
 import kr.co.won.blog.api.resource.dto.BlogCreateResourceDto;
 import kr.co.won.blog.api.resource.dto.BlogReadResourcesDto;
+import kr.co.won.blog.api.resource.dto.ReplyCollectResourcesDto;
+import kr.co.won.blog.api.resource.dto.ReplyResourceDto;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.errors.resource.ValidErrorResource;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.Errors;
@@ -42,9 +50,18 @@ public class BlogApiController {
      */
     private final BlogService blogService;
 
+    private final PagedResourcesAssembler pagedResourcesAssembler;
+    private final BlogAssembler blogAssembler;
+
     @GetMapping
-    public ResponseEntity listBlogResources() {
-        return null;
+    public ResponseEntity listBlogResources(PageDto pageDto) {
+        Page pageList = blogService.pagingBlog(pageDto);
+        PagedModel resultResource = pagedResourcesAssembler.toModel(pageList, blogAssembler);
+
+        // webLink Base
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
+        resultResource.add(Link.of("/docs/index.html#blog-list-resources", "profile").withType(HttpMethod.GET.name()));
+        return ResponseEntity.ok(resultResource);
     }
 
     @PostMapping
@@ -66,12 +83,12 @@ public class BlogApiController {
         // make creat uri
         URI createUri = baseLink.slash(savedBlog.getIdx()).toUri();
         // add blog hateoas link
-        blogResource.add(baseLink.withRel("list-blogs"));
+        blogResource.add(baseLink.withRel("list-blogs").withType(HttpMethod.GET.name()));
 
-        blogResource.add(baseLink.slash(savedBlog.getIdx()).withRel("query-blogs"));
-        blogResource.add(baseLink.slash(savedBlog.getIdx()).withRel("update-blogs"));
-        blogResource.add(baseLink.slash(savedBlog.getIdx()).withRel("delete-blogs"));
-        blogResource.add(Link.of("/docs/index.html#blog-create-resources", "profile"));
+        blogResource.add(baseLink.slash(savedBlog.getIdx()).withRel("query-blogs").withType(HttpMethod.GET.name()));
+        blogResource.add(baseLink.slash(savedBlog.getIdx()).withRel("update-blogs").withType(HttpMethod.PUT.name()));
+        blogResource.add(baseLink.slash(savedBlog.getIdx()).withRel("delete-blogs").withType(HttpMethod.DELETE.name()));
+        blogResource.add(Link.of("/docs/index.html#blog-create-resources", "profile").withType(HttpMethod.GET.name()));
         return ResponseEntity.created(createUri).body(blogResource);
     }
 
@@ -82,12 +99,12 @@ public class BlogApiController {
         BlogReadResourcesDto blogReadResourcesDto = new BlogReadResourcesDto(findBlog);
         // add hal links
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
-        blogReadResourcesDto.add(linkBuilder.withRel("list-blogs"));
+        blogReadResourcesDto.add(linkBuilder.withRel("list-blogs").withType(HttpMethod.GET.name()));
         // login user check and writer check
-        blogReadResourcesDto.add(linkBuilder.withRel("create-blogs"));
-        blogReadResourcesDto.add(linkBuilder.withRel("update-blogs"));
-        blogReadResourcesDto.add(linkBuilder.withRel("delete-blogs"));
-        blogReadResourcesDto.add(Link.of("/docs/index.html#blog-read-resources", "profile"));
+        blogReadResourcesDto.add(linkBuilder.withRel("create-blogs").withType(HttpMethod.POST.name()));
+        blogReadResourcesDto.add(linkBuilder.withRel("update-blogs").withType(HttpMethod.PUT.name()));
+        blogReadResourcesDto.add(linkBuilder.withRel("delete-blogs").withType(HttpMethod.DELETE.name()));
+        blogReadResourcesDto.add(Link.of("/docs/index.html#blog-read-resources", "profile").withType(HttpMethod.GET.name()));
         return ResponseEntity.ok().body(blogReadResourcesDto);
     }
 

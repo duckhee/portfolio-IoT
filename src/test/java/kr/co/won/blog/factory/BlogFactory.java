@@ -62,16 +62,26 @@ public class BlogFactory {
     public BlogDomain makeBlogWithReply(String title, String content, UserDomain user, int replyNumber) {
         BlogDomain testBlog = makeBlog(user, title, content);
         List<BlogReplyDomain> replies = new ArrayList<>();
-        for(int i = 0; i< replyNumber;i++){
+        for (int i = 0; i < replyNumber; i++) {
             BlogReplyDomain testReply = BlogReplyDomain.builder()
-                    .replyer("replyer"+i)
-                    .replyerEmail("replyer"+i+"@co.kr")
-                    .replyContent("reply"+i)
+                    .replyer("replyer" + i)
+                    .replyerEmail("replyer" + i + "@co.kr")
+                    .replyContent("reply" + i)
                     .build();
             replies.add(testReply);
         }
         testBlog.addReplies(replies);
         BlogDomain savedBlog = blogPersistence.save(testBlog);
         return savedBlog;
+    }
+
+
+    public List<BlogDomain> makeBulkBlogWithReply(int boardLength, String title, String content, UserDomain user, int replyNumber) {
+        List<BlogDomain> list = new ArrayList<>();
+        for (int i = 0; i < boardLength; i++) {
+            BlogDomain blog = makeBlogWithReply(title + i, content + i, user, replyNumber);
+            list.add(blog);
+        }
+        return list;
     }
 }

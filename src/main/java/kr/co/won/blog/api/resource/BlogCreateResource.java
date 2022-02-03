@@ -6,6 +6,7 @@ import kr.co.won.blog.api.resource.dto.BlogCreateResourceDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +33,13 @@ public class BlogCreateResource extends EntityModel<BlogCreateResource> {
 
     private static EntityModel<BlogCreateResourceDto> of(BlogCreateResourceDto blog, String profile) {
         List<Link> links = getSelfLink(blog);
-        links.add(Link.of(profile, "profile"));
+        links.add(Link.of(profile, "profile").withType(HttpMethod.GET.name()));
         return BlogCreateResource.of(blog, links);
     }
 
     private static List<Link> getSelfLink(BlogCreateResourceDto blog) {
         List<Link> links = new ArrayList<>();
-        links.add(linkBuilder.slash(blog.getIdx()).withSelfRel());
+        links.add(linkBuilder.slash(blog.getIdx()).withSelfRel().withType(HttpMethod.GET.name()));
         return links;
     }
 }

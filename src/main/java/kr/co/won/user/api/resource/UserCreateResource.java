@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -37,14 +38,14 @@ public class UserCreateResource extends EntityModel<UserCreateResource> {
         // get self links
         List<Link> links = getSelfLink(user);
         // profile link add
-        links.add(Link.of(profile, "profile"));
+        links.add(Link.of(profile, "profile").withType(HttpMethod.GET.name()));
         return UserCreateResource.of(user, links);
     }
 
     private static List<Link> getSelfLink(UserCreateResourceDto user) {
         List<Link> links = new ArrayList<>();
         // self link add
-        links.add(linkBuilder.slash(user.getIdx()).withSelfRel());
+        links.add(linkBuilder.slash(user.getIdx()).withSelfRel().withType(HttpMethod.GET.name()));
         return links;
     }
 }
