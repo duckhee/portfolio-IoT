@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import java.net.URI;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// if this class list change wrap name blogs
+@Relation(collectionRelation = "blogs")
 public class BlogReadResourcesDto extends RepresentationModel<BlogReadResourcesDto> {
 
     private Long idx;
