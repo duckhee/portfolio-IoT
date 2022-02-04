@@ -11,5 +11,6 @@ public class AppProperties {
 
     private String host = "localhost";
 
+    private String uploadFolderPath = "";
 
 }
