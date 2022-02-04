@@ -56,7 +56,7 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /** static path ignore security */
         web.ignoring().mvcMatchers(
                 PathRequest.toStaticResources().atCommonLocations().toString(),
-                "/admin-resource/**"
+                "/admin-resource/**", "/js/**","/css/**", "/images/**"
         );
     }
 }

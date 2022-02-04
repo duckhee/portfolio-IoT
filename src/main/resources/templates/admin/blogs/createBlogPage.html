@@ -25,9 +25,84 @@
     <!--./content-header-->
     <!-- Main content -->
     <section class="content">
+        <article class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Blog Create</h3>
+            </div>
+            <!--./box-header-->
+            <div class="box-body">
+        <textarea name="ckeditor" id="ckeditor" rows="10" cols="30">
 
+        </textarea>
+            </div>
+            <!--./box-body-->
+            <div class="box-footer">
+
+            </div>
+            <!--./box-footer-->
+        </article>
+        <!--./blogs-box-->
     </section>
     <!-- /.content -->
+</th:block>
+<th:block layout:fragment="addScript">
+    <script src="../../../static/js/plugins/ckeditor/ckeditor.js"
+            th:src="@{/admin-resource/plugins/ckeditor/ckeditor.js}"></script>
+    <script>
+        $(document).ready(function () {
+
+
+            $(function () {
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using default configuration.
+
+                CKEDITOR.replace('ckeditor', {
+                    language: 'ko',
+                    height: 450,
+                    removePlugins: 'resize',
+                    resize_enabled: false,
+                    toolbarGroups: [
+                        {name: 'document', groups: ['mode', 'document', 'doctools']},
+                        {name: 'clipboard', groups: ['clipboard', 'undo']},
+                        {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
+                        {name: 'forms', groups: ['forms']},
+
+                        {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
+                        {name: 'links', groups: ['links']},
+                        {name: 'insert', groups: ['insert']},
+                        '/',
+                        {name: 'styles', groups: ['styles']},
+                        {name: 'colors', groups: ['colors']}
+                    ],
+                    format_tags: 'p;h1;h2;h3;pre',
+                    enterMode: CKEDITOR.ENTER_BR,
+                    htmlEncodeOutput: false,
+                    removeDialogTabs: 'image:advanced;link:advanced',
+                    removePlugins: 'elementspath'
+                });
+
+                //bootstrap WYSIHTML5 - text editor
+                //$(".textarea").wysihtml5();
+            });
+            /*
+            $("#sendBtn").click(function(){
+                const content = CKEDITOR.instances.editor1.getData();
+                const title = $("#title").val();
+
+                $("#editor1").val(content);
+                alert(content);
+
+                document.boarder.submit();
+            });
+            */
+            $("#cancelBtn").click(function () {
+                console.log('cancel');
+                location.replace('/boards/registe');
+            })
+        });
+    </script>
+    <!--./custom javascript-->
 </th:block>
 </body>
 </html>
