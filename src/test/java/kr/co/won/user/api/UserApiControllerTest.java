@@ -188,13 +188,15 @@ class UserApiControllerTest {
                         ),
                         /** request parameter */
                         relaxedRequestParameters(
-                                parameterWithName("page").description("페이지가 여러개 일때, 이동을 하기 위한 페이지 번호").optional(),
+                                parameterWithName("page").description("페이지 번호").optional(),
                                 parameterWithName("size").description("한 페이지에서 몇개를 가져올 것인지 크기 설정").optional(),
                                 parameterWithName("type").description("검색할 category 입력 (email, name)").optional(),
                                 parameterWithName("keyword").description("검색할 문자열").optional()
                         ),
                         /** response body */
                         relaxedResponseFields(
+                                fieldWithPath("_embedded.users").type(JsonFieldType.ARRAY).description("사용자에 대한 정보를 담고 있는 배열").optional(),
+                                fieldWithPath("_embedded.users[].idx").type(JsonFieldType.NUMBER).description("회원 가입한 사용자에 대한 고유 번호").optional(),
                                 fieldWithPath("_embedded.users[].email").type(JsonFieldType.STRING).description("회원 가입한 사용자의 이메일 주소").optional(),
                                 fieldWithPath("_embedded.users[].name").type(JsonFieldType.STRING).description("회원 가입한 사용자의 이름").optional(),
                                 fieldWithPath("_embedded.users[].address").type(JsonFieldType.OBJECT).description("회원 가입한 사용자 주소를 담은 객체").optional(),
@@ -207,7 +209,7 @@ class UserApiControllerTest {
                                 fieldWithPath("_embedded.users[].roles").type(JsonFieldType.ARRAY).description("회원 가입한 사용자가 가지고 있는 권한").optional(),
                                 fieldWithPath("_embedded.users[].createdAt").type(JsonFieldType.STRING).description("회원 가입한 사용자 생성된 시간").optional(),
                                 fieldWithPath("_embedded.users[].updatedAt").type(JsonFieldType.STRING).description("회원 가입한 사용자가 업데이트된 시간").optional(),
-                                fieldWithPath("page").type(JsonFieldType.OBJECT).description("회원 가입한 사용자가 업데이트된 시간").optional(),
+                                fieldWithPath("page").type(JsonFieldType.OBJECT).description("페이지에 대한 정보를 담고 있는 객체").optional(),
                                 fieldWithPath("page.size").type(JsonFieldType.NUMBER).description("한 페이지에서 보여줄 회원의 숫자").optional(),
                                 fieldWithPath("page.totalElements").type(JsonFieldType.NUMBER).description("회원의 전체 수").optional(),
                                 fieldWithPath("page.totalPages").type(JsonFieldType.NUMBER).description("회원 목록이 가지고 있는 전체 페이지 수").optional(),
@@ -217,10 +219,12 @@ class UserApiControllerTest {
                         relaxedLinks(
                                 linkWithRel("self").description("현재 호출된 링크").optional(),
                                 linkWithRel("profile").description("현재 호출된 API의 기능에 대한 설명 되어 있는 document를 볼 수 있는 링크이다.").optional(),
-                                linkWithRel("_embedded.users[0].self").description("해당되는 사용자에 대해서 상세히 볼 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.users[].self").description("해당되는 사용자에 대해서 상세히 볼 수 있는 링크이다.").optional(),
 //                                linkWithRel("_embedded.users[0].query-users").description("해당되는 사용자에 대해서 상세히 볼 수 있는 링크이다.").optional(),
-                                linkWithRel("_embedded.users[0].update-users").description("해당되는 사용자에 대해서 수정을 할 수 있는 링크이다.").optional(),
-                                linkWithRel("_embedded.users[0].delete-users").description("해당되는 사용자에 대해서 삭제를 할 수 있는 링크이다.").optional()
+                                linkWithRel("_embedded.users[].update-users").description("해당되는 사용자에 대해서 수정을 할 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.users[].update-users.type").description("해당되는 사용자에 대해서 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional(),
+                                linkWithRel("_embedded.users[].delete-users").description("해당되는 사용자에 대해서 삭제를 할 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.users[].delete-users.type").description("해당되는 사용자에 대해서 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional()
                         )
                 ));
     }

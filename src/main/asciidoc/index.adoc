@@ -94,6 +94,13 @@ operation::list-users[snippets='request-headers,request-parameters,http-request,
 
 operation::create-blogs[snippets='request-headers,request-fields,request-body,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
 
+[[blog-list-resources]]
+=== List Blog
+
+`GET` 요청으로 블로그의 목록을 가져올 수 있다.
+
+operation::list-blogs[snippets='request-headers,request-parameters,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
+
 [[blog-read-resources]]
 === Read Blog
 
