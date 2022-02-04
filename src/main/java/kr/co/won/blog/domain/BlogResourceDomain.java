@@ -15,7 +15,8 @@ import java.util.UUID;
 @Table(name = "tbl_blog_resources")
 @Getter
 @Setter
-@ToString(exclude = {})
+@Builder
+@ToString(exclude = {"blog"})
 @EqualsAndHashCode(of = {"idx"})
 @NoArgsConstructor
 @AllArgsConstructor
