@@ -27,7 +27,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,7 +68,7 @@ class BlogReplyApiControllerTest {
     private BlogReplyPersistence replyPersistence;
 
     @AfterEach
-    public void testDataInit(){
+    public void testDataInit() {
         userPersistence.deleteAll();
         replyPersistence.deleteAll();
         blogPersistence.deleteAll();
@@ -84,14 +86,25 @@ class BlogReplyApiControllerTest {
                 .build();
         log.info("get reply form ::: {}", replyForm.toString());
         mockMvc.perform(post("/api/blogs/{blogIdx}/reply", testBlog.getIdx())
-                .contentType(MediaTypes.HAL_JSON)
-                .content(objectMapper.writeValueAsString(replyForm)))
+                        .contentType(MediaTypes.HAL_JSON)
+                        .content(objectMapper.writeValueAsString(replyForm)))
                 .andExpect(status().isOk())
                 .andDo(print());
         BlogDomain findBlog = blogPersistence.findWithReplyByIdx(testBlog.getIdx()).get();
 
-        Assertions.assertThat(findBlog.getReplies().size()).isEqualTo(1);
+        assertThat(findBlog.getReplies().size()).isEqualTo(1);
     }
 
-
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "02. list reply Test")
+    @Test
+    void listReplyApiWithBoardTests() throws Exception {
+        UserDomain testUser = userFactory.testUser("tester123", "tester123@co.kr", "1234");
+        BlogDomain testBlog = blogFactory.makeBlogWithReply("title", "content", testUser, 10);
+        mockMvc.perform(get("/api/blogs/{blogIdx}/reply", testBlog.getIdx()))
+                .andExpect(status().isOk())
+                .andDo(print());
+        BlogDomain findBlog = blogPersistence.findWithReplyByIdx(testBlog.getIdx()).get();
+        assertThat(findBlog.getReplies().size()).isEqualTo(10);
+    }
 }

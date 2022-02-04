@@ -16,6 +16,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service(value = "blogService")
 @Transactional(readOnly = true)
@@ -112,8 +114,13 @@ public class BlogServiceImpl implements BlogService {
         reply.setReplyer(loginUser.getName());
         reply.setReplyerEmail(loginUser.getEmail());
         findBlog.addReply(reply);
-//        BlogReplyDomain savedReply = blogReplyPersistence.save(reply);
-//        findBlog.addReply(savedReply);
+
         return reply;
+    }
+
+    @Override
+    public List<BlogReplyDomain> listReply(Long blogIdx) {
+        List<BlogReplyDomain> findReplies = blogReplyPersistence.findByBlogIdx(blogIdx);
+        return findReplies;
     }
 }

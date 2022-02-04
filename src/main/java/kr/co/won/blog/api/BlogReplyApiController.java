@@ -3,6 +3,7 @@ package kr.co.won.blog.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.api.resource.ReplyCreateResource;
+import kr.co.won.blog.api.resource.dto.ReplyCollectResourcesDto;
 import kr.co.won.blog.api.resource.dto.ReplyResourceDto;
 import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.form.CreateReplyForm;
@@ -11,12 +12,15 @@ import kr.co.won.errors.resource.ValidErrorResource;
 import kr.co.won.user.domain.UserDomain;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/blogs/{blogIdx}/reply")
@@ -35,7 +39,10 @@ public class BlogReplyApiController {
 
     @GetMapping
     public ResponseEntity listBlogRepliesResource(@PathVariable(name = "blogIdx") Long blogIdx) {
-        return null;
+        List<BlogReplyDomain> getReplies = blogService.listReply(blogIdx);
+
+        CollectionModel<BlogReplyDomain> resultResource = ReplyCollectResourcesDto.of(getReplies);
+        return ResponseEntity.ok().body(resultResource);
     }
 
     @PostMapping
