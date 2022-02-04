@@ -51,7 +51,7 @@ public class UserAssembler implements RepresentationModelAssembler<UserDomain, U
         mappedUser.setRoles(roles);
         WebMvcLinkBuilder selfLink = WebMvcLinkBuilder.linkTo(UserApiController.class);
         mappedUser.add(selfLink.slash(entity.getIdx()).withSelfRel().withType(HttpMethod.GET.name()));
-        if (authUser.hasRole(UserRoleType.ADMIN)) {
+        if (authUser.hasRole(UserRoleType.ADMIN) || authUser.getEmail().equals(entity.getEmail())) {
             mappedUser.add(selfLink.slash(entity.getIdx()).withRel("update-users").withType(HttpMethod.PUT.name()));
             mappedUser.add(selfLink.slash(entity.getIdx()).withRel("delete-users").withType(HttpMethod.DELETE.name()));
         }
