@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.api.assembler.BlogAssembler;
 import kr.co.won.blog.api.resource.BlogCreateResource;
-import kr.co.won.blog.api.resource.dto.BlogCreateResourceDto;
-import kr.co.won.blog.api.resource.dto.BlogReadResourcesDto;
-import kr.co.won.blog.api.resource.dto.ReplyCollectResourcesDto;
-import kr.co.won.blog.api.resource.dto.ReplyResourceDto;
+import kr.co.won.blog.api.resource.dto.*;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.service.BlogService;
@@ -19,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.PagedModel;
-import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.*;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +26,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.PagedModel.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Slf4j
@@ -57,11 +54,16 @@ public class BlogApiController {
     public ResponseEntity listBlogResources(PageDto pageDto) {
         Page pageList = blogService.pagingBlog(pageDto);
         PagedModel resultResource = pagedResourcesAssembler.toModel(pageList, blogAssembler);
+        PageMetadata pageMetadata = new PageMetadata(pageDto.getSize(), pageList.getNumber(), pageList.getTotalElements(), pageList.getTotalPages());
 
+        /** Paging */
+        List<BlogDomain> content = pageList.getContent();
+        List<BlogReadResourcesDto> collect = content.stream().map(blog -> new BlogReadResourcesDto(blog)).collect(Collectors.toList());
+        PagedModel<BlogReadResourcesDto> result = of(collect, pageMetadata);
         // webLink Base
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
         resultResource.add(Link.of("/docs/index.html#blog-list-resources", "profile").withType(HttpMethod.GET.name()));
-        return ResponseEntity.ok(resultResource);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
