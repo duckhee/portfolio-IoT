@@ -25,9 +25,61 @@
     <!--./content-header-->
     <!-- Main content -->
     <section class="content">
-
+        <article class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title" th:text="${blog.title}">
+                </h3>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default">Go to List</button>
+                    <button th:if="${(user?.email == blog.writerEmail)}" type="button" class="btn btn-warning">Blog
+                        Modify
+                    </button>
+                </div>
+            </div>
+            <!--./box-header-->
+            <div class="box-body" style="min-height: 450px; padding: 30px;">
+                [(${blog.content})]
+            </div>
+            <!--./box-body-->
+            <div class="box-footer">
+                <strong>Reply Comment</strong>
+                <p class="pull-right badge bg-green" th:text="${replies.size()}">
+                    reply number
+                </p>
+                <hr>
+                <div class="input-group">
+                    <input type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-success">reply</button>
+                    </span>
+                </div>
+                <!--./input-group-->
+                <hr th:if="${replies.size() > 0}">
+                <div class="form-group" th:if="${replies != null}" th:each="reply : ${replise}">
+                    <label class="control-label" th:text="${reply.replyer}"></label>
+                    <div class="input-group">
+                        <p class="form-control" th:text="${reply.replyContent}"></p>
+                        <button type="button" class="btn bg-teal btn-sm" id="createReply">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        <!--./remove-button-->
+                    </div>
+                </div>
+                <!--./reply-->
+            </div>
+            <!--./box-footer-->
+        </article>
+        <!--./box-->
     </section>
     <!-- /.content -->
+</th:block>
+<!--./main-->
+<th:block layout:fragment="addScript">
+    <script>
+        $(document).ready(function () {
+            console.log("testing");
+        });
+    </script>
 </th:block>
 </body>
 </html>

@@ -67,9 +67,10 @@ public class AdminBlogController {
     }
 
     @GetMapping(path = "/{idx}")
-    public String readBlogPage(@PathVariable(name = "idx") Long blogIdx, Model model) {
+    public String readBlogPage(@AuthUser UserDomain loginUser, @PathVariable(name = "idx") Long blogIdx, Model model) {
         BlogDomain findBlog = blogService.readBlog(blogIdx);
         List<BlogReplyDomain> findBlogReplies = blogService.listReply(blogIdx);
+        model.addAttribute("user", loginUser);
         model.addAttribute("blog", findBlog);
         model.addAttribute("replies", findBlogReplies);
         return "admin/blogs/informationBlogPage";

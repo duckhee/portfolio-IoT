@@ -61,9 +61,13 @@
                         <td th:text="${page.getCurrentPage().getPageNumber()*10+blogStat.index+1}"></td>
                         <td><a th:text="${blog.title}" th:href="@{/admin/blogs/}+${blog.idx}">blog title</a></td>
                         <td th:text="${blog.writer}"></td>
-                        <td th:text="${blog.viewCount}"></td>
-                        <td th:text="${blog.repliesNumber}"></td>
-                        <td th:text="${blog.createdAt}"></td>
+                        <td>
+                            <p class="badge bg-orange" th:text="${blog.viewCount}"></p>
+                        </td>
+                        <td>
+                            <p class="badge bg-blue" th:text="${blog.repliesNumber}"></p>
+                        </td>
+                        <td th:text="${#temporals.format(blog.createdAt, 'yyyy년MM월dd일 HH시mm분')}"></td>
                     </tr>
                     </tbody>
                     <!--./tbody-->
