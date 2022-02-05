@@ -71,7 +71,7 @@
                             <span class="label label-success" th:text="${member.job}"></span>
                         </td>
                         <td th:text="${member.address}"></td>
-                        <td th:text="${member.activeFlag}"></td>
+                        <td th:text="${member.activeFlag}" th:classappend="(${member.activeFlag} == 'true'?'badge bg-light-blue':'badge bg-red')"></td>
                         <td>
                             <th:block th:each="roleVaraible : ${member.roles}">
                                 <span th:text="${roleVaraible.role.name}" class="badge"

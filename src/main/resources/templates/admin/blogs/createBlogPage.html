@@ -42,23 +42,26 @@
             <div class="box-body">
                 <form th:id="blog" th:name="blog" th:object="${createBlogForm}" th:method="POST" method="post"
                       action="#create-blog" th:action="@{/admin/blogs/create}">
-                    <div class="form-group">
-                        <label for="title">Blog Title</label>
+                    <div class="form-group" th:class="${#fields.hasErrors('title')}?'has-error':''">
+                        <label for="title" class="control-label">Blog Title</label>
                         <input th:field="*{title}" id="title" name="title" type="text" class="form-control"
                                placeholder="blog title..." required>
+                        <span class="help-block" th:if="${#fields.hasErrors('title')}"th:errors="*{title}" ></span>
                     </div>
                     <!--./blog-title Input-->
-                    <div class="form-group">
-                        <label for="projectUrl">Project URL</label>
+                    <div class="form-group" th:class="${#fields.hasErrors('projectUrl')}?'has-error':''">
+                        <label for="projectUrl" class="control-label">Project URL</label>
                         <input th:field="*{projectUrl}" id="projectUrl" name="projectUrl" class="form-control"
                                type="url" placeholder="project url....(ex github url)">
+                        <span class="help-block" th:if="${#fields.hasErrors('projectUrl')}"th:errors="*{projectUrl}" ></span>
                     </div>
                     <!--./form-group-->
-                    <div class="form-group">
-                        <label for="content">Blog Content</label>
+                    <div class="form-group" th:class="${#fields.hasErrors('content')}?'has-error':''">
+                        <label for="content" class="control-label">Blog Content</label>
                         <textarea th:field="*{content}" id="content" name="content" rows="10" cols="30">
 
                         </textarea>
+                        <span class="help-block" th:if="${#fields.hasErrors('content')}"th:errors="*{content}" ></span>
                     </div>
                     <!--./form-group-->
                 </form>
