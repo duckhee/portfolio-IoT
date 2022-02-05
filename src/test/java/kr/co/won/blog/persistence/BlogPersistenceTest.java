@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Import(value = {UserFactory.class, BlogFactory.class})
 class BlogPersistenceTest {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Autowired
