@@ -67,6 +67,10 @@ public interface BlogService {
         return null;
     }
 
+    public default Page pagingListBlog(PageDto page) {
+        return null;
+    }
+
     /**
      * Delete Blog
      */

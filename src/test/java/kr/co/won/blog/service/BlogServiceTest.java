@@ -7,6 +7,7 @@ import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserDomainBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Import;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -73,7 +75,7 @@ class BlogServiceTest {
         String password = "1234";
         String projectUri = URI.create("/github.com/test/blog").toString();
         UserDomain testUser = userDomainBuilder.makeDomainUser(1L, name, email, password, UserRoleType.USER);
-        BlogDomain testBlog = blogBuilder(title, content,  projectUri);
+        BlogDomain testBlog = blogBuilder(title, content, projectUri);
         // stubbing save
         when(blogPersistence.save(testBlog)).thenReturn(stubBlog(testBlog));
         //
@@ -86,6 +88,28 @@ class BlogServiceTest {
 
     }
 
+    @DisplayName(value = "02. read blog Test ")
+    @Test
+    void readBlogServiceTests() {
+        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence);
+
+        String title = "test";
+        String content = "testContent";
+        String name = "tester";
+        String email = "tester@co.kr";
+        String password = "1234";
+        String projectUri = URI.create("/github.com/test/blog").toString();
+        UserDomain testUser = userDomainBuilder.makeDomainUser(1L, name, email, password, UserRoleType.USER);
+        BlogDomain testBlog = blogBuilder(title, content, projectUri);
+        BlogDomain makeBlog = stubBlog(testBlog);
+        Long initViewCnt = makeBlog.getViewCnt();
+        // mocking blog
+        when(blogPersistence.findByIdx(makeBlog.getIdx())).thenReturn(Optional.of(makeBlog));
+        BlogDomain findBlog = blogService.readBlog(makeBlog.getIdx());
+        // assertions
+        assertThat(findBlog).isEqualTo(makeBlog);
+        assertThat(findBlog.getViewCnt()).isEqualTo(initViewCnt+1);
+    }
 
 
     // blog builder

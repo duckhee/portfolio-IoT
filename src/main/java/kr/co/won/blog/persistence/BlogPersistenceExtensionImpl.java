@@ -4,6 +4,8 @@ import com.querydsl.jpa.JPQLQuery;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.domain.QBlogDomain;
 import kr.co.won.blog.domain.QBlogReplyDomain;
+import kr.co.won.blog.dto.BlogListDto;
+import kr.co.won.blog.dto.QBlogListDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +52,40 @@ public class BlogPersistenceExtensionImpl extends QuerydslRepositorySupport impl
 
     @Override
     public Page pagingListBlog(String type, String keyword, Pageable pageable) {
-        return null;
+        QBlogDomain blog = blogDomain;
+        QBlogReplyDomain reply = blogReplyDomain;
+
+        JPQLQuery<BlogListDto> baseQuery = from(blog)
+                .select(new QBlogListDto(
+                        blog.idx,
+                        blog.title,
+                        blog.writer,
+                        blog.viewCnt.castToNum(Integer.TYPE),
+                        blog.replies.size(),
+                        blog.createdAt
+                ))
+                .leftJoin(reply)
+                .on(reply.blog.eq(blog))
+                .where(blog.idx.gt(0L));
+
+        /** blog search writer and title */
+        if (type != null) {
+            switch (type) {
+                case "writer":
+                    baseQuery.where(blog.writer.like("%" + keyword + "%"));
+                    break;
+                case "title":
+                    baseQuery.where(blog.title.like("%" + keyword + "%"));
+                    break;
+            }
+        }
+
+        long totalNumber = baseQuery.fetchCount();
+        List<BlogListDto> result = baseQuery.orderBy(blog.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl(result, pageable, totalNumber);
     }
 }

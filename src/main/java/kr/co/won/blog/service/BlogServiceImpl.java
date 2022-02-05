@@ -98,6 +98,13 @@ public class BlogServiceImpl implements BlogService {
         return pagingResult;
     }
 
+    @Override
+    public Page pagingListBlog(PageDto page) {
+        Pageable pageable = page.makePageable(0, "idx");
+        Page pageResult = blogPersistence.pagingListBlog(page.getType(), page.getKeyword(), pageable);
+        return pageResult;
+    }
+
     @Transactional
     @Override
     public void deleteBlog(Long blogIdx, UserDomain loginUser) {
