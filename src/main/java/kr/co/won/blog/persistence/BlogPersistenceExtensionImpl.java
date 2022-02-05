@@ -47,4 +47,9 @@ public class BlogPersistenceExtensionImpl extends QuerydslRepositorySupport impl
 
         return new PageImpl(result, pageable, totalNumber);
     }
+
+    @Override
+    public Page pagingListBlog(String type, String keyword, Pageable pageable) {
+        return null;
+    }
 }

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
         BlogApiController.class
 })
 @RequiredArgsConstructor
-public class RootExceptionHandler {
+public class RootApiExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity rootExceptionsResources(Exception exception) {

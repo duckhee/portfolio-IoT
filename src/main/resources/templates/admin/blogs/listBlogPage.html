@@ -17,7 +17,7 @@
         </h1>
         <!--./header title-->
         <ol class="breadcrumb">
-            <li><a href="#" th:href="@{/admin}"><i class="fa fa-users"></i>Home</a></li>
+            <li><a href="#" th:href="@{/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
             <li><a href="#"> Blog</a></li>
             <li class="active">Blog List Page</li>
         </ol>
@@ -25,7 +25,53 @@
     <!--./content-header-->
     <!-- Main content -->
     <section class="content">
+        <article class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Blog List Page</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i></button>
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip"
+                            title="Remove">
+                        <i class="fa fa-times"></i></button>-->
+                </div>
+                <!--./box-tool-tip-->
+            </div>
+            <!--./box-header-->
+            <div class="box-body">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <td style="width:10px;">
+                            <input type="checkbox" name="th_checkAll" id="th_checkAll" onclick="allCheck();">
+                        </td>
+                        <th>number</th>
+                        <th>blog title</th>
+                        <th>blog writer</th>
+                        <th>blog view count</th>
+                        <th>reply number</th>
+                        <th>blog create Time</th>
+                    </tr>
+                    </thead>
+                    <!--./table-header-->
+                    <tbody style="text-align: center;">
+                        <tr th:if="${page?.result != null}" th:each="blog : ${blogs?.result}">
+                            <td><input type="checkbox" name="checkRow" value="${blog.idx}"></td>
+                            <td th:text="${page.getCurrentPage().getPageNumber()*10+blogStat.index+1}"></td>
+                        </tr>
+                    </tbody>
+                    <!--./tbody-->
+                </table>
+                <!--./list-content-->
+            </div>
+            <!--./box-body-->
+            <div class="box-footer">
 
+            </div>
+            <!--./box-footer-->
+        </article>
+        <!--./box-->
     </section>
     <!-- /.content -->
 </th:block>

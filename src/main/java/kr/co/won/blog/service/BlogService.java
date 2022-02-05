@@ -38,6 +38,13 @@ public interface BlogService {
         return null;
     }
 
+    /**
+     * Read Blog With Replies
+     */
+    public default BlogDomain detailBlog(Long blogIdx) {
+        return null;
+    }
+
 
     /**
      * Update Blog

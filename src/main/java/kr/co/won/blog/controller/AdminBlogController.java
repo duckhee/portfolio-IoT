@@ -3,6 +3,7 @@ package kr.co.won.blog.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.domain.BlogDomain;
+import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.user.domain.UserDomain;
@@ -17,6 +18,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/admin/blogs")
@@ -61,7 +64,9 @@ public class AdminBlogController {
     @GetMapping(path = "/{idx}")
     public String readBlogPage(@PathVariable(name = "idx") Long blogIdx, Model model) {
         BlogDomain findBlog = blogService.readBlog(blogIdx);
+        List<BlogReplyDomain> findBlogReplies = blogService.listReply(blogIdx);
         model.addAttribute("blog", findBlog);
+        model.addAttribute("replies", findBlogReplies);
         return "admin/blogs/informationBlogPage";
     }
 

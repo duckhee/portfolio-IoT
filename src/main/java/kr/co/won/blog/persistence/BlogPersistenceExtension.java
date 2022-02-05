@@ -6,4 +6,6 @@ import org.springframework.data.domain.Pageable;
 public interface BlogPersistenceExtension {
 
     public Page pagingBlog(String type, String keyword, Pageable pageable);
+
+    public Page pagingListBlog(String type, String keyword, Pageable pageable);
 }

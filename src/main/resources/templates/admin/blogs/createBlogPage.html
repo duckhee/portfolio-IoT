@@ -28,12 +28,38 @@
         <article class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Blog Create</h3>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-danger">
+                        GO TO LIST
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        CREATE BLOG
+                    </button>
+                </div>
+                <!--./registe blog button-->
             </div>
             <!--./box-header-->
             <div class="box-body">
-        <textarea name="ckeditor" id="ckeditor" rows="10" cols="30">
+                <form th:id="blog" th:name="blog"  th:method="POST" method="post" action="#create-blog">
+                    <div class="form-group">
+                        <label for="title">Blog Title</label>
+                        <input id="title"name="title" type="text" class="form-control" placeholder="blog title...">
+                    </div>
+                    <!--./blog-title Input-->
+                    <div class="form-group">
+                        <label for="url">Project URL</label>
+                        <input id="url" name="url" class="form-control" type="url" placeholder="project url....(ex github url)">
+                    </div>
+                    <!--./form-group-->
+                    <div class="form-group">
+                        <label for="content">Blog Content</label>
+                        <textarea id="content" name="content" rows="10" cols="30">
 
-        </textarea>
+                        </textarea>
+                    </div>
+                    <!--./form-group-->
+                </form>
+                <!--./form-->
             </div>
             <!--./box-body-->
             <div class="box-footer">
@@ -56,7 +82,7 @@
                 // Replace the <textarea id="editor1"> with a CKEditor
                 // instance, using default configuration.
 
-                CKEDITOR.replace('ckeditor', {
+                CKEDITOR.replace('content', {
                     language: 'ko',
                     height: 450,
                     removePlugins: 'resize',
@@ -71,7 +97,6 @@
                         {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
                         {name: 'links', groups: ['links']},
                         {name: 'insert', groups: ['insert']},
-                        '/',
                         {name: 'styles', groups: ['styles']},
                         {name: 'colors', groups: ['colors']}
                     ],

@@ -2,6 +2,7 @@ package kr.co.won.blog.controller;
 
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.domain.BlogDomain;
+import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.user.domain.UserDomain;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -70,8 +72,13 @@ public class BlogController {
     }
 
     @GetMapping(path = "/{idx}")
-    public String readBlogPage(@PathVariable(name = "idx") Long blogIdx) {
-        return "";
+    public String readBlogPage(@PathVariable(name = "idx") Long blogIdx, Model model) {
+        BlogDomain findBlog = blogService.readBlog(blogIdx);
+        List<BlogReplyDomain> findBlogReplies = blogService.listReply(blogIdx);
+        model.addAttribute("blog", findBlog);
+        model.addAttribute("replies", findBlogReplies);
+        return "blogs/informationBlogPage";
+
     }
 
     @GetMapping(path = "/update")
