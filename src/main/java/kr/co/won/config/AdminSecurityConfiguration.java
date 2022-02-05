@@ -25,8 +25,9 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/admin/**")
                 .hasAnyRole("ADMIN", "MANAGER")
+                /** csrf and cors set */
                 .and().csrf().and().cors();
-        /** csrf and cors set */
+
 
         /** form Login */
         http
@@ -56,7 +57,7 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /** static path ignore security */
         web.ignoring().mvcMatchers(
                 PathRequest.toStaticResources().atCommonLocations().toString(),
-                "/admin-resource/**", "/js/**","/css/**", "/images/**"
+                "/admin-resource/**", "/js/**", "/css/**", "/images/**"
         );
     }
 }
