@@ -10,6 +10,7 @@ import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping(path = "/admin/blogs")
 @RequiredArgsConstructor
@@ -46,8 +48,10 @@ public class AdminBlogController {
         // set writer login user
         mappedBlog.setWriter(loginUser.getName());
         mappedBlog.setWriterEmail(loginUser.getEmail());
+        log.info("get mapping blog content ::: {}", mappedBlog.getContent());
         // blog service
         BlogDomain savedBlog = blogService.createBlog(mappedBlog);
+        log.info("save blog content ::: {}", savedBlog.getContent());
         // add flash message
         flash.addFlashAttribute("msg", savedBlog.getTitle() + " blog saved.");
         return "redirect:/admin/blogs/list";
@@ -55,8 +59,9 @@ public class AdminBlogController {
 
     @GetMapping(path = "/list")
     public String listBlogPage(PageDto pageDto, Model model) {
-        Page pageResult = blogService.pagingBlog(pageDto);
+        Page pageResult = blogService.pagingListBlog(pageDto);
         PageMaker pagingResult = new PageMaker<>(pageResult);
+
         model.addAttribute("page", pagingResult);
         return "admin/blogs/listBlogPage";
     }

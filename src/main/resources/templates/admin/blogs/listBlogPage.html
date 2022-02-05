@@ -56,10 +56,15 @@
                     </thead>
                     <!--./table-header-->
                     <tbody style="text-align: center;">
-                        <tr th:if="${page?.result != null}" th:each="blog : ${blogs?.result}">
-                            <td><input type="checkbox" name="checkRow" value="${blog.idx}"></td>
-                            <td th:text="${page.getCurrentPage().getPageNumber()*10+blogStat.index+1}"></td>
-                        </tr>
+                    <tr th:if="${page?.result != null}" th:each="blog : ${page?.result}">
+                        <td><input type="checkbox" name="checkRow" value="${blog.idx}"></td>
+                        <td th:text="${page.getCurrentPage().getPageNumber()*10+blogStat.index+1}"></td>
+                        <td><a th:text="${blog.title}" th:href="@{/admin/blogs/}+${blog.idx}">blog title</a></td>
+                        <td th:text="${blog.writer}"></td>
+                        <td th:text="${blog.viewCount}"></td>
+                        <td th:text="${blog.repliesNumber}"></td>
+                        <td th:text="${blog.createdAt}"></td>
+                    </tr>
                     </tbody>
                     <!--./tbody-->
                 </table>
@@ -67,7 +72,53 @@
             </div>
             <!--./box-body-->
             <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="dataTables_paginate paging_simple_numbers" style="text-align: center;">
+                            <ul class="pagination" th:if="${page != null}">
+                                <li id="previousPage" class="paginate_button previous" th:if="${page.prevPage}">
+                                    <a th:href="@{'/admin/users/list'(page=${page.prevPage.pageNumber}+1)}">Previous</a>
+                                </li>
+                                <li id="previousPage" class="paginate_button previous disabled"
+                                    th:if="${page.prevPage} == null">
+                                    <a href="#">Previous</a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${p.pageNumber == page.currentPageNum -1}?active: '' "
+                                    th:each="p:${page.pageList}">
+                                    <a th:href="@{'/admin/users/list'(page=${p.pageNumber}+1)}">[[${p.pageNumber}
+                                        +1]]</a>
+                                </li>
 
+                                <li id="nextPage" class="paginate_button next" th:if="${page.nextPage}">
+                                    <a th:href="@{'/admin/users/list'(page=${page.nextPage.pageNumber} + 1)}">Next</a>
+                                </li>
+                                <li id="nextPage" class="paginate_button next disabled"
+                                    th:if="${page.nextPage} == null">
+                                    <a href="#">Next</a>
+                                </li>
+                            </ul>
+                            <!--./paging-info-->
+                        </div>
+                    </div>
+                    <!--./col-sm-12-->
+                    <div class="col-sm-12">
+                        <div class="pull-left">
+                            <button id="deleteBtn" type="button" class="btn btn-flat btn-danger"><i
+                                    class="fa fa-fw fa-trash" style="margin-right:10px;"></i>Delete
+                            </button>
+                        </div>
+                        <!-- ./pull-left -->
+                        <div class="pull-right">
+                            <button id="registeBtn" type="button" class="btn btn-flat btn-primary"><i
+                                    class="fa fa-fw fa-save" style="margin-right:10px;"></i>Regite
+                            </button>
+                        </div>
+                        <!-- ./pull-right -->
+                    </div>
+                    <!--./col-sm-12-->
+                </div>
+                <!--./row-->
             </div>
             <!--./box-footer-->
         </article>
@@ -75,5 +126,22 @@
     </section>
     <!-- /.content -->
 </th:block>
+<!--./main-content-->
+<th:block layout:fragment="addScript">
+    <script>
+        /** Check All Row */
+        function allCheck() {
+            if ($("#th_checkAll").is(":checked")) {
+                $("input[name=checkRow]").prop("checked", true);
+            } else {
+                $("input[name=checkRow]").prop("checked", false);
+            }
+        };
+        $(document).ready(function () {
+            allCheck();
+        });
+    </script>
+</th:block>
+<!--./add javascript-->
 </body>
 </html>

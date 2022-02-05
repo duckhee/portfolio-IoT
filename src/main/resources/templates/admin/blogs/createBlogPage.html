@@ -29,10 +29,10 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Blog Create</h3>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-danger">
+                    <button type="button" class="btn btn-danger" id="cancelBtn">
                         GO TO LIST
                     </button>
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" id="createBtn">
                         CREATE BLOG
                     </button>
                 </div>
@@ -40,20 +40,23 @@
             </div>
             <!--./box-header-->
             <div class="box-body">
-                <form th:id="blog" th:name="blog"  th:method="POST" method="post" action="#create-blog">
+                <form th:id="blog" th:name="blog" th:object="${createBlogForm}" th:method="POST" method="post"
+                      action="#create-blog" th:action="@{/admin/blogs/create}">
                     <div class="form-group">
                         <label for="title">Blog Title</label>
-                        <input id="title"name="title" type="text" class="form-control" placeholder="blog title...">
+                        <input th:field="*{title}" id="title" name="title" type="text" class="form-control"
+                               placeholder="blog title..." required>
                     </div>
                     <!--./blog-title Input-->
                     <div class="form-group">
-                        <label for="url">Project URL</label>
-                        <input id="url" name="url" class="form-control" type="url" placeholder="project url....(ex github url)">
+                        <label for="projectUrl">Project URL</label>
+                        <input th:field="*{projectUrl}" id="projectUrl" name="projectUrl" class="form-control"
+                               type="url" placeholder="project url....(ex github url)">
                     </div>
                     <!--./form-group-->
                     <div class="form-group">
                         <label for="content">Blog Content</label>
-                        <textarea id="content" name="content" rows="10" cols="30">
+                        <textarea th:field="*{content}" id="content" name="content" rows="10" cols="30">
 
                         </textarea>
                     </div>
@@ -121,10 +124,18 @@
                 document.boarder.submit();
             });
             */
+
             $("#cancelBtn").click(function () {
                 console.log('cancel');
                 location.replace('/boards/registe');
-            })
+            });
+            // create button
+            $("#createBtn").click(function (event) {
+                event.preventDefault();
+                // const content = CKEDITOR.instances.content.getData();
+                // $("#content").val(content);
+                $("#blog").submit();
+            });
         });
     </script>
     <!--./custom javascript-->

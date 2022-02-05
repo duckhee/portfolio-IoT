@@ -46,7 +46,7 @@
                         <td style="width:10px;">
                             <input type="checkbox" name="th_checkAll" id="th_checkAll" onclick="allCheck();">
                         </td>
-                        <th >number</th>
+                        <th>number</th>
                         <th>email</th>
                         <th>name</th>
                         <th>job</th>
@@ -62,7 +62,8 @@
                         <td><input type="checkbox" name="checkRow" value="${member.idx}"></td>
                         <td th:text="${page.getCurrentPage().getPageNumber()*10+memberStat.index+1}"></td>
                         <td>
-                            <a th:href="@{/admin/users/info?email={email}(email=${member.email})}" th:text="${member.email}">user
+                            <a th:href="@{/admin/users/info?email={email}(email=${member.email})}"
+                               th:text="${member.email}">user
                                 email</a>
                         </td>
                         <td th:text="${member.name}"></td>
