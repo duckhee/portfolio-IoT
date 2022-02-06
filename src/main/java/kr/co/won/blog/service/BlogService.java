@@ -78,6 +78,10 @@ public interface BlogService {
         return;
     }
 
+    public default void bulkDeleteBlogs(List<Long> blogIdxes) {
+        return;
+    }
+
     /**
      * blog reply add
      */

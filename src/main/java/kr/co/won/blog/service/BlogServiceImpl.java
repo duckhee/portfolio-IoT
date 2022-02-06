@@ -5,6 +5,7 @@ import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.blog.persistence.BlogReplyPersistence;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -82,14 +84,44 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     @Override
     public BlogDomain updateBlog(Long blogIdx, BlogDomain updateBlog) {
-        return BlogService.super.updateBlog(blogIdx, updateBlog);
+        BlogDomain findBlog = blogPersistence.findById(blogIdx).orElseThrow(() ->
+                new IllegalArgumentException("not have blogs."));
+        // update input data check
+        if (updateBlog.getTitle() != null || !updateBlog.getTitle().isBlank()) {
+            findBlog.setTitle(updateBlog.getTitle());
+        }
+        if (updateBlog.getContent() != null || !updateBlog.getContent().isBlank()) {
+            findBlog.setContent(updateBlog.getContent());
+        }
+        if (updateBlog.getProjectUrl() != null || !updateBlog.getProjectUrl().isBlank()) {
+            findBlog.setContent(updateBlog.getProjectUrl());
+        }
+        return findBlog;
     }
 
     @Transactional
     @Override
     public BlogDomain updateBlog(Long blogIdx, BlogDomain updateBlog, UserDomain loginUser) {
-        return BlogService.super.updateBlog(blogIdx, updateBlog, loginUser);
+        // find update blog
+        BlogDomain findBlog = blogPersistence.findById(blogIdx).orElseThrow(() ->
+                new IllegalArgumentException("not have blogs."));
+        // user role check and owner check
+        if (!isHaveAuth(loginUser, findBlog)) {
+            throw new AccessDeniedException("not have auth.");
+        }
+        // update input data check
+        if (updateBlog.getTitle() != null || !updateBlog.getTitle().isBlank()) {
+            findBlog.setTitle(updateBlog.getTitle());
+        }
+        if (updateBlog.getContent() != null || !updateBlog.getContent().isBlank()) {
+            findBlog.setContent(updateBlog.getContent());
+        }
+        if (updateBlog.getProjectUrl() != null || !updateBlog.getProjectUrl().isBlank()) {
+            findBlog.setContent(updateBlog.getProjectUrl());
+        }
+        return findBlog;
     }
+
 
     @Override
     public Page pagingBlog(PageDto page) {
@@ -111,10 +143,9 @@ public class BlogServiceImpl implements BlogService {
         BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
                 new IllegalArgumentException("not have blogs."));
         // not match writer
-        if (!findBlog.isOwner(loginUser.getEmail())) {
+        if (!isHaveAuth(loginUser, findBlog)) {
             throw new AccessDeniedException("not have auth user.");
         }
-
         blogPersistence.delete(findBlog);
     }
 
@@ -138,5 +169,10 @@ public class BlogServiceImpl implements BlogService {
     public List<BlogReplyDomain> listReply(Long blogIdx) {
         List<BlogReplyDomain> findReplies = blogReplyPersistence.findByBlogIdx(blogIdx);
         return findReplies;
+    }
+
+    // this is match user update possible
+    private boolean isHaveAuth(UserDomain loginUser, BlogDomain findBlog) {
+        return loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || loginUser.getEmail().equals(findBlog.getWriterEmail());
     }
 }

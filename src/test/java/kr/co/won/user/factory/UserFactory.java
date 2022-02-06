@@ -7,6 +7,8 @@ import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestComponent;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,7 @@ import java.util.List;
 public class UserFactory {
 
     private final UserPersistence userPersistence;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserDomain testUser(String name, String email, String password) {
         Address testAddress = new Address("zipCode", "roadAddress", "detailAddress");

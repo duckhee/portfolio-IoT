@@ -14,6 +14,9 @@ public class AppConfiguration {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
+                // this is null value not mapping
+                .setSkipNullEnabled(true)
+                // modelmapper set object UnderScope
                 .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
                 .setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
         return modelMapper;

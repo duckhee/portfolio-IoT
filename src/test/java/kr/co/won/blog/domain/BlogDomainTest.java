@@ -1,7 +1,11 @@
 package kr.co.won.blog.domain;
 
+import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.NameTokenizers;
 
 import java.net.URI;
 
@@ -10,7 +14,34 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Blog Domain Unit Test
  */
+@Slf4j
 class BlogDomainTest {
+
+    @DisplayName(value = "00. blog ModelMapper Test")
+    @Test
+    void blogMapperTests() {
+        String title = "blog title";
+        String content = "blog content";
+        String email = "test@co.kr";
+        String name = "test";
+        String uri = URI.create("github.com/portfolio/project").toString();
+        BlogDomain fullBlog = BlogDomain.builder().title(title).content(content).writer(name).writerEmail(email).projectUrl(uri).build();
+        String updateTitle = "testingMapper";
+        BlogDomain updateBlog = BlogDomain.builder().title(updateTitle).build();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
+                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE).setSkipNullEnabled(true);
+        modelMapper.map(updateBlog, fullBlog);
+
+        log.info("update modelmapper ::: {}", fullBlog);
+        assertThat(fullBlog.getTitle()).isEqualTo(updateTitle);
+        assertThat(fullBlog.getContent()).isEqualTo(content);
+        assertThat(fullBlog.getViewCnt()).isEqualTo(0L);
+        assertThat(fullBlog.getProjectUrl()).isEqualTo(uri);
+        assertThat(fullBlog.getWriter()).isEqualTo(name);
+        assertThat(fullBlog.getWriterEmail()).isEqualTo(email);
+
+    }
 
     @DisplayName(value = "01. blog builder Test")
     @Test
@@ -28,6 +59,7 @@ class BlogDomainTest {
         assertThat(blogBuilder.getWriterEmail()).isEqualTo(email);
         assertThat(blogBuilder.getReplies()).isNotNull();
     }
+
 
     @DisplayName(value = "02. blog domain reply add Test")
     @Test
