@@ -1,4 +1,4 @@
-package kr.co.won.config;
+package kr.co.won.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.common.inject.Inject;
@@ -68,7 +68,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         /** static path ignore security */
         web.ignoring().mvcMatchers(
-                PathRequest.toStaticResources().atCommonLocations().toString()
+                PathRequest.toStaticResources().atCommonLocations().toString(),
+                "/js/**", "/css/**", "/images/**"
         );
     }
 
