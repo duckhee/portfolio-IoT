@@ -24,6 +24,7 @@ import javax.persistence.PersistenceContext;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
@@ -106,5 +107,26 @@ class BlogPersistenceTest {
         blogPersistence.deleteAllByIdx(blogIdxes);
         List<BlogDomain> allById = blogPersistence.findAllById(blogIdxes);
         assertThat(allById).isNullOrEmpty();
+    }
+
+    @DisplayName(value = "05. find blog one using writer Tests")
+    @Test
+    void findBlogWithWriterLimitOne() {
+        UserDomain testUser = userFactory.testUser("tester", "tester@co.kr", "1234");
+        List<BlogDomain> blogs = blogFactory.makeBulkBlogWithReply(10, "title", "content", testUser, 10);
+        entityManager.clear();
+        Optional<BlogDomain> findBlogLimitOne = blogPersistence.findFirstByWriterOrderByCreatedAtDesc("tester");
+        log.info("find blog limit one :::: {}", findBlogLimitOne.get());
+    }
+
+    @DisplayName(value = "05. find blog 10 using writer Tests")
+    @Test
+    void findBlogWithWriterLimitTen() {
+        UserDomain testUser = userFactory.testUser("tester", "tester@co.kr", "1234");
+        List<BlogDomain> blogs = blogFactory.makeBulkBlogWithReply(20, "title", "content", testUser, 10);
+        entityManager.clear();
+        List<BlogDomain> findBlogLimitTen = blogPersistence.findTop10ByWriterOrderByCreatedAtDesc("tester");
+        assertThat(findBlogLimitTen.size()).isEqualTo(10);
+
     }
 }

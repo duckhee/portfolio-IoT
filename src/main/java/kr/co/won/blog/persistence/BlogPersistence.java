@@ -22,4 +22,8 @@ public interface BlogPersistence extends JpaRepository<BlogDomain, Long>, BlogPe
     @Query(value = "delete from BlogDomain blog where blog.idx in(:idxes)")
     void deleteAllByIdx(@Param(value = "idxes") List<Long> idxes);
 
+    Optional<BlogDomain> findFirstByWriterOrderByCreatedAtDesc(String writer);
+
+    List<BlogDomain> findTop10ByWriterOrderByCreatedAtDesc(String writer);
+
 }
