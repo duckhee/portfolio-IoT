@@ -57,7 +57,7 @@
                     <!--./table-header-->
                     <tbody style="text-align: center;">
                     <tr th:if="${page?.result != null}" th:each="blog : ${page?.result}">
-                        <td><input type="checkbox" name="checkRow" value="${blog.idx}"></td>
+                        <td><input type="checkbox" name="checkRow" th:value="${blog.idx}"></td>
                         <td th:text="${page.getCurrentPage().getPageNumber()*10+blogStat.index+1}"></td>
                         <td><a th:text="${blog.title}" th:href="@{/admin/blogs/}+${blog.idx}">blog title</a></td>
                         <td th:text="${blog.writer}"></td>
@@ -141,8 +141,31 @@
                 $("input[name=checkRow]").prop("checked", false);
             }
         };
+
+        /** create blog page move */
+        function createPageMove() {
+            $("#registeBtn").click(function (event) {
+                location.href = "/admin/blogs/create";
+
+            });
+        };
+
+        /** delete blog */
+        function deleteBlogs() {
+            $("#deleteBtn").click(function (event) {
+                let values = [];
+
+                $("input[name=checkRow]:checked").each(function () {
+                    values.add($(this).val());
+                });
+                console.log("get values ::: ", values);
+            });
+        }
+
         $(document).ready(function () {
             allCheck();
+            createPageMove();
+            deleteBlogs();
         });
     </script>
 </th:block>
