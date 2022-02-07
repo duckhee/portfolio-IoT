@@ -25,8 +25,8 @@ public class BlogReplyDomain {
     private Long idx;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @ManyToOne(fetch = FetchType.LAZY)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.EAGER)
     private BlogDomain blog;
 
 

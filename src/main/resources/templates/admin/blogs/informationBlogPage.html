@@ -30,8 +30,9 @@
                 <h3 class="box-title" th:text="${blog.title}">
                 </h3>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-default">Go to List</button>
-                    <button th:if="${(user?.email == blog.writerEmail)}" type="button" class="btn btn-warning">Blog
+                    <button id="listBtn" type="button" class="btn btn-default">Go to List</button>
+                    <button id="modifyBtn" th:if="${(user?.email == blog.writerEmail)}" type="button"
+                            class="btn btn-warning">Blog
                         Modify
                     </button>
                 </div>
@@ -48,24 +49,26 @@
                 </p>
                 <hr>
                 <div class="input-group">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="replyContent" id="replyContent">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-success">reply</button>
+                        <button type="button" id="createReplyBtn" class="btn btn-success">reply</button>
                     </span>
                 </div>
                 <!--./input-group-->
                 <hr th:if="${replies.size() > 0}">
-                <div class="form-group" th:if="${replies != null}" th:each="reply : ${replise}">
-                    <label class="control-label" th:text="${reply.replyer}"></label>
-                    <div class="input-group">
-                        <p class="form-control" th:text="${reply.replyContent}"></p>
-                        <button type="button" class="btn bg-teal btn-sm" id="createReply">
+                <!--TODO how to make reply box or show-->
+                <div class="callouts" th:if="${replies != null}" th:each="reply : ${replies}">
+                    <h4 class="" th:text="${reply.replyer}"></h4>
+                    <div class="btn-group">
+                        <div class="pull-left" th:text="${reply.replyContent}"></div>
+                        <button type="button" class="btn btn-box-tool pull-right">
                             <i class="fa fa-times"></i>
                         </button>
-                        <!--./remove-button-->
                     </div>
+                    <!--./remove-button-->
                 </div>
-                <!--./reply-->
+            </div>
+            <!--./reply-->
             </div>
             <!--./box-footer-->
         </article>
@@ -74,10 +77,55 @@
     <!-- /.content -->
 </th:block>
 <!--./main-->
+
 <th:block layout:fragment="addScript">
+    <script th:replace="~{admin/layout/fragments/csrfBefore :: ajax-csrf-header}">
+
+    </script>
+    <!--csrf setting-->
     <script>
+        /** function go to list */
+        function goBack() {
+            $("#listBtn").click(function (event) {
+                location.href = "/admin/blogs/list";
+            });
+        };
+
+        /** function modify */
+        function modify() {
+            $("#modifyBtn").click(function (event) {
+
+            });
+        }
+
+        /** function create reply */
+        function createReplies() {
+            const blogPath = [[${blog.idx}]];
+            $("#createReplyBtn").click(function (event) {
+                console.log("click reply");
+                let replyContent = $("#replyContent").val();
+                /** ajax send create reply */
+                $.ajax({
+                    dataType: "json",
+                    autocomplete: {
+                        enabled: true,
+                        rightKey: true,
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    method: "POST",
+                    url: "/blogs/" + blogPath + "/reply",
+                    data: JSON.stringify({"replyContent": replyContent})
+                }).done(function (data, status) {
+                    console.log("status :::: ", status);
+                });
+            });
+        };
+
         $(document).ready(function () {
             console.log("testing");
+            createReplies();
+            modify();
+            goBack();
         });
     </script>
 </th:block>

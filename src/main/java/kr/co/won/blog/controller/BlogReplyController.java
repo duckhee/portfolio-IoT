@@ -15,10 +15,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * reply function using ajax
@@ -37,7 +34,8 @@ public class BlogReplyController {
     private final BlogService blogService;
 
     @PostMapping
-    public ResponseEntity createReply(@AuthUser UserDomain loginUser, @Validated @RequestBody CreateReplyForm form, Errors errors) {
+    public ResponseEntity createReply(@AuthUser UserDomain loginUser, @PathVariable(value = "blogIdx") Long blogIdx, @Validated @RequestBody CreateReplyForm form, Errors errors) {
+        log.info("get create reply ::: {}, form ::: {}", loginUser, form);
         if (loginUser == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -45,8 +43,13 @@ public class BlogReplyController {
             return ResponseEntity.badRequest().body(errors);
         }
         BlogReplyDomain mappedReply = modelMapper.map(form, BlogReplyDomain.class);
-        BlogReplyDomain savedReply = blogService.createReply(form.getBlogIdx(), mappedReply, loginUser);
-        return ResponseEntity.ok().body(savedReply);
+        BlogReplyDomain savedReply = blogService.createReply(blogIdx, mappedReply, loginUser);
+        return ResponseEntity.ok().body(savedReply.getIdx());
+    }
+
+    @GetMapping
+    public ResponseEntity listReplies(@PathVariable(value = "blogIdx") Long idx) {
+        return null;
     }
 
 }

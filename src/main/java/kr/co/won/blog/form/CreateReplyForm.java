@@ -14,8 +14,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CreateReplyForm {
 
-    @NotNull(message = "blog required.")
-    private Long blogIdx;
+
 
     @NotBlank(message = "reply content required.")
     private String replyContent;

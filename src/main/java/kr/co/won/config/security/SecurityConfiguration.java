@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.util.PathMatcher;
@@ -22,7 +24,7 @@ import javax.sql.DataSource;
 /**
  * 우선 순위 설정
  */
-@Order(value = 3)
+@Order(value = 67)
 //@EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Qualifier(value = "ormDatasource")
     private final DataSource dataSource;
-
+    private final SessionRegistry sessionRegistry;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -40,27 +42,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatcher("/**")
                 .authorizeRequests()
                 /** api docs permitAll */
-                .mvcMatchers("/docs/index.html")
+                .mvcMatchers("/docs/index.html", "/resources/**", "/resources/h2-console")
                 .permitAll()
                 .mvcMatchers("/**")
-                .permitAll();
+//                .anyRequest()
+                .permitAll()
+                /** csrf and cors set */
+                .and().csrf().and().cors();
+                /*.and().sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
+                .expiredUrl("/duplicated-login")
+                .sessionRegistry(sessionRegistry);*/
 
         /** form login add */
 
         /** remember-me add */
 
-        /** http resources */
-        http
-                .antMatcher("/resources/**")
-                .authorizeRequests()
-                .mvcMatchers("/resources/h2-console")
-                .permitAll()
-                .and()
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions()
-                .sameOrigin();
 
     }
 
@@ -69,6 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         /** static path ignore security */
         web.ignoring().mvcMatchers(
                 PathRequest.toStaticResources().atCommonLocations().toString(),
+                "/resources/h2-console",
                 "/js/**", "/css/**", "/images/**"
         );
     }

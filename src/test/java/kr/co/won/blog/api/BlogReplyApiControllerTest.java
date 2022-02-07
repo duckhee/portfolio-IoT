@@ -81,7 +81,6 @@ class BlogReplyApiControllerTest {
         UserDomain testUser = userFactory.testUser("tester123", "tester123@co.kr", "1234");
         BlogDomain testBlog = blogFactory.makeBlog(testUser, "title", "content");
         CreateReplyForm replyForm = CreateReplyForm.builder()
-                .blogIdx(testBlog.getIdx())
                 .replyContent("replyadfdsf")
                 .build();
         log.info("get reply form ::: {}", replyForm.toString());
