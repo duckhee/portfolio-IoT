@@ -2,9 +2,11 @@ package kr.co.won.blog.service;
 
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.domain.BlogReplyDomain;
+import kr.co.won.blog.domain.BlogResourceDomain;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -117,4 +119,37 @@ public interface BlogService {
     public default Page pagingReply(PageDto page) {
         return null;
     }
+
+    /**
+     * blog resource update
+     */
+    public default BlogResourceDomain createBlogResource(Long blogIdx, MultipartFile resource) {
+        return null;
+    }
+
+    /**
+     * blog resource update bulk
+     */
+    public default BlogResourceDomain createBulkBlogResource(Long blogIdx, List<MultipartFile> resource) {
+        return null;
+    }
+
+    /**
+     * bog resource add
+     */
+    public default BlogResourceDomain createBlogResource(Long blogIdx, BlogResourceDomain resource) {
+        return null;
+    }
+
+    /**
+     * blog resource find using blogs idx
+     */
+    public default BlogResourceDomain findBlogResource(Long blogIdx) {
+        return null;
+    }
+
+    public default List<BlogResourceDomain> findBlogResourceAll(Long blogIdx) {
+        return null;
+    }
+
 }
