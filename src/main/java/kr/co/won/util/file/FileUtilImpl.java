@@ -1,6 +1,7 @@
 package kr.co.won.util.file;
 
 import kr.co.won.blog.domain.BlogResourceDomain;
+import kr.co.won.blog.persistence.BlogResourcePersistence;
 import kr.co.won.properties.AppProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,50 +29,6 @@ public class FileUtilImpl implements FileUtil {
 
     private final ModelMapper modelMapper;
 
-    private final ServletContext servletContext;
-
-    @Override
-    public void fileUpload(MultipartFile file) throws IOException {
-        BlogResourceDomain blogFileResource = BlogResourceDomain.builder()
-                .fileSize(String.valueOf(file.getSize()))
-                .originalName(file.getOriginalFilename())
-                .extension(StringUtils.getFilenameExtension(file.getOriginalFilename()))
-                .build();
-        //  save name make
-        blogFileResource.generateSaveName();
-        // make file save path
-        String contextPath = servletContext.getContextPath();
-        log.info("servlet context path ::: {}", contextPath);
-        String savedFilePath = appProperties.getUploadFolderPath() + "/" + blogFileResource.getSaveFileName();
-        File newUploadFile = new File(savedFilePath);
-        file.transferTo(newUploadFile);
-    }
-
-    @Override
-    public void fileUpload(List<MultipartFile> files) throws IOException {
-        String uploadFolderPath = appProperties.getUploadFolderPath();
-        for (MultipartFile file : files) {
-            BlogResourceDomain blogFileResource = BlogResourceDomain.builder()
-                    .fileSize(String.valueOf(file.getSize()))
-                    .originalName(file.getOriginalFilename())
-                    .extension(StringUtils.getFilenameExtension(file.getOriginalFilename()))
-                    .build();
-            //  save name make
-            blogFileResource.generateSaveName();
-            File newUploadFile = new File(appProperties.getUploadFolderPath() + "/" + blogFileResource.getSaveFileName());
-
-            file.transferTo(newUploadFile);
 
 
-            file.getName();
-            file.getOriginalFilename();
-            file.getContentType();
-
-        }
-    }
-
-    @Override
-    public void fileUpload(ServletFileUpload servletFileUpload) {
-        FileUtil.super.fileUpload(servletFileUpload);
-    }
 }

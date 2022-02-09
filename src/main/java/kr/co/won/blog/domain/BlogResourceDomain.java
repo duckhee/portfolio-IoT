@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 
+
+/**
+ * TODO Check blog update
+ */
 @Entity
 @Table(name = "tbl_blog_resources")
 @Getter
@@ -38,10 +42,11 @@ public class BlogResourceDomain {
     @Column(nullable = false)
     private String extension;
 
+
     @OnDelete(action = OnDeleteAction.CASCADE)
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "blog_idx")
+    @JoinColumn(nullable = true, name = "blog_idx")
     private BlogDomain blog;
 
     @CreationTimestamp
@@ -87,6 +92,6 @@ public class BlogResourceDomain {
     }
 
     public void confirmExtension(String... extension) {
-        Arrays.stream(extension).anyMatch(ext->ext.toLowerCase().equals(this.extension.toLowerCase()));
+        Arrays.stream(extension).anyMatch(ext -> ext.toLowerCase().equals(this.extension.toLowerCase()));
     }
 }

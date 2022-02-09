@@ -144,7 +144,13 @@
                     // requestDataObject['new_name'] = requestDataObject['upload'];
                     // Delete old 'upload' image field from the request data object
                     // delete requestDataObject['upload'];
-                })
+                    window.parent.CKEDITOR.tools.callFunction(1,'"+fileUrl+"','파일이 업로드되었습니다.');
+
+                });
+                editor.on('fileUploadResponse', function (evt) {
+                    console.log("file upload function response call :::: ", evt);
+                    window.parent.CKEDITOR.tools.callFunction(1,'"+fileUrl+"','파일이 업로드되었습니다.');
+                });
 
                 /*  editor.on('fileUploadRequest', function (evt) {
                       console.log("file upload function request call :::: ", evt);
