@@ -70,6 +70,8 @@
                         <span class="help-block" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
                     </div>
                     <!--./form-group-->
+                    <input type="hidden" name="resources" id="resources"/>
+                    <!--hidden resource file input list-->
                 </form>
                 <!--./form-->
             </div>
@@ -95,7 +97,7 @@
                 // Replace the <textarea id="editor1"> with a CKEditor
                 // instance, using default configuration.
 
-                var editor = CKEDITOR.replace('content', {
+                let editor = CKEDITOR.replace('content', {
                     language: 'ko',
                     height: 450,
                     removePlugins: 'resize',
@@ -105,7 +107,6 @@
                         {name: 'clipboard', groups: ['clipboard', 'undo']},
                         {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
                         {name: 'forms', groups: ['forms']},
-
                         {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
                         {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
                         {name: 'links', groups: ['links']},
@@ -120,8 +121,11 @@
                     htmlEncodeOutput: false,
                     // filebrowserUploadMethod: "form", // file upload javascript function
                     // fileTools_requestHeaders:{}
-                    filebrowserUploadUrl: "/blogs/resources/upload?[[${_csrf.parameterName}]]=[[${_csrf.token}]]"
+                    filebrowserUploadUrl: "/blogs/resources/upload"
                 });
+                // check editor obj
+                console.log("get editor :::: ", editor);
+                //
                 CKEDITOR.on('dialogDefinition', function (ev) {
 
                     var dialog = ev.data.definition.dialog;
@@ -135,25 +139,36 @@
                             dialogDefinition.removeContents('Link');
                             dialogDefinition.removeContents('advanced');
                             dialog.on('show', function (obj) {
-                                console.log("get upload dialog :::: ", obj)
-                                // this.selectPage('Upload'); //업로드텝으로 시작
+                                this.selectPage('Upload'); //업로드텝으로 시작
                             });
                             break;
                     }
 
                 });
+                // file upload request
                 editor.on('fileUploadRequest', function (evt) {
+                    // setting _csrf token
+
                     // Copy contents of 'upload' image field to a new field with 'new_name'
                     var requestDataObject = evt.data.requestData;
-                    console.log('get resoure data object :::: ', requestDataObject);
+                    requestDataObject['[(${_csrf.parameterName})]'] = '[[${_csrf.token}]]';
                     // requestDataObject['new_name'] = requestDataObject['upload'];
                     // Delete old 'upload' image field from the request data object
                     // delete requestDataObject['upload'];
                     window.parent.CKEDITOR.tools.callFunction(1, '"+fileUrl+"', '파일이 업로드되었습니다.');
 
                 });
+                // file upload response
                 editor.on('fileUploadResponse', function (evt) {
-                    console.log("file upload function response call :::: ", evt);
+                    let resource = $("#resources").val();
+                    var data = evt.data,
+                        xhr = data.fileLoader.xhr,
+                        response = JSON.parse(xhr.responseText);
+                    if (resource == null || resource == "") {
+                        $("#resources").val(response.savedName);
+                    } else {
+                        $("#resources").val(resource + "," + response.savedName);
+                    }
                     window.parent.CKEDITOR.tools.callFunction(1, '"+fileUrl+"', '파일이 업로드되었습니다.');
                 });
 

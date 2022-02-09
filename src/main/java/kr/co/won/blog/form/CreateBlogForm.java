@@ -25,5 +25,5 @@ public class CreateBlogForm {
 
     private MultipartFile projectFile;
 
-
+    private String resources;
 }
