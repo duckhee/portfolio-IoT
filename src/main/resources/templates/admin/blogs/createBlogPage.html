@@ -110,39 +110,71 @@
                     ],
                     format_tags: 'p;h1;h2;h3;pre',
                     enterMode: CKEDITOR.ENTER_BR,
+                    removePlugins: 'elementspath',
                     removeDialogTabs: 'image:advanced;link:advanced',
                     htmlEncodeOutput: false,
-                     // filebrowserUploadMethod: "form", // file upload javascript function
+                    // filebrowserUploadMethod: "form", // file upload javascript function
                     // fileTools_requestHeaders:{}
                     filebrowserUploadUrl: "/blogs/resources/upload?[[${_csrf.parameterName}]]=[[${_csrf.token}]]"
                 });
-                CKEDITOR.on('dialogDefinition', function( ev ){
+                CKEDITOR.on('dialogDefinition', function (ev) {
+
+                    var dialog = ev.data.definition.dialog;
                     var dialogName = ev.data.name;
                     var dialogDefinition = ev.data.definition;
 
                     switch (dialogName) {
-                        case 'image': //Image Properties dialog
-                            console.log("information ::: ", dialogDefinition);
+                        case 'image': // 이미지 속성창이 보일때 안보이게 하기 위해서 .
+
+                            // dialogDefinition.removeContents('info');
                             dialogDefinition.removeContents('Link');
-
-                            dialogDefinition.removeContents('info');
-                            // dialogDefinition.removeContents('advanced');
-
+                            dialogDefinition.removeContents('advanced');
+                            dialog.on('show', function (obj) {
+                                console.log("get upload dialog :::: ", obj)
+                                // this.selectPage('Upload'); //업로드텝으로 시작
+                            });
                             break;
                     }
-                });
-                function upload() {
-                    console.log('test');
-                }
 
+                });
                 editor.on('fileUploadRequest', function (evt) {
-                    console.log("file upload function request call");
+                    // Copy contents of 'upload' image field to a new field with 'new_name'
+                    var requestDataObject = evt.data.requestData;
+                    console.log('get resoure data object :::: ', requestDataObject);
+                    // requestDataObject['new_name'] = requestDataObject['upload'];
+                    // Delete old 'upload' image field from the request data object
+                    // delete requestDataObject['upload'];
+                })
 
-                });
-                editor.on('fileUploadResponse', function (evt) {
-                    console.log("file upload function response call");
+                /*  editor.on('fileUploadRequest', function (evt) {
+                      console.log("file upload function request call :::: ", evt);
+                      console.log("get file data :::: ", evt.data.requestData);
+                      /!*var xhr = evt.data.fileLoader.xhr;
 
-                });
+                      xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
+                      xhr.setRequestHeader( 'X-File-Name', this.fileName );
+                      xhr.setRequestHeader( 'X-File-Size', this.total );
+                      xhr.send( this.file );
+
+                      // Prevented the default behavior.
+                      evt.stop();*!/
+           /!*           var fileLoader = evt.data.fileLoader,
+                          formData = new FormData(),
+                          xhr = fileLoader.xhr;
+                      console.log('file loader :::: ', fileLoader);
+                      xhr.open('POST', fileLoader.uploadUrl, true);
+                      formData.append('upload', fileLoader.file, fileLoader.fileName);
+                      console.log("form data :::: ", formData);
+                      fileLoader.xhr.send(formData);
+
+                      evt.stop();*!/
+
+                  });
+                  editor.on('fileUploadResponse', function (evt) {
+                      console.log("file upload function response call :::: ", evt);
+
+
+                  });*/
 
 
                 //bootstrap WYSIHTML5 - text editor

@@ -20,6 +20,7 @@ const ckConfig = {
     enterMode: CKEDITOR.ENTER_BR,
     removeDialogTabs: 'image:advanced;link:advanced',
     htmlEncodeOutput: false,
+    removePlugins: 'elementspath',
     // filebrowserUploadMethod: "form", // file upload javascript function
     // fileTools_requestHeaders:{}
     filebrowserUploadUrl: "/blogs/resources/upload?[[${_csrf.parameterName}]]=[[${_csrf.token}]]"
