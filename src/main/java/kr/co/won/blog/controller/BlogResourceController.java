@@ -3,6 +3,7 @@ package kr.co.won.blog.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.domain.BlogResourceDomain;
+import kr.co.won.blog.dto.BlogResourceCreateDto;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.blog.util.BlogResourceFileUtil;
 import kr.co.won.properties.AppProperties;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -46,9 +48,9 @@ public class BlogResourceController {
     private final BlogResourceFileUtil fileUtil;
 
     @GetMapping(path = "/{filePath}")
-    public ResponseEntity fileUpload(@PathVariable(name = "filePath") String filePath) throws MalformedURLException {
-        new UrlResource("/uploads/"+filePath);
-        return ResponseEntity.ok().build();
+    public ResponseEntity fileUpload(@PathVariable(name = "filePath") String filePath) throws IOException {
+        File file = new UrlResource("/uploads/" + filePath).getFile();
+        return ResponseEntity.ok().body(file);
     }
 
     @PostMapping(path = "/upload")
@@ -58,18 +60,19 @@ public class BlogResourceController {
         long size = uploadFile.getSize();
         String name = uploadFile.getName();
         String contentType = uploadFile.getContentType();
-        URI uri = URI.create("/uploads/test");
         log.info("upload file name ::: {}, size ::: {}, name :::: {}, content type :::: {}", originalFilename, size, name, contentType);
         try {
             BlogResourceDomain savedBlogResource = fileUtil.fileUpload(uploadFile);
-//            UrlResource resourcePath = new UrlResource("/uploads/" + savedBlogResource.getSaveFileName());
-            return ResponseEntity.ok().body("{\"filename\" : \"" + originalFilename + "\", \"uploaded\" : 1, \"url\":\"/uploads/" + savedBlogResource.getSaveFileName() + "\"}");
+            URI uri = URI.create("/resources/"+savedBlogResource.getSaveFileName());
+            // send json
+            BlogResourceCreateDto resultDto = new BlogResourceCreateDto(originalFilename, 1, uri, savedBlogResource.getSaveFileName());
+            return ResponseEntity.ok().body(objectMapper.writeValueAsString(resultDto));
         } catch (IOException e) {
 
             e.printStackTrace();
         }
         // printWriter.println("{\"filename\" : \""+fileName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
 
-        return ResponseEntity.badRequest().body("{\"filename\" : \"" + originalFilename + "\", \"uploaded\" : 0, \"url\":\"" + uri + "\"}");
+        return ResponseEntity.badRequest().body("{\"filename\" : \"" + originalFilename + "\", \"uploaded\" : 0, \"url\":\"failed\"}");
     }
 }

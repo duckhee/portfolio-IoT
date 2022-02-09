@@ -20,7 +20,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // custom upload path
-        registry.addResourceHandler("/uploads/**")
+        registry.addResourceHandler("/resources/**")
                 .addResourceLocations("file:"+appProperties.getUploadFolderPath() + "/"); // default is classpath:/resources
 //        .addResourceLocations("file:"+appProperties.getUploadFolderPath() + "/");
 

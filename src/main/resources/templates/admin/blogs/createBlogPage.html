@@ -41,7 +41,7 @@
             <!--./box-header-->
             <div class="box-body">
                 <form th:id="blog" th:name="blog" th:object="${createBlogForm}" th:method="POST" method="post"
-                      action="#create-blog" th:action="@{/admin/blogs/create}">
+                      action="#create-blog" th:action="@{/admin/blogs/create}" enctype="multipart/form-data">
                     <div class="form-group" th:class="${#fields.hasErrors('title')}?'has-error':''">
                         <label for="title" class="control-label">Blog Title</label>
                         <input th:field="*{title}" id="title" name="title" type="text" class="form-control"
@@ -57,6 +57,11 @@
                               th:errors="*{projectUrl}"></span>
                     </div>
                     <!--./form-group-->
+                    <div class="form-group" th:class="${#fields.hasErrors('projectFile')}?'has-error':''">
+                        <label for="projectFile" class="control-label">project File</label>
+                        <input type="file" name="projectFile" id="projectFile" th:field="*{projectFile}">
+                    </div>
+                    <!--./form-file-->
                     <div class="form-group" th:class="${#fields.hasErrors('content')}?'has-error':''">
                         <label for="content" class="control-label">Blog Content</label>
                         <textarea th:field="*{content}" id="content" name="content" rows="10" cols="30">
@@ -144,12 +149,12 @@
                     // requestDataObject['new_name'] = requestDataObject['upload'];
                     // Delete old 'upload' image field from the request data object
                     // delete requestDataObject['upload'];
-                    window.parent.CKEDITOR.tools.callFunction(1,'"+fileUrl+"','파일이 업로드되었습니다.');
+                    window.parent.CKEDITOR.tools.callFunction(1, '"+fileUrl+"', '파일이 업로드되었습니다.');
 
                 });
                 editor.on('fileUploadResponse', function (evt) {
                     console.log("file upload function response call :::: ", evt);
-                    window.parent.CKEDITOR.tools.callFunction(1,'"+fileUrl+"','파일이 업로드되었습니다.');
+                    window.parent.CKEDITOR.tools.callFunction(1, '"+fileUrl+"', '파일이 업로드되었습니다.');
                 });
 
                 /*  editor.on('fileUploadRequest', function (evt) {
