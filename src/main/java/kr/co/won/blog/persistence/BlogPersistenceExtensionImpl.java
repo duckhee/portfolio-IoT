@@ -30,8 +30,8 @@ public class BlogPersistenceExtensionImpl extends QuerydslRepositorySupport impl
         QBlogReplyDomain reply = blogReplyDomain;
 
         JPQLQuery<BlogDomain> defaultQuery = from(blog)
-                .select(blog)
                 .distinct()
+                .select(blog)
                 .innerJoin(blog.replies, reply)
                 .fetchJoin()
                 .where(blog.idx.gt(0L));
@@ -56,6 +56,7 @@ public class BlogPersistenceExtensionImpl extends QuerydslRepositorySupport impl
         QBlogReplyDomain reply = blogReplyDomain;
 
         JPQLQuery<BlogListDto> baseQuery = from(blog)
+                .distinct()
                 .select(new QBlogListDto(
                         blog.idx,
                         blog.title,
@@ -66,7 +67,8 @@ public class BlogPersistenceExtensionImpl extends QuerydslRepositorySupport impl
                 ))
                 .leftJoin(reply)
                 .on(reply.blog.eq(blog))
-                .where(blog.idx.gt(0L));
+                .where(blog.idx.gt(0L))
+                .fetchJoin();
 
         /** blog search writer and title */
         if (type != null) {

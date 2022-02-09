@@ -48,6 +48,7 @@
                     reply number
                 </p>
                 <hr>
+                <!--reply ttle-->
                 <div class="input-group">
                     <input type="text" class="form-control" name="replyContent" id="replyContent">
                     <span class="input-group-btn">
@@ -57,16 +58,21 @@
                 <!--./input-group-->
                 <hr th:if="${replies.size() > 0}">
                 <!--TODO how to make reply box or show-->
-                <div class="callouts" th:if="${replies != null}" th:each="reply : ${replies}">
-                    <h4 class="" th:text="${reply.replyer}"></h4>
-                    <div class="btn-group">
-                        <div class="pull-left" th:text="${reply.replyContent}"></div>
-                        <button type="button" class="btn btn-box-tool pull-right">
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </div>
-                    <!--./remove-button-->
-                </div>
+                <th:block th:if="${replies != null}" th:each="i : ${#numbers.sequence(replies.size() - 1, 0, -1)}">
+                    <div class="callouts">
+                        <h4 class="" th:text="${replies[i].replyer}"></h4>
+                        <!--./writer-->
+                        <div>
+                            [[${replies[i].replyContent}]]
+                            <a class="pull-right" id="removeReply" th:href="|javascript:removeReply(${replies[i].idx}, ${blog.idx})|">
+                                <i class="fa fa-times"></i></a>
+                        </div>
+                        <!--./reply-content-->
+                        <hr>
+                </th:block>
+                <!--./reply-content-list-->
+            </div>
+            <!--./reply-content-->
             </div>
             <!--./reply-->
             </div>
@@ -120,6 +126,11 @@
                 });
             });
         };
+
+        /** remove reply */
+        function removeReply(replyIdx, blogIdx) {
+            console.log("remove reply :::", replyIdx);
+        }
 
         $(document).ready(function () {
             console.log("testing");
