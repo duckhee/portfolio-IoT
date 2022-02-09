@@ -42,13 +42,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatcher("/**")
                 .authorizeRequests()
                 /** api docs permitAll */
-                .mvcMatchers("/docs/index.html", "/resources/**", "/resources/h2-console")
+                .mvcMatchers("/docs/index.html", "/resources/**", "/resources/h2-console","/blogs/resources/**")
                 .permitAll()
                 .mvcMatchers("/**")
 //                .anyRequest()
                 .permitAll()
                 /** csrf and cors set */
-                .and().csrf().and().cors();
+                .and().csrf().and().cors()
+                .and().headers().frameOptions().sameOrigin();
                 /*.and().sessionManagement()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true)

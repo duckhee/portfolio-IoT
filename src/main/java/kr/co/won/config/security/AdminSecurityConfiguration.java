@@ -35,7 +35,8 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**")
                 .hasAnyRole("ADMIN", "MANAGER")
                 /** csrf and cors set */
-                .and().csrf().and().cors();
+                .and().csrf().and().cors()
+                .and().headers().frameOptions().sameOrigin();
                 /*.and().sessionManagement()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true)

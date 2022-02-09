@@ -79,6 +79,7 @@
     <!-- /.content -->
 </th:block>
 <th:block layout:fragment="addScript">
+    <script th:replace="~{admin/layout/fragments/csrfBefore :: ajax-csrf-header}"></script>
     <script src="../../../static/js/plugins/ckeditor/ckeditor.js"
             th:src="@{/admin-resource/plugins/ckeditor/ckeditor.js}"></script>
     <script>
@@ -89,7 +90,7 @@
                 // Replace the <textarea id="editor1"> with a CKEditor
                 // instance, using default configuration.
 
-                CKEDITOR.replace('content', {
+                var editor = CKEDITOR.replace('content', {
                     language: 'ko',
                     height: 450,
                     removePlugins: 'resize',
@@ -109,12 +110,40 @@
                     ],
                     format_tags: 'p;h1;h2;h3;pre',
                     enterMode: CKEDITOR.ENTER_BR,
-                    htmlEncodeOutput: false,
                     removeDialogTabs: 'image:advanced;link:advanced',
-                    removePlugins: 'elementspath',
-                    filebrowserUploadUrl: "/blogs/resources/upload",
-                    removeDialogTabs: 'image:info;image:Link;image:advanced'
+                    htmlEncodeOutput: false,
+                     // filebrowserUploadMethod: "form", // file upload javascript function
+                    // fileTools_requestHeaders:{}
+                    filebrowserUploadUrl: "/blogs/resources/upload?[[${_csrf.parameterName}]]=[[${_csrf.token}]]"
                 });
+                CKEDITOR.on('dialogDefinition', function( ev ){
+                    var dialogName = ev.data.name;
+                    var dialogDefinition = ev.data.definition;
+
+                    switch (dialogName) {
+                        case 'image': //Image Properties dialog
+                            console.log("information ::: ", dialogDefinition);
+                            dialogDefinition.removeContents('Link');
+
+                            dialogDefinition.removeContents('info');
+                            // dialogDefinition.removeContents('advanced');
+
+                            break;
+                    }
+                });
+                function upload() {
+                    console.log('test');
+                }
+
+                editor.on('fileUploadRequest', function (evt) {
+                    console.log("file upload function request call");
+
+                });
+                editor.on('fileUploadResponse', function (evt) {
+                    console.log("file upload function response call");
+
+                });
+
 
                 //bootstrap WYSIHTML5 - text editor
                 //$(".textarea").wysihtml5();
