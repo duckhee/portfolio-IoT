@@ -34,6 +34,7 @@ build/
 
 ### database log file ###
 spy.log
+logs/
 
 ### upload folder ###
 upload/

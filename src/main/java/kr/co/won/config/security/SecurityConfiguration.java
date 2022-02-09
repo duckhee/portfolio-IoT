@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatcher("/**")
                 .authorizeRequests()
                 /** api docs permitAll */
-                .mvcMatchers("/docs/index.html", "/resources/**", "/resources/h2-console","/blogs/resources/**")
+                .mvcMatchers("/docs/index.html", "/resources/**", "/resources/h2-console", "/blogs/resources/**")
                 .permitAll()
                 .mvcMatchers("/**")
 //                .anyRequest()
@@ -68,7 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         /** static path ignore security */
         web.ignoring().mvcMatchers(
                 PathRequest.toStaticResources().atCommonLocations().toString(),
-                "/resources/h2-console",
+                "/resources/h2-console", "/uploads",
                 "/js/**", "/css/**", "/images/**"
         );
     }
