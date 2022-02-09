@@ -23,8 +23,44 @@ public class StudyDomain {
 
     private String title;
 
-    @Column(nullable = false)
+    // study path
+    @Column(nullable = false, unique = true)
     private String path;
+
+    @Column(length = 255)
+    private String shortDescription;
+
+    @Lob
+    private String description;
+
+    // published time save
+    private LocalDateTime publishedDateTime;
+    // published close time
+    private LocalDateTime closedDateTime;
+
+    // recurited start time
+    private LocalDateTime recruitingUpdateDateTime;
+
+    @Builder.Default
+    private boolean recruiting = false;
+
+    @Builder.Default
+    private boolean published = false;
+
+    // study close or finished
+    @Builder.Default
+    private boolean closed = false;
+
+    /**
+     * 0 is not limit
+     */
+    // max member number
+    @Builder.Default
+    private int arrowMemberNumber = 0;
+
+    // join member count
+    @Column(nullable = false)
+    private int memberCount = 0;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -34,18 +70,6 @@ public class StudyDomain {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    private LocalDateTime publishedDateTime;
+    /** study domain function */
 
-    private LocalDateTime closedDateTime;
-
-    private LocalDateTime recruitingUpdateDateTime;
-
-    private boolean recruiting;
-
-    private boolean published;
-
-    private boolean closed;
-
-    @Column(nullable = false)
-    private int memberCount = 0;
 }
