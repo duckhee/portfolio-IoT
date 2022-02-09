@@ -43,6 +43,10 @@ public class BlogResourceFileUtilImpl implements BlogResourceFileUtil {
         log.info("servlet context path ::: {}", contextPath);
         String savedFilePath = appProperties.getUploadFolderPath() + "/" + blogFileResource.getSaveFileName();
         File newUploadFile = new File(savedFilePath);
+        // folder not have make folder
+        if(!newUploadFile.exists()){
+            newUploadFile.mkdirs();
+        }
         file.transferTo(newUploadFile);
         BlogResourceDomain savedBlogResource = blogResourcePersistence.save(blogFileResource);
         return savedBlogResource;
