@@ -70,7 +70,7 @@
                         <span class="help-block" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
                     </div>
                     <!--./form-group-->
-                    <input type="hidden" name="resources" id="resources"/>
+                    <input type="hidden" th:field="*{resources}" name="resources" id="resources"/>
                     <!--hidden resource file input list-->
                 </form>
                 <!--./form-->
@@ -91,9 +91,9 @@
             th:src="@{/admin-resource/plugins/ckeditor/ckeditor.js}"></script>
     <script>
         $(document).ready(function () {
-
-
             $(function () {
+                var csrfToken = /*[[${_csrf.token}]]*/ null;
+                var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
                 // Replace the <textarea id="editor1"> with a CKEditor
                 // instance, using default configuration.
 
