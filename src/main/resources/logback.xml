@@ -16,12 +16,14 @@
 
     <!-- FILE Appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH_NAME}</file>
+        <!--log file name setting-->
+        <file>${LOG_DIR}/portfolio.%d{yyyy-MM-dd}.log</file>
         <!-- 일자별로 로그파일 적용하기 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH_NAME}.%d{yyyyMMdd}</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/portfolioLog.%d{yyyyMMdd}</fileNamePattern>
             <maxHistory>60</maxHistory> <!-- 일자별 백업파일의 보관기간 -->
         </rollingPolicy>
+        <!--log formatter-->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%F]%M\(%L\) : %m%n</pattern>
         </encoder>
@@ -43,7 +45,7 @@
         </root>
     </springProfile>
     <springProfile name="real">
-        <root level="INFO">
+        <root level="error">
             <appender-ref ref="FILE"/>
             <appender-ref ref="STDOUT"/>
         </root>
