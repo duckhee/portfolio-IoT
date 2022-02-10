@@ -191,6 +191,7 @@ class BlogApiControllerTest {
                                 linkWithRel("self").description("현재 호출된 링크").optional(),
                                 linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional(),
                                 linkWithRel("list-blogs").description("블로그의 목록을 볼 수 있는 링크").optional(),
+                                linkWithRel("query-blogs").description("블로그를 볼수 있는 링크").optional(),
                                 linkWithRel("create-blogs").description("블로그를 새로 만들 수 있는 링크").optional(),
                                 linkWithRel("update-blogs").description("블로그를 업데이트할 수 있는 링크").optional(),
                                 linkWithRel("delete-blogs").description("블로그를 삭제를 할 수 있는 링크").optional()
@@ -209,10 +210,6 @@ class BlogApiControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.profile").exists())
-                .andExpect(jsonPath("_links.list-blogs").exists())
-                .andExpect(jsonPath("_links.create-blogs").exists())
-                .andExpect(jsonPath("_links.update-blogs").exists())
-                .andExpect(jsonPath("_links.delete-blogs").exists())
                 .andDo(print())
                 .andDo(document("read-blogs",
                         /** response content type */
@@ -247,6 +244,7 @@ class BlogApiControllerTest {
                                 linkWithRel("self").description("현재 호출된 링크").optional(),
                                 linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional(),
                                 linkWithRel("list-blogs").description("블로그의 목록을 볼 수 있는 링크").optional(),
+                                linkWithRel("query-blogs").description("블로그를 자세히 볼 수 있는 링크").optional(),
                                 linkWithRel("create-blogs").description("블로그를 새로 만들 수 있는 링크").optional(),
                                 linkWithRel("update-blogs").description("블로그를 업데이트할 수 있는 링크").optional(),
                                 linkWithRel("delete-blogs").description("블로그를 삭제를 할 수 있는 링크").optional()

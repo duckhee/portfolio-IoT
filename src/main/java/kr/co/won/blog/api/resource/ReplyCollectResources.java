@@ -51,7 +51,7 @@ public class ReplyCollectResources extends CollectionModel<ReplyCollectResources
 
     public static CollectionModel of(BlogDomain blog, List<BlogReplyDomain> replies, UserDomain authUser, String profile) {
         List<ReplyResourceDto> list = new ArrayList<>();
-        replies.forEach(reply -> list.add(new ReplyResourceDto(reply, blog, authUser)));
+        replies.forEach(reply -> list.add(new ReplyResourceDto(blog, reply, authUser)));
         List<Link> links = new ArrayList<>();
         return ReplyCollectResources.of(list, links);
     }

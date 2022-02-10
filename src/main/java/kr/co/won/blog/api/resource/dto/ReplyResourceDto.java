@@ -70,8 +70,7 @@ public class ReplyResourceDto extends RepresentationModel<ReplyResourceDto> {
 
     }
 
-
-    public ReplyResourceDto(BlogReplyDomain reply, BlogDomain blog, UserDomain authUser) {
+    public ReplyResourceDto(BlogDomain blog, BlogReplyDomain reply, UserDomain authUser) {
         this.idx = reply.getIdx();
         this.replyer = reply.getReplyer();
         this.replyContent = reply.getReplyContent();

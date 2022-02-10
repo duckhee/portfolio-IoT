@@ -106,8 +106,6 @@ public class BlogApiController {
         blogReadResourcesDto.add(linkBuilder.withRel("list-blogs").withType(HttpMethod.GET.name()));
         // login user check and writer check
         blogReadResourcesDto.add(linkBuilder.withRel("create-blogs").withType(HttpMethod.POST.name()));
-        blogReadResourcesDto.add(linkBuilder.withRel("update-blogs").withType(HttpMethod.PUT.name()));
-        blogReadResourcesDto.add(linkBuilder.withRel("delete-blogs").withType(HttpMethod.DELETE.name()));
         blogReadResourcesDto.add(Link.of("/docs/index.html#blog-read-resources", "profile").withType(HttpMethod.GET.name()));
         return ResponseEntity.ok().body(blogReadResourcesDto);
     }

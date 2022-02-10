@@ -26,16 +26,15 @@ public class BlogAssembler implements RepresentationModelAssembler<BlogDomain, B
     public BlogReadResourcesDto toModel(BlogDomain entity) {
         BlogReadResourcesDto mappedBlog = new BlogReadResourcesDto(entity);
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
-        mappedBlog.add(linkBuilder.slash(entity.getIdx()).withRel("query-blogs").withType(HttpMethod.GET.name()));
-        mappedBlog.add(linkBuilder.slash(entity.getIdx()).withRel("update-blogs").withType(HttpMethod.PUT.name()));
-        mappedBlog.add(linkBuilder.slash(entity.getIdx()).withRel("delete-blogs").withType(HttpMethod.DELETE.name()));
+        basicLinkAdd(entity, mappedBlog, linkBuilder);
         return mappedBlog;
     }
+
 
     public BlogReadResourcesDto toModel(BlogDomain entity, UserDomain user) {
         BlogReadResourcesDto mappedBlog = new BlogReadResourcesDto(entity);
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
-        if (user.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || user.getEmail().equals(entity.getWriterEmail())) {
+        if (isAuth(entity, user)) {
             mappedBlog.add(linkBuilder.slash(entity.getIdx()).withRel("update-blogs").withType(HttpMethod.PUT.name()));
             mappedBlog.add(linkBuilder.slash(entity.getIdx()).withRel("delete-blogs").withType(HttpMethod.DELETE.name()));
         }
@@ -43,6 +42,7 @@ public class BlogAssembler implements RepresentationModelAssembler<BlogDomain, B
 
         return mappedBlog;
     }
+
 
     @Override
     public CollectionModel<BlogReadResourcesDto> toCollectionModel(Iterable<? extends BlogDomain> entities) {
@@ -55,5 +55,17 @@ public class BlogAssembler implements RepresentationModelAssembler<BlogDomain, B
         List<BlogReadResourcesDto> list = new ArrayList<>();
         entities.forEach(entity -> list.add(this.toModel(entity, user)));
         return CollectionModel.of(list);
+    }
+
+    // user role check
+    private boolean isAuth(BlogDomain entity, UserDomain user) {
+        return user.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || user.getEmail().equals(entity.getWriterEmail());
+    }
+
+    // add base link
+    private void basicLinkAdd(BlogDomain entity, BlogReadResourcesDto mappedBlog, WebMvcLinkBuilder linkBuilder) {
+        mappedBlog.add(linkBuilder.slash(entity.getIdx()).withRel("query-blogs").withType(HttpMethod.GET.name()));
+        mappedBlog.add(linkBuilder.slash(entity.getIdx()).withRel("update-blogs").withType(HttpMethod.PUT.name()));
+        mappedBlog.add(linkBuilder.slash(entity.getIdx()).withRel("delete-blogs").withType(HttpMethod.DELETE.name()));
     }
 }

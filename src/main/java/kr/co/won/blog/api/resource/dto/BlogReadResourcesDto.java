@@ -71,14 +71,19 @@ public class BlogReadResourcesDto extends RepresentationModel<BlogReadResourcesD
         this.projectUri = (blog.getProjectUrl() != null) ? URI.create(blog.getProjectUrl()) : null;
         this.createdAt = blog.getCreatedAt();
         this.updatedAt = blog.getUpdatedAt();
-        this.replies = blog.getReplies().stream().map(reply -> new ReplyResourceDto(reply, authUser)).collect(Collectors.toList());
+        this.replies = blog.getReplies().stream().map(reply -> new ReplyResourceDto(blog, reply, authUser)).collect(Collectors.toList());
 
         this.add(WebMvcLinkBuilder.linkTo(BlogApiController.class).slash(this.idx).withSelfRel());
         this.add(WebMvcLinkBuilder.linkTo(BlogApiController.class).slash(this.idx).withRel("query-blogs").withType(HttpMethod.GET.name()));
-        if(authUser.hasRole(UserRoleType.ADMIN , UserRoleType.MANAGER) || blog.getWriterEmail().equals(authUser.getEmail())){
+        if (isAuth(blog, authUser)) {
             this.add(WebMvcLinkBuilder.linkTo(BlogApiController.class).slash(this.idx).withRel("update-blogs").withType(HttpMethod.PUT.name()));
             this.add(WebMvcLinkBuilder.linkTo(BlogApiController.class).slash(this.idx).withRel("delete-blogs").withType(HttpMethod.DELETE.name()));
         }
+    }
+
+    // link auth Check
+    private boolean isAuth(BlogDomain blog, UserDomain authUser) {
+        return authUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || blog.getWriterEmail().equals(authUser.getEmail());
     }
 
 }

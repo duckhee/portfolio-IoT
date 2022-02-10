@@ -77,12 +77,12 @@ public class AdminBlogController {
     }
 
     @GetMapping(path = "/update")
-    public String updateBlogPage(@RequestParam(name = "blog") Long blogIdx, Model model) {
+    public String updateBlogPage(@AuthUser UserDomain authUser, @RequestParam(name = "blog") Long blogIdx, Model model) {
         return "";
     }
 
     @PostMapping(path = "/update")
-    public String updateBlogDo(@RequestParam(name = "blog") Long blogIdx, Model model, RedirectAttributes flash) {
+    public String updateBlogDo(@AuthUser UserDomain authUser, @RequestParam(name = "blog") Long blogIdx, Model model, RedirectAttributes flash) {
         return "";
     }
 
