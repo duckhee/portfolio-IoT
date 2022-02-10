@@ -110,14 +110,35 @@ public class BlogApiController {
         return ResponseEntity.ok().body(blogReadResourcesDto);
     }
 
+    /**
+     * update all
+     */
     @PutMapping(path = "/{idx}")
     public ResponseEntity updateBlogResource(@AuthUser UserDomain loginUser, @PathVariable(name = "idx") Long idx, @Validated BlogForm form, Errors errors) {
-
-        return null;
+        // check validation error
+        if (errors.hasErrors()) {
+            return validationResources(errors);
+        }
+        // mapping blog
+        BlogDomain mappedUpdateBlog = modelMapper.map(form, BlogDomain.class);
+        // update blogs all
+        BlogDomain updateBlog = blogService.updateBlog(idx, mappedUpdateBlog, loginUser);
+        // make blog resource
+        BlogReadResourcesDto resultResource = new BlogReadResourcesDto(updateBlog, loginUser);
+        // add profile link
+        resultResource.add(Link.of("/docs/index.html#blog-update-resources", "profile"));
+        return ResponseEntity.ok().body(resultResource);
     }
 
+    /**
+     * update parts
+     */
     @PatchMapping(path = "/{idx}")
     public ResponseEntity updateBlogPartsResource(@AuthUser UserDomain loginUser, @PathVariable(value = "idx") Long blogIdx, @Validated BlogForm form, Errors errors) {
+        // check validation error
+        if (errors.hasErrors()) {
+            return validationResources(errors);
+        }
         return null;
     }
 

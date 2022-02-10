@@ -3,6 +3,7 @@ package kr.co.won.blog.service;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.blog.persistence.BlogReplyPersistence;
+import kr.co.won.blog.persistence.BlogResourcePersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserDomainBuilderFactory;
@@ -39,10 +40,13 @@ class BlogServiceTest {
     @Mock
     private BlogReplyPersistence blogReplyPersistence;
 
+    @Mock
+    private BlogResourcePersistence blogResourcePersistence;
+
     @DisplayName(value = "01. create blog Test")
     @Test
     void createBlogTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence);
+        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
@@ -66,7 +70,7 @@ class BlogServiceTest {
     @DisplayName(value = "01. create blog Test - with user")
     @Test
     void createBlogWithUserTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence);
+        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
@@ -91,7 +95,7 @@ class BlogServiceTest {
     @DisplayName(value = "02. read blog Test ")
     @Test
     void readBlogServiceTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence);
+        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
@@ -108,7 +112,7 @@ class BlogServiceTest {
         BlogDomain findBlog = blogService.readBlog(makeBlog.getIdx());
         // assertions
         assertThat(findBlog).isEqualTo(makeBlog);
-        assertThat(findBlog.getViewCnt()).isEqualTo(initViewCnt+1);
+        assertThat(findBlog.getViewCnt()).isEqualTo(initViewCnt + 1);
     }
 
 

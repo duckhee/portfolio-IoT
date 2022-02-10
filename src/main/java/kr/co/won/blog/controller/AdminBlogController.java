@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -51,10 +52,14 @@ public class AdminBlogController {
         // set writer login user
         mappedBlog.setWriter(loginUser.getName());
         mappedBlog.setWriterEmail(loginUser.getEmail());
-        log.info("get mapping blog content ::: {}", mappedBlog.getContent());
+        List<String> getResourceNameList = new ArrayList<>();
+        // blog have resource image have
+        if (form.getResources() != null) {
+            getResourceNameList = List.of(form.getResources().split(","));
+        }
         // blog service
-        BlogDomain savedBlog = blogService.createBlog(mappedBlog);
-        log.info("save blog content ::: {}", savedBlog.getContent());
+        BlogDomain savedBlog = blogService.createBlogMapResource(mappedBlog, getResourceNameList);
+
         // add flash message
         flash.addFlashAttribute("msg", savedBlog.getTitle() + " blog saved.");
         return "redirect:/admin/blogs/list";

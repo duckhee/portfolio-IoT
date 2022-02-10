@@ -2,8 +2,10 @@ package kr.co.won.blog.service;
 
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.domain.BlogReplyDomain;
+import kr.co.won.blog.domain.BlogResourceDomain;
 import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.blog.persistence.BlogReplyPersistence;
+import kr.co.won.blog.persistence.BlogResourcePersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "blogService")
@@ -31,6 +34,8 @@ public class BlogServiceImpl implements BlogService {
     private final BlogPersistence blogPersistence;
 
     private final BlogReplyPersistence blogReplyPersistence;
+
+    private final BlogResourcePersistence resourcePersistence;
 
 
     @Transactional
@@ -46,6 +51,16 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogDomain createBlog(BlogDomain blog) {
         BlogDomain savedBlog = blogPersistence.save(blog);
+        return savedBlog;
+    }
+
+    @Transactional
+    @Override
+    public BlogDomain createBlogMapResource(BlogDomain blog, List<String> resourceSavNames) {
+        BlogDomain savedBlog = blogPersistence.save(blog);
+        List<BlogResourceDomain> findResources = resourcePersistence.findBySaveFileNameIn(resourceSavNames);
+        // resource set blog
+        findResources.forEach(resource -> resource.setBlog(savedBlog));
         return savedBlog;
     }
 

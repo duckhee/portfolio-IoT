@@ -2,9 +2,11 @@ package kr.co.won.blog.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.TestUser;
+import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.factory.BlogFactory;
 import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.persistence.BlogPersistence;
+import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.persistence.UserPersistence;
@@ -48,6 +50,12 @@ class AdminBlogControllerTest {
     @Autowired
     private BlogPersistence blogPersistence;
 
+    @Autowired
+    private UserFactory userFactory;
+
+    @Autowired
+    private BlogFactory blogFactory;
+
     @AfterEach
     public void testDataInit() {
         userPersistence.deleteAll();
@@ -85,5 +93,29 @@ class AdminBlogControllerTest {
                 .andExpect(redirectedUrl("/admin/blogs/list"))
                 .andExpect(flash().attributeExists("msg"))
                 .andExpect(view().name("redirect:/admin/blogs/list"));
+    }
+
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "02. blog list Page Test - with GET(success)")
+    @Test
+    void listBlogPageWithADMIN_Tests() throws Exception {
+        mockMvc.perform(get("/admin/blogs/list"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("page"))
+                .andExpect(view().name("admin/blogs/listBlogPage"));
+    }
+
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "03. blog read page Test -with GET(success)")
+    @Test
+    void readBlogPageWithADMIN_Tests() throws Exception {
+        UserDomain testUser = userFactory.testUser("tester1", "tester1@co.kr", "1234");
+        BlogDomain testBlog = blogFactory.makeBlogWithReply("testing", "testing", testUser, 10);
+        mockMvc.perform(get("/admin/blogs/"+testBlog.getIdx()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attributeExists("blog"))
+                .andExpect(model().attributeExists("replies"))
+                .andExpect(view().name("admin/blogs/informationBlogPage"));
     }
 }

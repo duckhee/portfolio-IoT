@@ -27,9 +27,23 @@ public interface BlogService {
     }
 
     /**
+     * Create Blog and mapping blogResource
+     */
+    public default BlogDomain createBlogMapResource(BlogDomain blog, List<String> resourceSavNames) {
+        return null;
+    }
+
+    /**
      * Create Blog
      */
     public default BlogDomain createBlog(BlogDomain blog, UserDomain loginUser) {
+        return null;
+    }
+
+    /**
+     * Create Blog and mapping blogResource
+     */
+    public default BlogDomain createBlogMapResource(BlogDomain blog, List<String> resourceSavNames, UserDomain loginUser) {
         return null;
     }
 
@@ -60,6 +74,20 @@ public interface BlogService {
      * Update Blog
      */
     public default BlogDomain updateBlog(Long blogIdx, BlogDomain updateBlog, UserDomain authUser) {
+        return null;
+    }
+
+    /**
+     * Update Blog parts
+     */
+    public default BlogDomain updatePartsBlog(Long blogIdx, BlogDomain updateBlog) {
+        return null;
+    }
+
+    /**
+     * Update Blog parts
+     */
+    public default BlogDomain updatePartsBlog(Long blogIdx, BlogDomain updateBlog, UserDomain authUser) {
         return null;
     }
 
