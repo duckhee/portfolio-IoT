@@ -51,14 +51,16 @@ public class BlogApiController {
     private final BlogAssembler blogAssembler;
 
     @GetMapping
-    public ResponseEntity listBlogResources(PageDto pageDto) {
+    public ResponseEntity listBlogResources(@AuthUser UserDomain authUser, PageDto pageDto) {
         Page pageList = blogService.pagingBlog(pageDto);
         PagedModel resultResource = pagedResourcesAssembler.toModel(pageList, blogAssembler);
         PageMetadata pageMetadata = new PageMetadata(pageDto.getSize(), pageList.getNumber(), pageList.getTotalElements(), pageList.getTotalPages());
 
         /** Paging */
         List<BlogDomain> content = pageList.getContent();
-        List<BlogReadResourcesDto> collect = content.stream().map(blog -> new BlogReadResourcesDto(blog)).collect(Collectors.toList());
+        // make hal resource
+        List<BlogReadResourcesDto> collect = content.stream().map(blog -> new BlogReadResourcesDto(blog, authUser)).collect(Collectors.toList());
+        // make paging hal resource
         PagedModel<BlogReadResourcesDto> result = of(collect, pageMetadata);
         // webLink Base
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
@@ -111,12 +113,12 @@ public class BlogApiController {
     }
 
     @PutMapping(path = "/{idx}")
-    public ResponseEntity updateBlogPutResource(@PathVariable(name = "idx") Long idx, @AuthUser UserDomain loginUser) {
+    public ResponseEntity updateBlogPutResource(@AuthUser UserDomain authUser, @PathVariable(name = "idx") Long idx, @AuthUser UserDomain loginUser) {
         return null;
     }
 
     @PatchMapping(path = "/{idx}")
-    public ResponseEntity updateBlogResource(@PathVariable(value = "idx") Long blogIdx, @AuthUser UserDomain loginUser) {
+    public ResponseEntity updateBlogResource(@AuthUser UserDomain authUser, @PathVariable(value = "idx") Long blogIdx, @AuthUser UserDomain loginUser) {
         return null;
     }
 

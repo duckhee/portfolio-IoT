@@ -142,7 +142,6 @@ class BlogApiControllerTest {
                 ));
     }
 
-
     @TestUser(authLevel = UserRoleType.ADMIN)
     @DisplayName(value = "02. blog find api Test- ROLE ADMIN")
     @Test
@@ -255,10 +254,79 @@ class BlogApiControllerTest {
                 ));
     }
 
-    @TestUser(authLevel = UserRoleType.USER)
-    @DisplayName(value = "03. list blog api Test")
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "03. list blog api Test - ROLE ADMIN")
     @Test
-    void listBlogTests() throws Exception {
+    void listBlogTestsWithAdmin() throws Exception {
+        UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
+        blogFactory.makeMockBulkBlogWithReply(100, "title", "content", testUser, 1);
+        mockMvc.perform(get("/api/blogs")
+                        .contentType(MediaTypes.HAL_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("list-blogs",
+                        /** response content type */
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request Header */
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** paging request query parameter */
+                        relaxedRequestParameters(
+                                parameterWithName("page").description("페이지 번호").optional(),
+                                parameterWithName("size").description("한 페이지에서 몇개를 가져올 것인지 크기 설정").optional(),
+                                parameterWithName("type").description("검색할 category 입력 ").optional(),
+                                parameterWithName("keyword").description("검색할 문자열").optional()
+                        ),
+                        /** response body */
+                        relaxedResponseFields(
+                                fieldWithPath("_embedded.blogs").type(JsonFieldType.ARRAY).description("블로그에 대한 정보를 담고 있는 배열").optional(),
+                                fieldWithPath("_embedded.blogs[].idx").type(JsonFieldType.NUMBER).description("블로그에 대한 고유 번호").optional(),
+                                fieldWithPath("_embedded.blogs[].title").type(JsonFieldType.STRING).description("블로그의 타이틀").optional(),
+                                fieldWithPath("_embedded.blogs[].content").type(JsonFieldType.STRING).description("블로그의 내용").optional(),
+                                fieldWithPath("_embedded.blogs[].writer").type(JsonFieldType.STRING).description("블로그를 작성한 사용자의 이름").optional(),
+                                fieldWithPath("_embedded.blogs[].writerEmail").type(JsonFieldType.STRING).description("블로그를 작성한 사용자의 이메일").optional(),
+                                fieldWithPath("_embedded.blogs[].projectUri").type(JsonFieldType.STRING).description("블로그에 작성한 프로젝트의 URL").optional(),
+                                fieldWithPath("_embedded.blogs[].viewCnt").type(JsonFieldType.NUMBER).description("블로그를 본 횟수").optional(),
+                                fieldWithPath("_embedded.blogs[].createdAt").type(JsonFieldType.STRING).description("블로그가 생성된 시간").optional(),
+                                fieldWithPath("_embedded.blogs[].updatedAt").type(JsonFieldType.STRING).description("블로그가 수정된 시간").optional(),
+                                fieldWithPath("_embedded.blogs[].replies").type(JsonFieldType.ARRAY).description("블로그에 작성된 리플을 담고 있는 배열").optional(),
+                                fieldWithPath("_embedded.blogs[].replies[].idx").type(JsonFieldType.NUMBER).description("블로그에 달린 리플에 대한 고유 번호").optional(),
+                                fieldWithPath("_embedded.blogs[].replies[].replyer").type(JsonFieldType.STRING).description("블로그에 달린 리플을 단 사용자의 이름").optional(),
+                                fieldWithPath("_embedded.blogs[].replies[].replyContent").type(JsonFieldType.STRING).description("블로그에 달린 리플을 단 사용자의 이름").optional(),
+                                fieldWithPath("_embedded.blogs[].replies[].createdAt").type(JsonFieldType.STRING).description("블로그에 달린 리플이 생성된 시간").optional(),
+                                fieldWithPath("_embedded.blogs[].replies[].updatedAt").type(JsonFieldType.STRING).description("블로그에 달린 리플이 수정된 시간").optional()
+                        ),
+                        /** user create links */
+                        relaxedLinks(
+                                linkWithRel("self").description("현재 호출된 링크").optional(),
+                                linkWithRel("profile").description("현재 호출된 API의 기능에 대한 설명 되어 있는 document를 볼 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.blogs[].self").description("해당되는 블로그에 대해서 상세히 볼 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.blogs[].self.type").description("해당되는 블로그에 대해서 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional(),
+//                                linkWithRel("_embedded.users[].query-blogs").description("해당되는 블로그에 대해서 상세히 볼 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.blogs[].update-blogs").description("해당되는 블로그에 대해서 수정을 할 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.blogs[].update-blogs.type").description("해당되는 블로그에 대해서 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional(),
+                                linkWithRel("_embedded.blogs[].delete-blogs").description("해당되는 블로그에 대해서 삭제를 할 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.blogs[].delete-blogs.type").description("해당되는 블로그에 대해서 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional(),
+                                linkWithRel("_embedded.blogs[].replies[].self").description("해당되는 블로그에 달린 리플에 대해서 상세히 볼 수 있는 링크이다.").optional(),
+//                                linkWithRel("_embedded.blogs[].replies[].self.type").description("해당되는 블로그에 달린 리플에 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional(),
+                                linkWithRel("_embedded.blogs[].replies[].query-reply").description("해당되는 블로그에 달린 리플에 대해서 상세히 볼 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.blogs[].replies[].query-reply.type").description("해당되는 블로그에 달린 리플에 대해서 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional(),
+                                linkWithRel("_embedded.blogs[].replies[].update-reply").description("해당되는 블로그에 달린 리플에 대해서 수정을 할 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.blogs[].replies[].update-reply.type").description("해당되는 블로그에 달린 리플에 대해서 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional(),
+                                linkWithRel("_embedded.blogs[].replies[].delete-reply").description("해당되는 블로그에 달린 리플에 대해서 삭제를 할 수 있는 링크이다.").optional(),
+                                linkWithRel("_embedded.blogs[].replies[].delete-reply.type").description("해당되는 블로그에 달린 리플에 대해서 상세히 볼 수 있는 링크를 호출 할 수 있는 Http Method").optional()
+                        )
+                ));
+    }
+
+    @TestUser(authLevel = UserRoleType.USER)
+    @DisplayName(value = "03. list blog api Test - ROLE USER")
+    @Test
+    void listBlogTestsWithUser() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
         blogFactory.makeMockBulkBlogWithReply(100, "title", "content", testUser, 1);
         mockMvc.perform(get("/api/blogs")
