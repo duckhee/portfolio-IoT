@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.TestUser;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.factory.BlogFactory;
-import kr.co.won.blog.form.CreateBlogForm;
+import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
@@ -27,11 +27,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.net.URI;
 import java.net.URL;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -84,7 +81,7 @@ class BlogApiControllerTest {
     @DisplayName(value = "01. Blog create api Test ")
     @Test
     void createBlogTests() throws Exception {
-        CreateBlogForm blogForm = CreateBlogForm.builder()
+        BlogForm blogForm = BlogForm.builder()
                 .title("testing")
                 .content("content")
                 .projectUrl(new URL("http://github.com/project/uri"))

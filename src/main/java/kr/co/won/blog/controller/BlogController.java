@@ -3,7 +3,7 @@ package kr.co.won.blog.controller;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.domain.BlogReplyDomain;
-import kr.co.won.blog.form.CreateBlogForm;
+import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -36,13 +35,13 @@ public class BlogController {
 
     @GetMapping(path = "/create")
     public String createBlogPage(Model model) {
-        model.addAttribute(new CreateBlogForm());
+        model.addAttribute(new BlogForm());
         return "blogs/createBlogPage";
     }
 
     //    @Secured(value = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER"})
     @PostMapping(path = "/create")
-    public String createBlogDo(@AuthUser UserDomain loginUser, @Validated CreateBlogForm form, Errors errors, Model model, RedirectAttributes flash) {
+    public String createBlogDo(@AuthUser UserDomain loginUser, @Validated BlogForm form, Errors errors, Model model, RedirectAttributes flash) {
         if (loginUser == null) {
             flash.addFlashAttribute("msg", "Login First");
             return "redirect:/login";

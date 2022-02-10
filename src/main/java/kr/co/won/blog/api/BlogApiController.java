@@ -6,7 +6,7 @@ import kr.co.won.blog.api.assembler.BlogAssembler;
 import kr.co.won.blog.api.resource.BlogCreateResource;
 import kr.co.won.blog.api.resource.dto.*;
 import kr.co.won.blog.domain.BlogDomain;
-import kr.co.won.blog.form.CreateBlogForm;
+import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.errors.resource.ValidErrorResource;
 import kr.co.won.user.domain.UserDomain;
@@ -69,7 +69,7 @@ public class BlogApiController {
     }
 
     @PostMapping
-    public ResponseEntity createBlogResources(@AuthUser UserDomain loginUser, @Validated @RequestBody CreateBlogForm form, Errors errors) {
+    public ResponseEntity createBlogResources(@AuthUser UserDomain loginUser, @Validated @RequestBody BlogForm form, Errors errors) {
         if (loginUser == null) {
             throw new AccessDeniedException("Not Login.");
         }
@@ -111,7 +111,8 @@ public class BlogApiController {
     }
 
     @PutMapping(path = "/{idx}")
-    public ResponseEntity updateBlogPutResource(@AuthUser UserDomain authUser, @PathVariable(name = "idx") Long idx, @AuthUser UserDomain loginUser) {
+    public ResponseEntity updateBlogPutResource(@AuthUser UserDomain loginUser, @PathVariable(name = "idx") Long idx) {
+
         return null;
     }
 

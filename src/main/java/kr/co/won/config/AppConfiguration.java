@@ -22,7 +22,9 @@ public class AppConfiguration {
                 .setSkipNullEnabled(true)
                 // modelmapper set object UnderScope
                 .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
-                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
+                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE)
+                // model mapper not update null value
+                .setSkipNullEnabled(true);
         return modelMapper;
     }
 

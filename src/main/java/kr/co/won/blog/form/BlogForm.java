@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
-import java.net.URI;
 import java.net.URL;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateBlogForm {
+public class BlogForm {
 
     @NotBlank(message = "required title.")
     private String title;

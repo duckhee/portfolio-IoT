@@ -2,7 +2,6 @@ package kr.co.won.blog.controller;
 
 import kr.co.won.auth.TestUser;
 import kr.co.won.blog.domain.BlogDomain;
-import kr.co.won.blog.form.CreateBlogForm;
 import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
@@ -19,7 +18,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,7 +49,7 @@ class BlogControllerTest {
         mockMvc.perform(get("/blogs/create"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("blogs/createBlogPage"))
-                .andExpect(model().attributeExists("createBlogForm"));
+                .andExpect(model().attributeExists("blogForm"));
     }
 
     @TestUser(authLevel = UserRoleType.USER)

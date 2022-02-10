@@ -4,9 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.domain.BlogReplyDomain;
-import kr.co.won.blog.form.CreateBlogForm;
+import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.util.List;
 
 @Slf4j
@@ -35,12 +38,12 @@ public class AdminBlogController {
 
     @GetMapping(path = "/create")
     public String createBlogPage(Model model) {
-        model.addAttribute(new CreateBlogForm());
+        model.addAttribute(new BlogForm());
         return "admin/blogs/createBlogPage";
     }
 
     @PostMapping(path = "/create")
-    public String createBlogDo(@AuthUser UserDomain loginUser, Model model, @Validated CreateBlogForm form, Errors errors, RedirectAttributes flash) {
+    public String createBlogDo(@AuthUser UserDomain loginUser, Model model, @Validated BlogForm form, Errors errors, RedirectAttributes flash) {
         if (errors.hasErrors()) {
             return "admin/blogs/createBlogPage";
         }
@@ -77,13 +80,31 @@ public class AdminBlogController {
     }
 
     @GetMapping(path = "/update")
-    public String updateBlogPage(@AuthUser UserDomain authUser, @RequestParam(name = "blog") Long blogIdx, Model model) {
-        return "";
+    public String updateBlogPage(@AuthUser UserDomain authUser, @RequestParam(name = "blog") Long blogIdx, Model model, RedirectAttributes flash) {
+        BlogDomain findBlog = blogService.readBlog(blogIdx);
+        if (!isAuth(authUser, findBlog)) {
+            flash.addFlashAttribute("msg", "not have auth.");
+            return "redirect:/admin/blogs/" + blogIdx;
+        }
+        BlogForm mappedForm = modelMapper.map(findBlog, BlogForm.class);
+        // set form data
+        model.addAttribute("blogForm", mappedForm);
+        return "admin/blogs/updateBlogPage";
     }
 
+
     @PostMapping(path = "/update")
-    public String updateBlogDo(@AuthUser UserDomain authUser, @RequestParam(name = "blog") Long blogIdx, Model model, RedirectAttributes flash) {
-        return "";
+    public String updateBlogDo(@AuthUser UserDomain authUser, @RequestParam(name = "blog") Long blogIdx, @Validated BlogForm form, Errors errors, Model model, RedirectAttributes flash) {
+        if (errors.hasErrors()) {
+            return "admin/blogs/updateBlogPage";
+        }
+        BlogDomain mappedUpdateForm = modelMapper.map(form, BlogDomain.class);
+        return "redirect:/admin/blogs/list";
+    }
+
+    // user role check
+    private boolean isAuth(UserDomain authUser, BlogDomain findBlog) {
+        return authUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || findBlog.isOwner(authUser.getEmail());
     }
 
 }

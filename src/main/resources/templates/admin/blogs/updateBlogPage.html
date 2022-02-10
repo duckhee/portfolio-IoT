@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{admin/layout/adminLayout(menu='blog', currentMenu='blogList')}">
+<head>
+    <title>BLOG DETAIL</title>
+</head>
+<body>
+<th:block layout:fragment="mainContent">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Portfolio Won
+            <small>Version 1.0</small>
+        </h1>
+        <!--./header title-->
+        <ol class="breadcrumb">
+            <li><a href="#" th:href="@{/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
+            <li><a href="#"> Blog</a></li>
+            <li class="active">Blog Create Page</li>
+        </ol>
+    </section>
+    <!--./content-header-->
+    <!-- Main content -->
+    <section class="content">
+        <article class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Blog Create</h3>
+
+                <div class="pull-right">
+                    <button id="listBtn" type="button" class="btn btn-default">Go to List</button>
+                    <!--<button id="modifyBtn" th:if="${(user?.email == blog.writerEmail)}" type="button"
+                            class="btn btn-warning">Blog
+                        Modify
+                    </button>-->
+                </div>
+            </div>
+            <!--./box-header-->
+            <div class="box-body">
+                <form th:object="${blogForm}" enctype="multipart/form-data">
+                    <div class="form-group" th:class="${#fields.hasErrors('title')}?'has-error':''">
+                        <label for="title" class="control-label">Blog Title</label>
+                        <input th:field="*{title}" id="title" name="title" type="text" class="form-control"
+                               placeholder="blog title..." required>
+                        <span class="help-block" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                    </div>
+                    <!--./blog-title Input-->
+                    <div class="form-group" th:class="${#fields.hasErrors('projectUrl')}?'has-error':''">
+                        <label for="projectUrl" class="control-label">Project URL</label>
+                        <input th:field="*{projectUrl}" id="projectUrl" name="projectUrl" class="form-control"
+                               type="url" placeholder="project url....(ex github url)">
+                        <span class="help-block" th:if="${#fields.hasErrors('projectUrl')}"
+                              th:errors="*{projectUrl}"></span>
+                    </div>
+                    <!--./form-group-->
+                    <div class="form-group" th:class="${#fields.hasErrors('projectFile')}?'has-error':''">
+                        <label for="projectFile" class="control-label">project File</label>
+                        <input type="file" name="projectFile" id="projectFile" th:field="*{projectFile}">
+                    </div>
+                    <!--./form-file-->
+                    <div class="form-group" th:class="${#fields.hasErrors('content')}?'has-error':''">
+                        <label for="content" class="control-label">Blog Content</label>
+                        <textarea th:field="*{content}" id="content" name="content" rows="10" cols="30">
+
+                        </textarea>
+                        <span class="help-block" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+                    </div>
+                    <!--./form-group-->
+                    <input type="hidden" th:field="*{resources}" name="resources" id="resources"/>
+                    <!--hidden resource file input list-->
+                </form>
+                <!--./update-form-->
+            </div>
+            <!--./box-body-->
+            <div class="box-footer">
+
+            </div>
+            <!--./box-footer-->
+        </article>
+        <!--./box-->
+    </section>
+    <!-- /.content -->
+</th:block>
+<!--./main-->
+
+<th:block layout:fragment="addScript">
+    <script th:replace="~{admin/layout/fragments/csrfBefore :: ajax-csrf-header}">
+
+    </script>
+    <!--csrf setting-->
+    <script>
+        /** function go to list */
+        function goBack() {
+            $("#listBtn").click(function (event) {
+                location.href = "/admin/blogs/list";
+            });
+        };
+
+        /** function modify */
+        function modify() {
+            $("#modifyBtn").click(function (event) {
+
+            });
+        }
+
+        /** get reply json */
+        function getRepliesJson(idx) {
+            $.ajax({
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                method: 'GET',
+                url: '/blogs/' + idx + "/reply"
+            }).then(function (data, textStatus, xhr) {
+                // get status check
+                if (xhr.status == 200) {
+                    let text = "";
+                    // reply reloading
+                    data.forEach(dataRaw => {
+                        console.log("get data for each ::: ", dataRaw);
+                        let textTemplate = `<div class="callouts">
+                                    <h4>${dataRaw.replyer}</h4>
+                                    <div>${dataRaw.replyContent}
+                                    <a class="pull-right" href="javascript:removeReply(${idx},${dataRaw.idx})">
+                                    <i class="fa fa-times"></i>
+                                    </a>
+                                    </div>
+                                </div><hr>`;
+                        text += textTemplate;
+                    });
+                    $("#replyContainer").empty();
+                    $("#replyNumber").empty();
+                    $("#replyNumber").append(data.length);
+                    $("#replyContainer").append(text);
+                    $("#replyContent").val("");
+                }
+            });
+        }
+
+        /** function get reply list */
+        function getReplies() {
+            const blogPath = [[${blog.idx}]];
+            console.log("get blog Idx ::: ", blogPath);
+
+            return getRepliesJson(blogPath);
+        }
+
+        /** function create reply */
+        function createReplies() {
+            const blogPath = [[${blog.idx}]];
+            $("#createReplyBtn").click(function (event) {
+                console.log("click reply");
+                let replyContent = $("#replyContent").val();
+                /** ajax send create reply */
+                $.ajax({
+                    dataType: "json",
+                    autocomplete: {
+                        enabled: true,
+                        rightKey: true,
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    method: "POST",
+                    url: "/blogs/" + blogPath + "/reply",
+                    data: JSON.stringify({"replyContent": replyContent})
+                }).done(function (data, textStatus, xhr) {
+                    console.log("get done data ::: ", data);
+                    if (xhr.status == 201) {
+                        console.log("create reply");
+                        return getReplies();
+                    }
+                    console.log("get data ::: ", data);
+                });
+            });
+        };
+
+        /** remove reply */
+        function removeReply(replyIdx, blogIdx) {
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                method: "POST",
+                url: "/blogs/" + blogIdx + "/reply/delete/" + replyIdx,
+                error: function (xhr, statusText, err) {
+                    alert("error" + xhr.status);
+                    console.log("status ::: ", statusText);
+                    console.log("get error ::: ", err);
+                }
+            }).done(function (data, textStatus, xhr) {
+                console.log("get done data ::: ", data);
+                if (xhr.status == 200) {
+                    return getReplies();
+                } else {
+                    console.log("get data ::: ", data);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            console.log("testing");
+            createReplies();
+            modify();
+            goBack();
+        });
+    </script>
+</th:block>
+</body>
+</html>
