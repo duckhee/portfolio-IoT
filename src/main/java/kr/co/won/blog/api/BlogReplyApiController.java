@@ -42,7 +42,11 @@ public class BlogReplyApiController {
     @GetMapping
     public ResponseEntity listBlogRepliesResource(@AuthUser UserDomain authUser, @PathVariable(name = "blogIdx") Long blogIdx) {
         List<BlogReplyDomain> getReplies = blogService.listReply(blogIdx);
+        // make reply
         CollectionModel<ReplyResourceDto> resourceDtos = ReplyCollectResources.of(getReplies, authUser);
+
+        // add profile link
+        resourceDtos.add(Link.of("/docs/index.html#replies-list-resources", "profile"));
         return ResponseEntity.ok().body(resourceDtos);
     }
 
