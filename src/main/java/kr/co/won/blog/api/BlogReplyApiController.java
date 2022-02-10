@@ -77,6 +77,16 @@ public class BlogReplyApiController {
         return null;
     }
 
+    @PutMapping(path = "/{replyIdx}")
+    public ResponseEntity updateBlogRepliesResource(@AuthUser UserDomain loginUser,@PathVariable(name = "blogIdx") Long blogIdx, @PathVariable(name = "replyIdx")Long replyIdx){
+        return null;
+    }
+
+    @PatchMapping(path = "/{replyIdx}")
+    public ResponseEntity updatePartsBlogRepliesResource(@AuthUser UserDomain loginUser,@PathVariable(name = "blogIdx") Long blogIdx, @PathVariable(name = "replyIdx")Long replyIdx){
+        return null;
+    }
+
     @DeleteMapping(path = "/{replyIdx}")
     public ResponseEntity deleteBlogRepliesResource(@PathVariable(name = "blogIdx") Long blogIdx, @PathVariable(name = "replyIdx") Long replyIdx) {
         return null;

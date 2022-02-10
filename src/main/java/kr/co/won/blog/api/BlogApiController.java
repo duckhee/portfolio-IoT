@@ -111,13 +111,13 @@ public class BlogApiController {
     }
 
     @PutMapping(path = "/{idx}")
-    public ResponseEntity updateBlogPutResource(@AuthUser UserDomain loginUser, @PathVariable(name = "idx") Long idx) {
+    public ResponseEntity updateBlogResource(@AuthUser UserDomain loginUser, @PathVariable(name = "idx") Long idx, @Validated BlogForm form, Errors errors) {
 
         return null;
     }
 
     @PatchMapping(path = "/{idx}")
-    public ResponseEntity updateBlogResource(@AuthUser UserDomain authUser, @PathVariable(value = "idx") Long blogIdx, @AuthUser UserDomain loginUser) {
+    public ResponseEntity updateBlogPartsResource(@AuthUser UserDomain loginUser, @PathVariable(value = "idx") Long blogIdx, @Validated BlogForm form, Errors errors) {
         return null;
     }
 
