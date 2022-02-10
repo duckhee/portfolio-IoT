@@ -10,5 +10,9 @@ public interface BlogReplyPersistence extends JpaRepository<BlogReplyDomain, Lon
 
     List<BlogReplyDomain> findByBlogIdx(Long blogIdx);
 
+    List<BlogReplyDomain> findByBlogIdxOrderByCreatedAtAsc(Long blogIdx);
+
+    List<BlogReplyDomain> findByBlogIdxOrderByCreatedAtDesc(Long blogIdx);
+
     Optional<BlogReplyDomain> findByIdx(Long replyIdx);
 }

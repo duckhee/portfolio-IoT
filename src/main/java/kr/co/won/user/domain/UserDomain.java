@@ -122,8 +122,6 @@ public class UserDomain {
         boolean flag = false;
         for (int i = 0; i < roleTypes.length; i++) {
             flag = flag || this.hasRole(roleTypes[i]);
-            log.info("get user role check flag ::: {}", this.hasRole(roleTypes[i]));
-            log.info("role check flag ::: {}", flag);
         }
         return flag;
     }

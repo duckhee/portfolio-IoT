@@ -44,7 +44,7 @@
             <!--./box-body-->
             <div class="box-footer">
                 <strong>Reply Comment</strong>
-                <p class="pull-right badge bg-green" th:text="${replies.size()}">
+                <p class="pull-right badge bg-green" id="replyNumber" th:text="${replies.size()}">
                     reply number
                 </p>
                 <hr>
@@ -58,19 +58,25 @@
                 <!--./input-group-->
                 <hr th:if="${replies.size() > 0}">
                 <!--TODO how to make reply box or show-->
-                <th:block th:if="${replies != null}" th:each="i : ${#numbers.sequence(replies.size() - 1, 0, -1)}">
-                    <div class="callouts">
-                        <h4 class="" th:text="${replies[i].replyer}"></h4>
-                        <!--./writer-->
-                        <div>
-                            [[${replies[i].replyContent}]]
-                            <a class="pull-right" id="removeReply"
-                               th:href="|javascript:removeReply(${replies[i].idx}, ${blog.idx})|">
-                                <i class="fa fa-times"></i></a>
-                        </div>
-                        <!--./reply-content-->
-                        <hr>
-                </th:block>
+                <div id="replyContainer">
+                    <!--/*<th:block th:if="${replies != null}" th:each="i : ${#numbers.sequence(replies.size() - 1, 0, -1)}">*/-->
+                    <th:block th:if="${replies != null}" th:each="reply : ${replies}">
+                        <div class="callouts">
+                            <h4 class="" th:text="${reply.replyer}"></h4>
+                            <!--./writer-->
+                            <div>
+                                [[${reply.replyContent}]]
+                                <a class="pull-right"
+                                   th:href="|javascript:removeReply(${reply.idx}, ${blog.idx})|">
+                                    <!--call javascript function-->
+                                    <i class="fa fa-times"></i>
+                                </a>
+                                <!--./remove a tag-->
+                            </div>
+                            <!--./reply-content-->
+                            <hr>
+                    </th:block>
+                </div>
                 <!--./reply-content-list-->
             </div>
             <!--./reply-content-->
@@ -105,9 +111,45 @@
             });
         }
 
+        /** get reply json */
+        function getRepliesJson(idx) {
+            $.ajax({
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                method: 'GET',
+                url: '/blogs/' + idx + "/reply"
+            }).then(function (data, textStatus, xhr) {
+                // get status check
+                if (xhr.status == 200) {
+                    let text = "";
+                    // reply reloading
+                    data.forEach(dataRaw => {
+                        console.log("get data for each ::: ", dataRaw);
+                        let textTemplate = `<div class="callouts">
+                                    <h4>${dataRaw.replyer}</h4>
+                                    <div>${dataRaw.replyContent}
+                                    <a class="pull-right" href="javascript:removeReply(${idx},${dataRaw.idx})">
+                                    <i class="fa fa-times"></i>
+                                    </a>
+                                    </div>
+                                </div><hr>`;
+                        text += textTemplate;
+                    });
+                    $("#replyContainer").empty();
+                    $("#replyNumber").empty();
+                    $("#replyNumber").append(data.length);
+                    $("#replyContainer").append(text);
+                    $("#replyContent").val("");
+                }
+            });
+        }
+
         /** function get reply list */
         function getReplies() {
             const blogPath = [[${blog.idx}]];
+            console.log("get blog Idx ::: ", blogPath);
+
+            return getRepliesJson(blogPath);
         }
 
         /** function create reply */
@@ -127,19 +169,36 @@
                     method: "POST",
                     url: "/blogs/" + blogPath + "/reply",
                     data: JSON.stringify({"replyContent": replyContent})
-                }).done(function (data, status) {
-
-                    if (status == 201) {
+                }).done(function (data, textStatus, xhr) {
+                    console.log("get done data ::: ", data);
+                    if (xhr.status == 201) {
                         console.log("create reply");
+                        return getReplies();
                     }
-                    console.log("status :::: ", status);
+                    console.log("get data ::: ", data);
                 });
             });
         };
 
         /** remove reply */
         function removeReply(replyIdx, blogIdx) {
-            console.log("remove reply :::", replyIdx);
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                method: "POST",
+                url: "/blogs/" + blogIdx + "/reply/delete/" + replyIdx,
+                error: function (xhr, statusText, err) {
+                    alert("error" + xhr.status);
+                    console.log("status ::: ", statusText);
+                    console.log("get error ::: ", err);
+                }
+            }).done(function (data, textStatus, xhr) {
+                console.log("get done data ::: ", data);
+                if (xhr.status == 200) {
+                    return getReplies();
+                } else {
+                    console.log("get data ::: ", data);
+                }
+            });
         }
 
         $(document).ready(function () {

@@ -173,7 +173,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<BlogReplyDomain> listReply(Long blogIdx) {
-        List<BlogReplyDomain> findReplies = blogReplyPersistence.findByBlogIdx(blogIdx);
+        List<BlogReplyDomain> findReplies = blogReplyPersistence.findByBlogIdxOrderByCreatedAtDesc(blogIdx);
         return findReplies;
     }
 
