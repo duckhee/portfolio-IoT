@@ -61,6 +61,9 @@ public class BlogServiceImpl implements BlogService {
         return savedBlog;
     }
 
+    /**
+     * blog read function call update view count number update
+     */
     @Transactional
     @Override
     public BlogDomain readBlog(Long blogIdx) {
@@ -70,6 +73,9 @@ public class BlogServiceImpl implements BlogService {
         return findBlog;
     }
 
+    /**
+     * blog read function call update view count number update
+     */
     @Transactional
     @Override
     public BlogDomain detailBlog(Long blogIdx) {
@@ -169,6 +175,38 @@ public class BlogServiceImpl implements BlogService {
     public List<BlogReplyDomain> listReply(Long blogIdx) {
         List<BlogReplyDomain> findReplies = blogReplyPersistence.findByBlogIdx(blogIdx);
         return findReplies;
+    }
+
+    /**
+     * blog reply remove
+     * check blog writer same loginUser,
+     * check reply writer same loginUser,
+     * loginUser Role Check
+     */
+    @Transactional
+    @Override
+    public BlogReplyDomain removeReply(Long blogIdx, Long replyIdx, UserDomain loginUser) {
+        BlogReplyDomain findReply = blogReplyPersistence.findByIdx(replyIdx).orElseThrow(() ->
+                new IllegalArgumentException("not have blog replies."));
+        // get blog
+        BlogDomain findBlog = findReply.getBlog();
+        // user role Admin or Manager
+        if (loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            blogReplyPersistence.delete(findReply);
+            return findReply;
+        }
+        // blog writer same
+        if (findBlog.getWriterEmail().equals(loginUser.getEmail())) {
+            blogReplyPersistence.delete(findReply);
+            return findReply;
+        }
+        // reply writer same
+        if (findReply.getReplyerEmail().equals(loginUser.getEmail())) {
+            blogReplyPersistence.delete(findReply);
+            return findReply;
+        }
+        // delete failed return null
+        return null;
     }
 
     // this is match user update possible

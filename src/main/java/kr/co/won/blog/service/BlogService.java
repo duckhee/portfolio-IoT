@@ -35,6 +35,7 @@ public interface BlogService {
 
     /**
      * Read Blog
+     * update view count update
      */
     public default BlogDomain readBlog(Long blogIdx) {
         return null;
@@ -117,6 +118,14 @@ public interface BlogService {
      * blog reply paging list
      */
     public default Page pagingReply(PageDto page) {
+        return null;
+    }
+
+    /**
+     * blog reply remove
+     * remove failed return null
+     */
+    public default BlogReplyDomain removeReply(Long blogIdx, Long replyIdx, UserDomain loginUser) {
         return null;
     }
 

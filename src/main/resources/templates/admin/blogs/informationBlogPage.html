@@ -3,9 +3,9 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{admin/layout/adminLayout(menu='blog', currentMenu='blogCreate')}">
+      layout:decorate="~{admin/layout/adminLayout(menu='blog', currentMenu='blogList')}">
 <head>
-    <title>ADMIN MAIN</title>
+    <title>BLOG DETAIL</title>
 </head>
 <body>
 <th:block layout:fragment="mainContent">
@@ -64,7 +64,8 @@
                         <!--./writer-->
                         <div>
                             [[${replies[i].replyContent}]]
-                            <a class="pull-right" id="removeReply" th:href="|javascript:removeReply(${replies[i].idx}, ${blog.idx})|">
+                            <a class="pull-right" id="removeReply"
+                               th:href="|javascript:removeReply(${replies[i].idx}, ${blog.idx})|">
                                 <i class="fa fa-times"></i></a>
                         </div>
                         <!--./reply-content-->
@@ -104,6 +105,11 @@
             });
         }
 
+        /** function get reply list */
+        function getReplies() {
+            const blogPath = [[${blog.idx}]];
+        }
+
         /** function create reply */
         function createReplies() {
             const blogPath = [[${blog.idx}]];
@@ -122,6 +128,10 @@
                     url: "/blogs/" + blogPath + "/reply",
                     data: JSON.stringify({"replyContent": replyContent})
                 }).done(function (data, status) {
+
+                    if (status == 201) {
+                        console.log("create reply");
+                    }
                     console.log("status :::: ", status);
                 });
             });

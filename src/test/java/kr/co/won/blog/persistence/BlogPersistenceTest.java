@@ -100,7 +100,7 @@ class BlogPersistenceTest {
     @Test
     void bulkDeleteBlogTests() {
         UserDomain testUser = userFactory.testUser("tester", "tester@co.kr", "1234");
-        List<BlogDomain> blogs = blogFactory.makeBulkBlogWithReply(10, "title", "content", testUser, 10);
+        List<BlogDomain> blogs = blogFactory.makeMockBulkBlogWithReply(10, "title", "content", testUser, 10);
         List<Long> blogIdxes = blogs.stream().map(BlogDomain::getIdx).collect(Collectors.toList());
         entityManager.clear();
 
@@ -113,7 +113,7 @@ class BlogPersistenceTest {
     @Test
     void findBlogWithWriterLimitOne() {
         UserDomain testUser = userFactory.testUser("tester", "tester@co.kr", "1234");
-        List<BlogDomain> blogs = blogFactory.makeBulkBlogWithReply(10, "title", "content", testUser, 10);
+        List<BlogDomain> blogs = blogFactory.makeMockBulkBlogWithReply(10, "title", "content", testUser, 10);
         entityManager.clear();
         Optional<BlogDomain> findBlogLimitOne = blogPersistence.findFirstByWriterOrderByCreatedAtDesc("tester");
         log.info("find blog limit one :::: {}", findBlogLimitOne.get());
@@ -123,7 +123,7 @@ class BlogPersistenceTest {
     @Test
     void findBlogWithWriterLimitTen() {
         UserDomain testUser = userFactory.testUser("tester", "tester@co.kr", "1234");
-        List<BlogDomain> blogs = blogFactory.makeBulkBlogWithReply(20, "title", "content", testUser, 10);
+        List<BlogDomain> blogs = blogFactory.makeMockBulkBlogWithReply(20, "title", "content", testUser, 10);
         entityManager.clear();
         List<BlogDomain> findBlogLimitTen = blogPersistence.findTop10ByWriterOrderByCreatedAtDesc("tester");
         assertThat(findBlogLimitTen.size()).isEqualTo(10);

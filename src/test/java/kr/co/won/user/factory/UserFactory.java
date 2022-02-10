@@ -24,7 +24,7 @@ public class UserFactory {
     private final UserPersistence userPersistence;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserDomain testUser(String name, String email, String password) {
+    public UserDomain testMockUser(String name, String email, String password) {
         Address testAddress = new Address("zipCode", "roadAddress", "detailAddress");
         UserDomain testUser = UserDomain.builder()
                 .name(name)
@@ -38,12 +38,17 @@ public class UserFactory {
                 .role(UserRoleType.USER)
                 .build();
         testUser.addRole(testRole);
-        UserDomain savedUser = userPersistence.save(testUser);
-        savedUser.makeEmailToken();
+
+        return testUser;
+    }
+
+    public UserDomain testUser(String name, String email, String password) {
+        UserDomain newUser = this.testMockUser(name, email, password);
+        UserDomain savedUser = userPersistence.save(newUser);
         return savedUser;
     }
 
-    public List<UserDomain> bulkInsertTestUser(int makeUserNumber, String name, String password) {
+    public List<UserDomain> bulkInsertMockTestUser(int makeUserNumber, String name, String password) {
         if (makeUserNumber <= 0) {
             makeUserNumber = 100;
         }

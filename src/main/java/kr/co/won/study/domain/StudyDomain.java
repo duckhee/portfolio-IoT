@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 @EqualsAndHashCode(of = {"idx"})
-@ToString(exclude = {})
+@ToString//(exclude = {})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -38,7 +39,7 @@ public class StudyDomain {
     // published close time
     private LocalDateTime closedDateTime;
 
-    // recurited start time
+    // recruited start time
     private LocalDateTime recruitingUpdateDateTime;
 
     @Builder.Default

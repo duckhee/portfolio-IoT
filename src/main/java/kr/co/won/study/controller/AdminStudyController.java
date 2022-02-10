@@ -2,16 +2,18 @@ package kr.co.won.study.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
+import kr.co.won.study.form.CreateStudyForm;
+import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -23,6 +25,12 @@ public class AdminStudyController {
 
     private final ObjectMapper objectMapper;
 
+    private final CreateStudyValidation createStudyValidation;
+
+    @InitBinder(value = {"createStudyForm"})
+    public void createStudyValidationBinding(WebDataBinder binder) {
+        binder.addValidators(createStudyValidation);
+    }
 
     @GetMapping(path = "/create")
     public String studyCreatePage(@AuthUser UserDomain authUser, Model model) {
@@ -30,7 +38,10 @@ public class AdminStudyController {
     }
 
     @PostMapping(path = "/create")
-    public String studyCreateDo(@AuthUser UserDomain authUser, Model model, RedirectAttributes flash) {
+    public String studyCreateDo(@AuthUser UserDomain authUser, @Validated CreateStudyForm form, Errors errors, Model model, RedirectAttributes flash) {
+        if (errors.hasErrors()) {
+            return "admin/study/studyCreatePage";
+        }
         return "redirect:/admin/study/list";
     }
 

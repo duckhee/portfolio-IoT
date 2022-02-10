@@ -97,7 +97,7 @@ class AdminUserControllerTest {
     @DisplayName(value = "03. list member Page test - with ADMIN")
     @Test
     void listMemberPageWithADMINTests() throws Exception {
-        userFactory.bulkInsertTestUser(10, "testingUser", "test");
+        userFactory.bulkInsertMockTestUser(10, "testingUser", "test");
         mockMvc.perform(get("/admin/users/list"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("page"))

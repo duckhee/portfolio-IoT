@@ -5,7 +5,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{admin/layout/adminLayout(menu='blog', currentMenu='blogCreate')}">
 <head>
-    <title>ADMIN MAIN</title>
+    <title>BLOG CREATE</title>
 </head>
 <body>
 <th:block layout:fragment="mainContent">
@@ -121,7 +121,7 @@
                     htmlEncodeOutput: false,
                     // filebrowserUploadMethod: "form", // file upload javascript function
                     // fileTools_requestHeaders:{}
-                    filebrowserUploadUrl: "/blogs/resources/upload"
+                    filebrowserImageBrowseUrl: "/blogs/resources/upload"
                 });
                 // check editor obj
                 console.log("get editor :::: ", editor);

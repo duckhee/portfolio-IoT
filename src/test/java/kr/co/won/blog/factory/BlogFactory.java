@@ -76,7 +76,7 @@ public class BlogFactory {
     }
 
 
-    public List<BlogDomain> makeBulkBlogWithReply(int boardLength, String title, String content, UserDomain user, int replyNumber) {
+    public List<BlogDomain> makeMockBulkBlogWithReply(int boardLength, String title, String content, UserDomain user, int replyNumber) {
         List<BlogDomain> list = new ArrayList<>();
         for (int i = 0; i < boardLength; i++) {
             BlogDomain blog = makeBlogWithReply(title + i, content + i, user, replyNumber);
