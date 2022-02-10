@@ -2,6 +2,7 @@ package kr.co.won.blog.api.resource.dto;
 
 import kr.co.won.blog.api.BlogApiController;
 import kr.co.won.blog.domain.BlogDomain;
+import kr.co.won.user.domain.UserDomain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -58,5 +59,19 @@ public class BlogReadResourcesDto extends RepresentationModel<BlogReadResourcesD
         this.add(WebMvcLinkBuilder.linkTo(BlogApiController.class).slash(this.idx).withSelfRel());
     }
 
+    public BlogReadResourcesDto(BlogDomain blog, UserDomain authUser) {
+        this.idx = blog.getIdx();
+        this.title = blog.getTitle();
+        this.content = blog.getContent();
+        this.writer = blog.getWriter();
+        this.writerEmail = blog.getWriterEmail();
+        this.viewCnt = blog.getViewCnt();
+        this.projectUri = (blog.getProjectUrl() != null) ? URI.create(blog.getProjectUrl()) : null;
+        this.createdAt = blog.getCreatedAt();
+        this.updatedAt = blog.getUpdatedAt();
+        this.replies = blog.getReplies().stream().map(reply -> new ReplyResourceDto(reply, authUser)).collect(Collectors.toList());
+
+        this.add(WebMvcLinkBuilder.linkTo(BlogApiController.class).slash(this.idx).withSelfRel());
+    }
 
 }

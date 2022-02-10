@@ -49,6 +49,13 @@ public class ReplyCollectResources extends CollectionModel<ReplyCollectResources
         return ReplyCollectResources.of(list, links);
     }
 
+    public static CollectionModel of(BlogDomain blog, List<BlogReplyDomain> replies, UserDomain authUser, String profile) {
+        List<ReplyResourceDto> list = new ArrayList<>();
+        replies.forEach(reply -> list.add(new ReplyResourceDto(reply, blog, authUser)));
+        List<Link> links = new ArrayList<>();
+        return ReplyCollectResources.of(list, links);
+    }
+
     private static List<Link> getSelfLink(BlogDomain blog, ReplyResourceDto dto) {
         WebMvcLinkBuilder linker = WebMvcLinkBuilder.linkTo(BlogReplyApiController.class, blog.getIdx());
         List<Link> links = new ArrayList<>();

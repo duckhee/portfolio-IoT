@@ -95,10 +95,10 @@ public class BlogApiController {
     }
 
     @GetMapping(path = "/{idx}")
-    public ResponseEntity findBlogResources(@PathVariable(value = "idx") Long idx) {
+    public ResponseEntity findBlogResources(@AuthUser UserDomain authUser, @PathVariable(value = "idx") Long idx) {
 
         BlogDomain findBlog = blogService.detailBlog(idx);
-        BlogReadResourcesDto blogReadResourcesDto = new BlogReadResourcesDto(findBlog);
+        BlogReadResourcesDto blogReadResourcesDto = new BlogReadResourcesDto(findBlog, authUser);
         // add hal links
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
         blogReadResourcesDto.add(linkBuilder.withRel("list-blogs").withType(HttpMethod.GET.name()));

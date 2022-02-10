@@ -60,12 +60,13 @@ public class ReplyResourceDto extends RepresentationModel<ReplyResourceDto> {
         this.updatedAt = reply.getUpdatedAt();
 
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogReplyApiController.class, reply.getBlog().getIdx());
+        this.add(linkBuilder.slash(this.idx).withSelfRel());
+        this.add(linkBuilder.slash(this.idx).withRel("query-reply").withType(HttpMethod.GET.name()));
+        // extra link
         if (isAuth(reply, authUser)) {
             this.add(linkBuilder.slash(this.idx).withRel("update-reply").withType(HttpMethod.PUT.name()));
             this.add(linkBuilder.slash(this.idx).withRel("delete-reply").withType(HttpMethod.DELETE.name()));
         }
-        this.add(linkBuilder.slash(this.idx).withSelfRel());
-        this.add(linkBuilder.slash(this.idx).withRel("query-reply").withType(HttpMethod.GET.name()));
 
     }
 

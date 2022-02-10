@@ -142,10 +142,11 @@ class BlogApiControllerTest {
                 ));
     }
 
-    @TestUser(authLevel = UserRoleType.USER)
-    @DisplayName(value = "02. blog find api Test")
+
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "02. blog find api Test- ROLE ADMIN")
     @Test
-    void findBlogTests() throws Exception {
+    void findBlogTestsWithAdmin() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
         BlogDomain testBlog = blogFactory.makeBlogWithReply("title", "content", testUser, 10);
         mockMvc.perform(get("/api/blogs/{idx}", testBlog.getIdx()))
@@ -157,6 +158,63 @@ class BlogApiControllerTest {
                 .andExpect(jsonPath("_links.create-blogs").exists())
                 .andExpect(jsonPath("_links.update-blogs").exists())
                 .andExpect(jsonPath("_links.delete-blogs").exists())
+                .andDo(print())
+                .andDo(document("read-blogs-admin",
+                        /** response content type */
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request Header */
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        )
+                        ,
+                        /** path variable */
+                        pathParameters(
+                                parameterWithName("idx").description("읽어올 블로그의 고유 번호 값")
+                        ),
+                        /** Response Body */
+                        relaxedResponseFields(
+                                fieldWithPath("idx").type(JsonFieldType.NUMBER).description("블로그의 고유 번호").optional(),
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("블로그의 타이틀").optional(),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("블로그의 글").optional(),
+                                fieldWithPath("writer").type(JsonFieldType.STRING).description("블로그를 작성한 사람의 이름").optional(),
+                                fieldWithPath("writerEmail").type(JsonFieldType.STRING).description("블로그를 작성한 사람의 이메일").optional(),
+                                fieldWithPath("projectUri").type(JsonFieldType.STRING).description("블로그에 연결되어 있는 프로젝트의 주소").optional(),
+                                fieldWithPath("viewCnt").type(JsonFieldType.NUMBER).description("블로그를 사용자가 본 횟수").optional(),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("블로그를 작성한 시간").optional(),
+                                fieldWithPath("updatedAt").type(JsonFieldType.STRING).description("블로그를 수정된 시간").optional(),
+                                fieldWithPath("replies").type(JsonFieldType.ARRAY).description("블로그에 달려 있는 리플").optional()
+                        ),
+                        /** Blog Create Links */
+                        links(
+                                linkWithRel("self").description("현재 호출된 링크").optional(),
+                                linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional(),
+                                linkWithRel("list-blogs").description("블로그의 목록을 볼 수 있는 링크").optional(),
+                                linkWithRel("create-blogs").description("블로그를 새로 만들 수 있는 링크").optional(),
+                                linkWithRel("update-blogs").description("블로그를 업데이트할 수 있는 링크").optional(),
+                                linkWithRel("delete-blogs").description("블로그를 삭제를 할 수 있는 링크").optional()
+                        )
+                ));
+    }
+
+    @TestUser(authLevel = UserRoleType.USER)
+    @DisplayName(value = "02. blog find api Test - ROLE USER")
+    @Test
+    void findBlogTestsWithUser() throws Exception {
+        UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
+        BlogDomain testBlog = blogFactory.makeBlogWithReply("title", "content", testUser, 10);
+        mockMvc.perform(get("/api/blogs/{idx}", testBlog.getIdx()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+                .andExpect(jsonPath("_links.list-blogs").exists())
+                .andExpect(jsonPath("_links.create-blogs").exists())
+                .andExpect(jsonPath("_links.update-blogs").exists())
+                .andExpect(jsonPath("_links.delete-blogs").exists())
+                .andDo(print())
                 .andDo(document("read-blogs",
                         /** response content type */
                         responseHeaders(
