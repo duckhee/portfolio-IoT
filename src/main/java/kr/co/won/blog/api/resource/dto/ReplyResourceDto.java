@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import kr.co.won.blog.api.BlogApiController;
 import kr.co.won.blog.api.BlogReplyApiController;
 import kr.co.won.blog.domain.BlogReplyDomain;
+import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.domain.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,5 +50,22 @@ public class ReplyResourceDto extends RepresentationModel<ReplyResourceDto> {
         this.add(linkBuilder.slash(this.idx).withRel("delete-reply").withType(HttpMethod.DELETE.name()));
     }
 
+
+    public ReplyResourceDto(BlogReplyDomain reply, UserDomain authUser) {
+        this.idx = reply.getIdx();
+        this.replyer = reply.getReplyer();
+        this.replyContent = reply.getReplyContent();
+        this.createdAt = reply.getCreatedAt();
+        this.updatedAt = reply.getUpdatedAt();
+
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogReplyApiController.class, reply.getBlog().getIdx());
+        if(authUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || reply.getReplyerEmail().equals(authUser.getEmail())){
+            this.add(linkBuilder.slash(this.idx).withRel("update-reply").withType(HttpMethod.PUT.name()));
+            this.add(linkBuilder.slash(this.idx).withRel("delete-reply").withType(HttpMethod.DELETE.name()));
+        }
+        this.add(linkBuilder.slash(this.idx).withSelfRel());
+        this.add(linkBuilder.slash(this.idx).withRel("query-reply").withType(HttpMethod.GET.name()));
+
+    }
 
 }

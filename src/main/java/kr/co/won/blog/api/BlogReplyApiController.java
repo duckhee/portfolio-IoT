@@ -3,7 +3,7 @@ package kr.co.won.blog.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.api.resource.ReplyCreateResource;
-import kr.co.won.blog.api.resource.dto.ReplyCollectResourcesDto;
+import kr.co.won.blog.api.resource.ReplyCollectResources;
 import kr.co.won.blog.api.resource.dto.ReplyResourceDto;
 import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.form.CreateReplyForm;
@@ -14,12 +14,14 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -38,11 +40,10 @@ public class BlogReplyApiController {
 
 
     @GetMapping
-    public ResponseEntity listBlogRepliesResource(@PathVariable(name = "blogIdx") Long blogIdx) {
+    public ResponseEntity listBlogRepliesResource(@AuthUser UserDomain authUser, @PathVariable(name = "blogIdx") Long blogIdx) {
         List<BlogReplyDomain> getReplies = blogService.listReply(blogIdx);
-
-        CollectionModel<BlogReplyDomain> resultResource = ReplyCollectResourcesDto.of(getReplies);
-        return ResponseEntity.ok().body(resultResource);
+        CollectionModel<ReplyResourceDto> resourceDtos = ReplyCollectResources.of(getReplies, authUser);
+        return ResponseEntity.ok().body(resourceDtos);
     }
 
     @PostMapping
@@ -58,8 +59,12 @@ public class BlogReplyApiController {
                 .build();
         BlogReplyDomain savedReply = blogService.createReply(blogIdx, newReply, loginUser);
         ReplyResourceDto mappedResource = modelMapper.map(savedReply, ReplyResourceDto.class);
+        // create Location Uri
+        URI createUri = URI.create("/api/blogs/" + blogIdx + "/reply/" + savedReply.getIdx());
+        // make createReply Resource add blog reply resource link
         EntityModel<ReplyResourceDto> resultResource = ReplyCreateResource.of(savedReply.getBlog(), mappedResource);
-        return ResponseEntity.ok().body(resultResource);
+        resultResource.add(Link.of("/docs/index.html#replies-create-resources", "profile"));
+        return ResponseEntity.created(createUri).body(resultResource);
     }
 
 

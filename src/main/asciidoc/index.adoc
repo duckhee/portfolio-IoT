@@ -107,3 +107,10 @@ operation::list-blogs[snippets='request-headers,request-parameters,http-request,
 `GET` 요청으로 특정한 블로그에 대한 정보를 가져올 수 있다.
 
 operation::read-blogs[snippets='request-headers,path-parameters,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
+
+[[replies-create-resources]]
+=== Create Blog Reply
+
+`POST` 요청으로 특정한 블로그에 Reply을 추가할 수 있다.
+
+operation::create-replies[snippets='request-headers,path-parameters,http-request,,curl-request,response-headers,response-fields,links,response-body,http-response']
