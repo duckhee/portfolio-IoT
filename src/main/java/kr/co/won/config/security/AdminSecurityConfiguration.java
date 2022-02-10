@@ -1,6 +1,9 @@
 package kr.co.won.config.security;
 
+import kr.co.won.auth.AuthBasicService;
+import kr.co.won.auth.handler.LoginFailedHandler;
 import kr.co.won.auth.handler.LoginSuccessHandler;
+import kr.co.won.auth.handler.SimpleLoginFailedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
@@ -20,13 +23,15 @@ import org.springframework.security.core.session.SessionRegistry;
 @RequiredArgsConstructor
 public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
+    private final AuthBasicService authBasicService;
     private final SessionRegistry sessionRegistry;
     private final LoginSuccessHandler loginSuccessHandler;
+    private final LoginFailedHandler loginFailedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /** setting security ADMIN access /admin/*/
+
         http
                 .antMatcher("/admin/**")
                 .authorizeRequests()
@@ -42,7 +47,7 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(true)
                 .expiredUrl("/duplicated-login")
                 .sessionRegistry(sessionRegistry);*/
-
+        http.userDetailsService(authBasicService);
 
         /** form Login */
         http
@@ -53,7 +58,8 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .successForwardUrl("/admin")
                 .successHandler(loginSuccessHandler)
-                .defaultSuccessUrl("/admin");
+                .defaultSuccessUrl("/admin")
+                .failureHandler(new SimpleLoginFailedHandler("/admin/login?error=true"));
         /** logout */
         http
                 .logout()
