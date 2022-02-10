@@ -1,8 +1,10 @@
 package kr.co.won.blog.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.blog.domain.BlogReplyDomain;
+import kr.co.won.blog.dto.ReplyDto;
 import kr.co.won.blog.dto.ReplyListDto;
 import kr.co.won.blog.form.CreateReplyForm;
 import kr.co.won.blog.service.BlogService;
@@ -58,6 +60,14 @@ public class BlogReplyController {
         List<BlogReplyDomain> findBlogReplies = blogService.listReply(idx);
         List<ReplyListDto> blogReplies = findBlogReplies.stream().map(ReplyListDto::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(blogReplies);
+    }
+
+    @GetMapping(path = "/{replyIdx}")
+    public ResponseEntity readReply(@PathVariable(name = "blogIdx") Long blogIdx, @PathVariable(name = "replyIdx") Long replyIdx) {
+        BlogReplyDomain findReply = blogService.readReply(replyIdx);
+        // mapping return resource
+        ReplyDto resultDto = modelMapper.map(findReply, ReplyDto.class);
+        return ResponseEntity.ok().body(resultDto);
     }
 
     @PutMapping(path = "/update/{replyIdx}")

@@ -3,6 +3,7 @@ package kr.co.won.blog.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.TestUser;
 import kr.co.won.blog.domain.BlogDomain;
+import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.factory.BlogFactory;
 import kr.co.won.blog.form.CreateReplyForm;
 import kr.co.won.blog.persistence.BlogPersistence;
@@ -22,6 +23,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import springfox.documentation.spring.web.json.Json;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.*;
@@ -95,10 +99,22 @@ class BlogReplyControllerTest {
     void listRepliesTests() throws Exception {
         UserDomain testUser = userFactory.testUser("testing", "atesting@co.kr", "12346");
         BlogDomain makeBlog = blogFactory.makeBlogWithReply("test", "test", testUser, 10);
-        mockMvc.perform(get("/blogs/"+makeBlog.getIdx()+"/reply")
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/blogs/" + makeBlog.getIdx() + "/reply")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
+    @DisplayName(value = "03. read reply Tests")
+    @Test
+    void readReplyTests() throws Exception {
+        UserDomain testUser = userFactory.testUser("testing", "atesting@co.kr", "12346");
+        BlogDomain makeBlog = blogFactory.makeBlogWithReply("test", "test", testUser, 10);
+        List<BlogReplyDomain> findReplies = blogReplyPersistence.findByBlogIdx(makeBlog.getIdx());
+        BlogReplyDomain findReply = findReplies.get(0);
+        mockMvc.perform(get("/blogs/"+makeBlog.getIdx()+"/reply/"+findReply.getIdx())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

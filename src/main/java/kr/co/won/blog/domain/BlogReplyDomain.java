@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+
 @Entity
 @Table(name = "tbl_blog_reply")
 @Getter
@@ -25,8 +27,9 @@ public class BlogReplyDomain {
     private Long idx;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
 //    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "blog_idx", nullable = false)
     private BlogDomain blog;
 
 

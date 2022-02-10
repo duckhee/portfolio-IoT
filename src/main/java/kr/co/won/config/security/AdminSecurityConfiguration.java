@@ -1,10 +1,10 @@
 package kr.co.won.config.security;
 
+import kr.co.won.auth.handler.LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,7 +22,7 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     private final SessionRegistry sessionRegistry;
-
+    private final LoginSuccessHandler loginSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -52,9 +52,8 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .successForwardUrl("/admin")
-                .defaultSuccessUrl("/admin")
-                .and()
-                .csrf();
+                .successHandler(loginSuccessHandler)
+                .defaultSuccessUrl("/admin");
         /** logout */
         http
                 .logout()

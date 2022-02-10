@@ -192,6 +192,20 @@ public class BlogServiceImpl implements BlogService {
         return findReplies;
     }
 
+    @Override
+    public BlogReplyDomain readReply(Long replyIdx) {
+        BlogReplyDomain findReply = blogReplyPersistence.findByIdx(replyIdx).orElseThrow(() ->
+                new IllegalArgumentException(replyIdx + " not have reply."));
+        return findReply;
+    }
+
+    @Override
+    public BlogReplyDomain readReply(Long blogIdx, Long replyIdx) {
+        BlogReplyDomain findReply = blogReplyPersistence.findByIdx(replyIdx).orElseThrow(() ->
+                new IllegalArgumentException(replyIdx + " not have reply."));
+        return BlogService.super.readReply(blogIdx, replyIdx);
+    }
+
     /**
      * blog reply remove
      * check blog writer same loginUser,
@@ -205,18 +219,8 @@ public class BlogServiceImpl implements BlogService {
                 new IllegalArgumentException("not have blog replies."));
         // get blog
         BlogDomain findBlog = findReply.getBlog();
-        // user role Admin or Manager
-        if (loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
-            blogReplyPersistence.delete(findReply);
-            return findReply;
-        }
-        // blog writer same
-        if (findBlog.getWriterEmail().equals(loginUser.getEmail())) {
-            blogReplyPersistence.delete(findReply);
-            return findReply;
-        }
-        // reply writer same
-        if (findReply.getReplyerEmail().equals(loginUser.getEmail())) {
+        // user role Admin or Manager, blog writer, replyer
+        if (isHaveAuth(loginUser, findBlog, findReply)) {
             blogReplyPersistence.delete(findReply);
             return findReply;
         }
@@ -224,8 +228,13 @@ public class BlogServiceImpl implements BlogService {
         return null;
     }
 
+
     // this is match user update possible
     private boolean isHaveAuth(UserDomain loginUser, BlogDomain findBlog) {
         return loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || loginUser.getEmail().equals(findBlog.getWriterEmail());
+    }
+
+    private boolean isHaveAuth(UserDomain loginUser, BlogDomain findBlog, BlogReplyDomain reply) {
+        return loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || loginUser.getEmail().equals(findBlog.getWriterEmail()) || reply.getReplyerEmail().equals(loginUser.getEmail());
     }
 }

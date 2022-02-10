@@ -1,5 +1,6 @@
 package kr.co.won.config.security;
 
+import kr.co.won.auth.handler.LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.common.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Qualifier(value = "ormDatasource")
     private final DataSource dataSource;
     private final SessionRegistry sessionRegistry;
+    private final LoginSuccessHandler loginSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -57,6 +59,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionRegistry(sessionRegistry);*/
 
         /** form login add */
+        http.formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .successForwardUrl("/")
+                .defaultSuccessUrl("/")
+                .successHandler(loginSuccessHandler)
+                .permitAll();
+
+        /** logout setting */
+        http
+                .logout()
+                .logoutUrl("/logout")
+                .clearAuthentication(true)
+                .logoutSuccessUrl("/login")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .permitAll();
+        ;
 
         /** remember-me add */
 

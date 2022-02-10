@@ -136,6 +136,14 @@ public interface BlogService {
     }
 
     /**
+     * blog reply read
+     */
+    public default BlogReplyDomain readReply(Long blogIdx,Long replyIdx) {
+        return null;
+    }
+
+
+    /**
      * blog reply List
      */
     public default List<BlogReplyDomain> listReply(Long blogIdx) {
