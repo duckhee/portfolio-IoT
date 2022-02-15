@@ -1,4 +1,4 @@
-package kr.co.won.address;
+package kr.co.won.common;
 
 
 import lombok.AccessLevel;

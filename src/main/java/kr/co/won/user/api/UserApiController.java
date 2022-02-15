@@ -1,7 +1,7 @@
 package kr.co.won.user.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.co.won.address.Address;
+import kr.co.won.common.Address;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.errors.resource.ValidErrorResource;
 import kr.co.won.user.api.assembler.UserAssembler;

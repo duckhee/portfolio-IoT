@@ -1,6 +1,6 @@
 package kr.co.won.user.controller;
 
-import kr.co.won.address.Address;
+import kr.co.won.common.Address;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
@@ -12,7 +12,6 @@ import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Slf4j

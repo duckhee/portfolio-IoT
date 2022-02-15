@@ -2,9 +2,11 @@ package kr.co.won.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -14,17 +16,32 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 @Configuration
 public class AppConfiguration {
 
-    @Bean
+    @Primary
+    @Bean(name = "skipModelMapper")
+    @Qualifier(value = "skipModelMapper")
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
                 // this is null value not mapping
                 .setSkipNullEnabled(true)
-                // modelmapper set object UnderScope
+                // model mapper set object UnderScope
                 .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
                 .setSourceNameTokenizer(NameTokenizers.UNDERSCORE)
                 // model mapper not update null value
                 .setSkipNullEnabled(true);
+        return modelMapper;
+    }
+
+    @Bean(name = "notSkipModelMapper")
+    @Qualifier(value = "notSkipModelMapper")
+    public ModelMapper notSkipModelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration()
+                // this is null value not mapping
+                .setSkipNullEnabled(true)
+                // model mapper set object UnderScope
+                .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
+                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
         return modelMapper;
     }
 
@@ -43,4 +60,6 @@ public class AppConfiguration {
     public static ServletListenerRegistrationBean httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
     }
+
+
 }

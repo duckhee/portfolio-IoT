@@ -1,6 +1,6 @@
 package kr.co.won.user.factory;
 
-import kr.co.won.address.Address;
+import kr.co.won.common.Address;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;

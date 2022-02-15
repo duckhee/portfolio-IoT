@@ -1,6 +1,6 @@
 package kr.co.won.user.service;
 
-import kr.co.won.address.Address;
+import kr.co.won.common.Address;
 import kr.co.won.mail.EmailService;
 import kr.co.won.mail.EmailServiceConsoleImpl;
 import kr.co.won.properties.AppProperties;
@@ -9,15 +9,12 @@ import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.core.ApplicationContext;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.context.config.Profiles;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

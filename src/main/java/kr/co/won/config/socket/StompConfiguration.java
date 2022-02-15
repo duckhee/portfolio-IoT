@@ -1,4 +1,4 @@
-package kr.co.won.config;
+package kr.co.won.config.socket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

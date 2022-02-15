@@ -130,6 +130,7 @@ public class BlogServiceImpl implements BlogService {
         if (!isHaveAuth(loginUser, findBlog)) {
             throw new AccessDeniedException("not have auth.");
         }
+        BlogDomain mappedUpdateBlog = modelMapper.map(updateBlog, BlogDomain.class);
         // update input data check
         if (updateBlog.getTitle() != null || !updateBlog.getTitle().isBlank()) {
             findBlog.setTitle(updateBlog.getTitle());
@@ -143,6 +144,17 @@ public class BlogServiceImpl implements BlogService {
         return findBlog;
     }
 
+    @Transactional
+    @Override
+    public BlogDomain updatePartsBlog(Long blogIdx, BlogDomain updateBlog) {
+        return BlogService.super.updatePartsBlog(blogIdx, updateBlog);
+    }
+
+    @Transactional
+    @Override
+    public BlogDomain updatePartsBlog(Long blogIdx, BlogDomain updateBlog, UserDomain authUser) {
+        return BlogService.super.updatePartsBlog(blogIdx, updateBlog, authUser);
+    }
 
     @Override
     public Page pagingBlog(PageDto page) {

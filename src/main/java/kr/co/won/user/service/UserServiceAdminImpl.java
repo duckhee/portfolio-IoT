@@ -1,6 +1,6 @@
 package kr.co.won.user.service;
 
-import kr.co.won.address.Address;
+import kr.co.won.common.Address;
 import kr.co.won.mail.EmailService;
 import kr.co.won.mail.form.VerifiedMessage;
 import kr.co.won.properties.AppProperties;

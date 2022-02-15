@@ -3,6 +3,7 @@ package kr.co.won.errors.advice;
 import kr.co.won.blog.api.BlogApiController;
 import kr.co.won.errors.resource.AccessDeniedErrorResource;
 import kr.co.won.errors.resource.dto.ErrorDto;
+import kr.co.won.study.api.StudyApiController;
 import kr.co.won.user.api.UserApiController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +20,21 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestControllerAdvice(basePackageClasses = {
         UserApiController.class,
-        BlogApiController.class
+        BlogApiController.class,
+        StudyApiController.class
 })
 @RequiredArgsConstructor
 public class RootApiExceptionHandler {
-
+    /**
+     * root exception handle
+     */
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity rootExceptionsResources(Exception exception) {
         log.info("exceptions ::: {}", exception.toString());
         return ResponseEntity.badRequest().build();
     }
+
 
     @ExceptionHandler(value = {AccessDeniedException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -43,4 +49,23 @@ public class RootApiExceptionHandler {
         log.error("access denied uri ::: {}, url ::: {}", request.getRequestURI(), request.getRequestURL());
         return ResponseEntity.badRequest().body(errorResources);
     }
+
+    /**
+     * exception Argument Handler
+     */
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity argumentErrorResource(Exception exception, HttpServletRequest request) {
+        log.info("wrong call ");
+        ErrorDto errorDto = ErrorDto.builder()
+                .message(exception.getMessage())
+                .uri(request.getRequestURI())
+                .build();
+        EntityModel<ErrorDto> errorResources = AccessDeniedErrorResource.modelOf(errorDto);
+        exception.printStackTrace();
+        log.error("access denied uri ::: {}, url ::: {}", request.getRequestURI(), request.getRequestURL());
+        return ResponseEntity.badRequest().body(errorResources);
+    }
+
+
 }

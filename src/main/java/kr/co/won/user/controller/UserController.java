@@ -1,6 +1,6 @@
 package kr.co.won.user.controller;
 
-import kr.co.won.address.Address;
+import kr.co.won.common.Address;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.form.CreateUserForm;
@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;

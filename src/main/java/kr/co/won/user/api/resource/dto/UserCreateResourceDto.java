@@ -1,6 +1,6 @@
 package kr.co.won.user.api.resource.dto;
 
-import kr.co.won.address.Address;
+import kr.co.won.common.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

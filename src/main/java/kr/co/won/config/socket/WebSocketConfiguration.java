@@ -1,4 +1,4 @@
-package kr.co.won.config;
+package kr.co.won.config.socket;
 
 import kr.co.won.websocket.SocketJsHandler;
 import lombok.RequiredArgsConstructor;

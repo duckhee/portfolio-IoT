@@ -38,11 +38,11 @@ public class StudyApiController {
 
     @PostMapping
     public ResponseEntity createStudyResource(@AuthUser UserDomain authUser, @Validated CreateStudyForm form, Errors errors) {
-        if(authUser == null){
+        if (authUser == null) {
             throw new AccessDeniedException("Not Login.");
         }
         // validation failed
-        if(errors.hasErrors()){
+        if (errors.hasErrors()) {
             return validationResources(errors);
         }
         StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
@@ -51,9 +51,13 @@ public class StudyApiController {
     }
 
 
-
     @PutMapping(path = "/{studyIdx}")
     public ResponseEntity updateStudyResource(@PathVariable(name = "studyIdx") Long studyIdx) {
+        return null;
+    }
+
+    @PatchMapping(path = "/{studyIdx}")
+    public ResponseEntity updateStudyPartsResource(@PathVariable(name = "studyIdx") Long studyIdx) {
         return null;
     }
 
