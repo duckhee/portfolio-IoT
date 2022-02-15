@@ -2,7 +2,32 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="userMapper">
+<!--mysql-->
+<mapper namespace="userMysqlMapper">
 
 
+    <!--insert user query-->
+    <insert id="userInsertOne" parameterType="user" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx"
+            timeout="100">
+        INSERT INTO tbl_user(email,
+                             password,
+                             name,
+                             zip_code,
+                             road_address,
+                             detail_address,
+                             job)
+            VALUE ( ${user.email},
+            ${user.password},
+            ${user.name},
+            ${user.address.zipCode},
+            ${user.address.roadAddress},
+            ${user.address.detailAddress},
+            ${user.job}
+            );
+    </insert>
+
+    <!--select user query-->
+    <!--select user list query-->
+    <!--user update query-->
+    <!--user delete query-->
 </mapper>
