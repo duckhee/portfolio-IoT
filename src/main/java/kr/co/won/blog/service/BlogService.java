@@ -109,7 +109,10 @@ public interface BlogService {
         return;
     }
 
-    public default void bulkDeleteBlogs(List<Long> blogIdxes) {
+    /**
+     * Delete Bulk Blog
+     */
+    public default void bulkDeleteBlogs(List<Long> blogIdxes, UserDomain loginUser) {
         return;
     }
 
@@ -138,7 +141,7 @@ public interface BlogService {
     /**
      * blog reply read
      */
-    public default BlogReplyDomain readReply(Long blogIdx,Long replyIdx) {
+    public default BlogReplyDomain readReply(Long blogIdx, Long replyIdx) {
         return null;
     }
 

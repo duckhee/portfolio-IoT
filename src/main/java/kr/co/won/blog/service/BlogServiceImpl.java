@@ -182,6 +182,11 @@ public class BlogServiceImpl implements BlogService {
         blogPersistence.delete(findBlog);
     }
 
+    @Transactional
+    @Override
+    public void bulkDeleteBlogs(List<Long> blogIdxes, UserDomain loginUser) {
+        BlogService.super.bulkDeleteBlogs(blogIdxes, loginUser);
+    }
 
     /**
      * Blog Reply

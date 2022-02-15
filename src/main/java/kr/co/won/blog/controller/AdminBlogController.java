@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -104,10 +105,35 @@ public class AdminBlogController {
             return "admin/blogs/updateBlogPage";
         }
         BlogDomain mappedUpdateForm = modelMapper.map(form, BlogDomain.class);
+        BlogDomain updateBlog = blogService.updateBlog(blogIdx, mappedUpdateForm, authUser);
+        flash.addFlashAttribute("msg", updateBlog.getTitle() + " blog Update.");
         return "redirect:/admin/blogs/list";
     }
 
+    @DeleteMapping(path = "/{idx}")
+    public ResponseEntity deleteBlogDo(@AuthUser UserDomain authUser, @PathVariable(name = "idx") Long blogIdx) {
+        if (!isAuth(authUser)) {
+            return ResponseEntity.badRequest().build();
+        }
+            blogService.deleteBlog(blogIdx, authUser);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity bulkDeleteBlogDo(@AuthUser UserDomain authUser, @RequestBody List<Long> blogIdxes) {
+        if (!isAuth(authUser)) {
+            return ResponseEntity.badRequest().build();
+        }
+        blogService.bulkDeleteBlogs(blogIdxes, authUser);
+        return ResponseEntity.ok().build();
+    }
+
     // user role check
+    private boolean isAuth(UserDomain authUser) {
+        return authUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER);
+    }
+
+    // user auth check
     private boolean isAuth(UserDomain authUser, BlogDomain findBlog) {
         return authUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || findBlog.isOwner(authUser.getEmail());
     }

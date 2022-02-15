@@ -30,6 +30,18 @@ public class BlogFileDomain {
     @JoinColumn(name = "blog_idx", nullable = false)
     private BlogDomain blog;
 
+    @Column(nullable = false, length = 255)
+    private String originalName;
+
+    @Column(nullable = false, length = 255)
+    private String saveFileName;
+
+    @Column(nullable = false)
+    private String fileSize;
+
+    @Column(nullable = false)
+    private String extension;
+
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;

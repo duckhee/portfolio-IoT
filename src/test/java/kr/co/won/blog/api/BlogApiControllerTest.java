@@ -254,7 +254,7 @@ class BlogApiControllerTest {
     @Test
     void listBlogTestsWithAdmin() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
-        blogFactory.makeMockBulkBlogWithReply(100, "title", "content", testUser, 1);
+        blogFactory.makeBulkBlogWithReply(100, "title", "content", testUser, 1);
         mockMvc.perform(get("/api/blogs")
                         .contentType(MediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
@@ -323,7 +323,7 @@ class BlogApiControllerTest {
     @Test
     void listBlogTestsWithUser() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
-        blogFactory.makeMockBulkBlogWithReply(100, "title", "content", testUser, 1);
+        blogFactory.makeBulkBlogWithReply(100, "title", "content", testUser, 1);
         mockMvc.perform(get("/api/blogs")
                         .contentType(MediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
