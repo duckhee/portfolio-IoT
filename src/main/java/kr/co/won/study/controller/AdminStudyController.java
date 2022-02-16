@@ -2,12 +2,15 @@ package kr.co.won.study.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
+import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -56,14 +59,27 @@ public class AdminStudyController {
         return "admin/study/studyInformationPage";
     }
 
-    @GetMapping(path = "/{studyPath}/update")
-    public String studyUpdatePage(@AuthUser UserDomain authUser, @PathVariable(name = "studyPath") String pat, Model model) {
+    @GetMapping(path = "/update")
+    public String studyUpdatePage(@AuthUser UserDomain authUser, @RequestParam(name = "studyPath") String pat, Model model) {
         return "admin/study/studyInformationPage";
     }
 
-    @PostMapping(path = "/{studyPath}/update")
-    public String studyUpdateDo(@AuthUser UserDomain authUser, @PathVariable(name = "studyPath") String path, Model model, RedirectAttributes flash) {
+    @PostMapping(path = "/update")
+    public String studyUpdateDo(@AuthUser UserDomain authUser, @RequestParam(name = "studyPath") String path, Model model, RedirectAttributes flash) {
         return "redirect:/admin/study/" + path;
+    }
+
+    @DeleteMapping(path = "/{studyIdx}")
+    public ResponseEntity studyDeleteDo(@PathVariable(name = "studyIdx") Long studyIdx, @AuthUser UserDomain loginUser) {
+        return null;
+    }
+
+    private boolean isAuth(UserDomain loginUser) {
+        return loginUser.hasRole(UserRoleType.MANAGER, UserRoleType.ADMIN);
+    }
+
+    private boolean isAuth(UserDomain loginUser, StudyDomain study) {
+        return false;
     }
 
 }

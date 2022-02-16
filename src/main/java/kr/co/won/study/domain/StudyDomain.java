@@ -1,5 +1,6 @@
 package kr.co.won.study.domain;
 
+import kr.co.won.user.domain.UserDomain;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -51,6 +52,12 @@ public class StudyDomain {
     // study close or finished
     @Builder.Default
     private boolean closed = false;
+
+    /**
+     * TODO check UserDomain or User Email
+     * study organizer email
+     */
+    private String organizer;
 
     /**
      * 0 is not limit
