@@ -1,4 +1,4 @@
-def mainDir="portfolio-IoT"
+def mainDir="/var/jenkins_home/workspace/test-pipeline"
 def repository="testing"
 def nickName="portfolio"
 
