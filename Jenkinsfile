@@ -12,7 +12,7 @@ pipeline{
         stage("Pull Codes"){
             steps{
                  // checkout branch master
-                checkout jenkins
+                checkout scm
             }
         }
         // build test
