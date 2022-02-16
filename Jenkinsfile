@@ -1,4 +1,4 @@
-def mainDir="portfolioIoT"
+def mainDir="portfolio-IoT"
 def repository="testing"
 def nickName="portfolio"
 
