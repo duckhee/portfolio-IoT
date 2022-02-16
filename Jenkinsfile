@@ -21,7 +21,6 @@ pipeline{
                 sh """
                 #!/bin/bash
                 echo 'Testing '
-                cd ${mainDir}
                 ./mvnw clean test
                 """
             }
@@ -32,7 +31,6 @@ pipeline{
             sh """
                 #!/bin/bash
                 echo 'Testing build'
-                cd ${mainDir}
                 ./mvnw clean package
                 """
             }
