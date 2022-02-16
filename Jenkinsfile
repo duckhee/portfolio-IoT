@@ -19,7 +19,7 @@ pipeline{
         stage("Test Codes"){
             steps{
                 sh """
-                !/bin/bash
+                #!/bin/bash
                 echo 'Testing '
                 cd ${mainDir}
                 ./mvnw clean test
@@ -30,7 +30,7 @@ pipeline{
         stage("Build Codes"){
         steps{
             sh """
-                !/bin/bash
+                #!/bin/bash
                 echo 'Testing build'
                 cd ${mainDir}
                 ./mvnw clean package
