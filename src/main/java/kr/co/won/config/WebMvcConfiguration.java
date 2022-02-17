@@ -25,4 +25,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 //        .addResourceLocations("file:"+appProperties.getUploadFolderPath() + "/");
 
     }
+
+
 }

@@ -65,7 +65,7 @@ public class BlogApiController {
         // webLink Base
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
         resultResource.add(Link.of("/docs/index.html#blog-list-resources", "profile").withType(HttpMethod.GET.name()));
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(resultResource);
     }
 
     @PostMapping
