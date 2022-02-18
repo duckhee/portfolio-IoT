@@ -7,6 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,7 +25,8 @@ public class StudyDomain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    private String title;
+    // study name
+    private String name;
 
     // study path
     @Column(nullable = false, unique = true)
@@ -35,23 +38,21 @@ public class StudyDomain {
     @Lob
     private String description;
 
-    // published time save
-    private LocalDateTime publishedDateTime;
-    // published close time
-    private LocalDateTime closedDateTime;
-
-    // recruited start time
-    private LocalDateTime recruitingUpdateDateTime;
-
-    @Builder.Default
-    private boolean recruiting = false;
-
     @Builder.Default
     private boolean published = false;
+    // published time save
+    private LocalDateTime publishedDateTime;
 
     // study close or finished
     @Builder.Default
     private boolean closed = false;
+    // published close time
+    private LocalDateTime closedDateTime;
+
+    @Builder.Default
+    private boolean recruiting = false;
+    // recruited start time
+    private LocalDateTime recruitingUpdateDateTime;
 
     /**
      * TODO check UserDomain or User Email
@@ -78,6 +79,22 @@ public class StudyDomain {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    //
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "study", orphanRemoval = true)
+    private List<StudyMemberDomain> joinMember = new ArrayList<>();
+
     /** study domain function */
 
+
+
+    /**
+     * Join user check function
+     */
+    public boolean isJoinMember(UserDomain user) {
+        return joinMember.stream().anyMatch(studyMember -> studyMember.getUser().equals(user));
+    }
+
+    public boolean isJoinMember(String userEmail) {
+        return joinMember.stream().anyMatch(studyMember -> studyMember.getUser().getEmail().equals(userEmail));
+    }
 }

@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.TestUser;
 import kr.co.won.blog.factory.BlogFactory;
 import kr.co.won.config.RestDocsConfiguration;
+import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.persistence.UserPersistence;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -56,6 +58,17 @@ class StudyApiControllerTest {
     @AfterEach
     void dataInit() {
         userPersistence.deleteAll();
+    }
+
+    @Disabled
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "01. study Create Test - with ADMIN")
+    @Test
+    void studyCreateTests_withADMIN() throws Exception {
+
+        mockMvc.perform(post("/api/studies"))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     @TestUser(authLevel = UserRoleType.ADMIN)
