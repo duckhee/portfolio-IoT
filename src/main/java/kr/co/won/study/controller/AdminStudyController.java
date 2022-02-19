@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(path = "/admin/study")
 @RequiredArgsConstructor
+@RequestMapping(path = "/admin/study")
 public class AdminStudyController {
 
     private final ModelMapper modelMapper;

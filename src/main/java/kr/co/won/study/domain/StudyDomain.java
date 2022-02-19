@@ -8,7 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,6 +28,7 @@ public class StudyDomain {
     private Long idx;
 
     // study name
+    @Column(nullable = false)
     private String name;
 
     // study path
