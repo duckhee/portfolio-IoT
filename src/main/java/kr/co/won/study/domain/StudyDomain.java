@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Builder
 @EqualsAndHashCode(of = {"idx"})
-@ToString//(exclude = {})
+@ToString(exclude = {"joinMember"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -38,6 +38,9 @@ public class StudyDomain {
     @Lob
     private String description;
 
+    /**
+     * Study Start
+     */
     @Builder.Default
     private boolean published = false;
     // published time save
@@ -58,7 +61,14 @@ public class StudyDomain {
      * TODO check UserDomain or User Email
      * study organizer email
      */
+    @Column(nullable = false)
     private String organizer;
+    /**
+     * TODO check UserDomain or User Email
+     * study manager email
+     */
+    @Column(nullable = false)
+    private String manager;
 
     /**
      * 0 is not limit
@@ -83,9 +93,55 @@ public class StudyDomain {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "study", orphanRemoval = true)
     private List<StudyMemberDomain> joinMember = new ArrayList<>();
 
-    /** study domain function */
+    /**
+     * is Owner only delete study
+     */
+    public boolean isOrganizer(String userEmail) {
+        return this.organizer.equals(userEmail);
+    }
 
+    /**
+     * study domain function
+     */
+    public boolean isManager(String userEmail) {
+        return isOrganizer(userEmail) ? true : this.manager.equals(userEmail) ? true : false;
+    }
 
+    /**
+     * joined study possible
+     */
+    public boolean isJoined() {
+        /** member count check */
+        return leftMember() && studyRecruitingStatus();
+    }
+
+    /**
+     * possible join left member
+     */
+    private boolean leftMember() {
+        return arrowMemberNumber == 0 ? true : arrowMemberNumber > memberCount ? true : false;
+    }
+
+    /**
+     * study status
+     */
+    private boolean studyRecruitingStatus() {
+        return closed == false ? recruiting == true ? true : false : false;
+    }
+
+    public StudyStatusType studyStatus() {
+        if (this.closed == true) {
+            return StudyStatusType.CLOSE;
+        }
+        if (this.published == true) {
+            return StudyStatusType.PUBLISHED;
+        }
+        if (this.recruiting == true) {
+            return StudyStatusType.RECRUIT;
+        }
+        /** update time same create time is new else finished */
+        return this.createdAt.equals(updatedAt) ? StudyStatusType.NEW : StudyStatusType.FINISHED;
+    }
 
     /**
      * Join user check function
