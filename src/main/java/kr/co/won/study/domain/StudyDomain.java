@@ -161,6 +161,36 @@ public class StudyDomain {
         return this.closed == false ? this.recruiting == true ? true : false : false;
     }
 
+    /**
+     * study publishing
+     */
+    public void studyPublishing() {
+        this.closed = false;
+        this.recruiting = false;
+        this.published = true;
+        this.publishedDateTime = LocalDateTime.now();
+    }
+
+    /**
+     * Study Recruiting
+     */
+    public void studyRecruiting() {
+        this.closed = false;
+        this.published = false;
+        this.recruiting = true;
+        this.recruitingUpdateDateTime = LocalDateTime.now();
+    }
+
+    /**
+     * Study Closing
+     */
+    public void studyClosing() {
+        this.published = false;
+        this.recruiting = false;
+        this.closed = true;
+        this.closedDateTime = LocalDateTime.now();
+    }
+
     public StudyStatusType studyStatus() {
         if (this.closed == true) {
             return StudyStatusType.CLOSE;
@@ -185,4 +215,5 @@ public class StudyDomain {
     public boolean isJoinMember(String userEmail) {
         return joinMember.stream().anyMatch(studyMember -> studyMember.getUser().getEmail().equals(userEmail));
     }
+
 }

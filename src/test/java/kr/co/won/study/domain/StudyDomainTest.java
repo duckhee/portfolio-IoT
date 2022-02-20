@@ -59,4 +59,10 @@ class StudyDomainTest {
         assertThat(buildTestStudy.isJoined()).isEqualTo(false);
     }
 
+    @DisplayName(value = "03. study publishing Test")
+    @Test
+    void publishedStudyDomainFunctionTests() {
+
+    }
+
 }
