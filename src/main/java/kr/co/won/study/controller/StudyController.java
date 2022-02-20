@@ -8,4 +8,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping(path = "/study")
 public class StudyController {
+
 }
