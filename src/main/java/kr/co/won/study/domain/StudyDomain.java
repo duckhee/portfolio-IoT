@@ -7,10 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -41,6 +38,9 @@ public class StudyDomain {
     @Lob
     private String description;
 
+    @Builder.Default
+    private boolean deleted = false;
+
     /**
      * Study Start
      */
@@ -68,6 +68,7 @@ public class StudyDomain {
     private String organizer;
     /**
      * TODO check UserDomain or User Email
+     * now just one manager
      * study manager email
      */
     @Column(nullable = false)
@@ -119,17 +120,45 @@ public class StudyDomain {
     }
 
     /**
+     * join Study
+     */
+    public boolean joinStudy(StudyMemberDomain studyMember) {
+        if (this.isJoined()) {
+            this.joinMember.add(studyMember);
+            studyMember.setStudy(this);
+            this.memberCount += 1;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean joinStudy(StudyMemberDomain... studyMembers) {
+        // study join possible check
+        if (this.arrowMemberNumber < (studyMembers.length + this.memberCount)) {
+            return false;
+        }
+        Arrays.stream(studyMembers).forEach(member -> {
+            if (this.isJoined()) {
+                this.joinMember.add(member);
+                member.setStudy(this);
+                this.memberCount += 1;
+            }
+        });
+        return true;
+    }
+
+    /**
      * possible join left member
      */
     private boolean leftMember() {
-        return arrowMemberNumber == 0 ? true : arrowMemberNumber > memberCount ? true : false;
+        return this.arrowMemberNumber == 0 ? true : this.arrowMemberNumber > this.memberCount ? true : false;
     }
 
     /**
      * study status
      */
     private boolean studyRecruitingStatus() {
-        return closed == false ? recruiting == true ? true : false : false;
+        return this.closed == false ? this.recruiting == true ? true : false : false;
     }
 
     public StudyStatusType studyStatus() {

@@ -31,6 +31,11 @@ public class StudyMemberDomain {
     @JoinColumn(name = "user_idx", nullable = true)
     private UserDomain user;
 
+    /**
+     * manager is true
+     */
+    private boolean manager;
+
     @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_idx", nullable = true)
     private StudyDomain study;
