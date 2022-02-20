@@ -114,3 +114,9 @@ operation::read-blogs[snippets='request-headers,path-parameters,http-request,htt
 `POST` 요청으로 특정한 블로그에 Reply을 추가할 수 있다.
 
 operation::create-replies[snippets='request-headers,path-parameters,http-request,,curl-request,response-headers,response-fields,links,response-body,http-response']
+
+[[study-create-resources]]
+=== Create Study
+
+`POST` 요청으로 새로운 스터디 모임을 생성할 수 있다.
+
