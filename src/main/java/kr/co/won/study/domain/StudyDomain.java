@@ -104,11 +104,19 @@ public class StudyDomain {
         return this.organizer.equals(userEmail);
     }
 
+    public boolean isOrganizer(UserDomain user) {
+        return this.organizer.equals(user.getEmail());
+    }
+
     /**
      * study domain function
      */
     public boolean isManager(String userEmail) {
         return isOrganizer(userEmail) ? true : this.manager.equals(userEmail) ? true : false;
+    }
+
+    public boolean isManager(UserDomain user) {
+        return isOrganizer(user) ? true : this.manager.equals(user.getEmail()) ? true : false;
     }
 
     /**
@@ -118,6 +126,7 @@ public class StudyDomain {
         /** member count check */
         return leftMember() && studyRecruitingStatus();
     }
+
 
     /**
      * join Study
