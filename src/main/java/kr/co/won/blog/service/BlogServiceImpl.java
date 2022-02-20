@@ -8,6 +8,7 @@ import kr.co.won.blog.persistence.BlogReplyPersistence;
 import kr.co.won.blog.persistence.BlogResourcePersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.persistence.UserPersistence;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 public class BlogServiceImpl implements BlogService {
 
     private final ModelMapper modelMapper;
+
+    private final UserPersistence userPersistence;
 
     private final BlogPersistence blogPersistence;
 
@@ -193,7 +196,7 @@ public class BlogServiceImpl implements BlogService {
      */
     @Transactional
     @Override
-    public BlogReplyDomain createReply(Long blogIdx, BlogReplyDomain reply, UserDomain loginUser) {
+    public BlogReplyDomain createReplwy(Long blogIdx, BlogReplyDomain reply, UserDomain loginUser) {
         BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
                 new IllegalArgumentException("not have blog."));
         reply.setReplyer(loginUser.getName());
