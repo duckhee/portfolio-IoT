@@ -26,7 +26,7 @@ public class BlogCollectResources extends CollectionModel<BlogReadResourcesDto> 
     private List<BlogReadResourcesDto> blogs;
 
     public BlogCollectResources(List<BlogDomain> blogs) {
-        List<BlogReadResourcesDto> collectBlog = blogs.stream().map(blog -> new BlogReadResourcesDto(blog)).collect(Collectors.toList());
+        List<BlogReadResourcesDto> collectBlog = blogs.stream().map(BlogReadResourcesDto::new).collect(Collectors.toList());
         this.blogs = collectBlog;
     }
 
