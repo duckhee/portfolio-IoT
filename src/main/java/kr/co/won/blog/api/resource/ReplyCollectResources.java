@@ -15,6 +15,7 @@ import org.springframework.http.HttpMethod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -36,24 +37,27 @@ public class ReplyCollectResources extends CollectionModel<ReplyCollectResources
     }
 
     public static CollectionModel of(List<BlogReplyDomain> replies, UserDomain authUser) {
-        List<ReplyResourceDto> list = new ArrayList<>();
-        replies.forEach(reply -> list.add(new ReplyResourceDto(reply, authUser)));
+//        List<ReplyResourceDto> list = new ArrayList<>();
+//        replies.forEach(reply -> list.add(new ReplyResourceDto(reply, authUser)));
+        List<ReplyResourceDto> collect = replies.stream().map(reply -> new ReplyResourceDto(reply, authUser)).collect(Collectors.toList());
         List<Link> links = new ArrayList<>();
-        return ReplyCollectResources.of(list, links);
+        return ReplyCollectResources.of(collect, links);
     }
 
     public static CollectionModel of(List<BlogReplyDomain> replies, UserDomain authUser, String profile) {
-        List<ReplyResourceDto> list = new ArrayList<>();
-        replies.forEach(reply -> list.add(new ReplyResourceDto(reply)));
+//        List<ReplyResourceDto> list = new ArrayList<>();
+//        replies.forEach(reply -> list.add(new ReplyResourceDto(reply)));
+        List<ReplyResourceDto> collect = replies.stream().map(ReplyResourceDto::new).collect(Collectors.toList());
         List<Link> links = new ArrayList<>();
-        return ReplyCollectResources.of(list, links);
+        return ReplyCollectResources.of(collect, links);
     }
 
     public static CollectionModel of(BlogDomain blog, List<BlogReplyDomain> replies, UserDomain authUser, String profile) {
-        List<ReplyResourceDto> list = new ArrayList<>();
-        replies.forEach(reply -> list.add(new ReplyResourceDto(blog, reply, authUser)));
+//        List<ReplyResourceDto> list = new ArrayList<>();
+//        replies.forEach(reply -> list.add(new ReplyResourceDto(blog, reply, authUser)));
+        List<ReplyResourceDto> collect = replies.stream().map(reply -> new ReplyResourceDto(blog, reply, authUser)).collect(Collectors.toList());
         List<Link> links = new ArrayList<>();
-        return ReplyCollectResources.of(list, links);
+        return ReplyCollectResources.of(collect, links);
     }
 
     private static List<Link> getSelfLink(BlogDomain blog, ReplyResourceDto dto) {
