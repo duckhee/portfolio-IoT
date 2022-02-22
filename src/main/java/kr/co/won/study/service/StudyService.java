@@ -39,4 +39,8 @@ public interface StudyService {
     public default StudyDomain findStudyWithPath(String path, UserDomain authUser) {
         return null;
     }
+
+    /** update Study */
+
+    /** delete Study */
 }

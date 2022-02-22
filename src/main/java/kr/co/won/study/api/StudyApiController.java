@@ -7,6 +7,7 @@ import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.form.DeleteBulkForm;
 import kr.co.won.study.service.StudyService;
+import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class StudyApiController {
     private final ObjectMapper objectMapper;
 
     private final StudyService studyService;
+    private final CreateStudyValidation createStudyValidation;
 
     @GetMapping
     public ResponseEntity listStudyResources(PageDto pageDto) {
@@ -48,11 +50,19 @@ public class StudyApiController {
         if (authUser == null) {
             throw new AccessDeniedException("Not Login.");
         }
+
         // validation failed
         if (errors.hasErrors()) {
             return validationResources(errors);
         }
+        // study custom validation valid
+        createStudyValidation.validate(form, errors);
+        if (errors.hasErrors()) {
+            return validationResources(errors);
+        }
+
         StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
+        StudyDomain savedStudy = studyService.createStudy(mappedStudy, authUser);
         WebMvcLinkBuilder baseLink = linkTo(StudyApiController.class);
         return null;
     }
