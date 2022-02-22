@@ -196,7 +196,7 @@ public class BlogServiceImpl implements BlogService {
      */
     @Transactional
     @Override
-    public BlogReplyDomain createReplwy(Long blogIdx, BlogReplyDomain reply, UserDomain loginUser) {
+    public BlogReplyDomain createReply(Long blogIdx, BlogReplyDomain reply, UserDomain loginUser) {
         BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
                 new IllegalArgumentException("not have blog."));
         reply.setReplyer(loginUser.getName());
