@@ -12,9 +12,4 @@ import org.springframework.stereotype.Component;
 public class StudyEventListener {
 
 
-    @EventListener
-    public void studyEventListener() {
-
-    }
-
 }
