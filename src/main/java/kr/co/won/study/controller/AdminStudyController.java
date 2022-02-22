@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
+import kr.co.won.study.service.StudyService;
 import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +32,8 @@ public class AdminStudyController {
 
     private final CreateStudyValidation createStudyValidation;
 
+    private final StudyService studyService;
+
     @InitBinder(value = {"createStudyForm"})
     public void createStudyValidationBinding(WebDataBinder binder) {
         binder.addValidators(createStudyValidation);
@@ -37,6 +41,7 @@ public class AdminStudyController {
 
     @GetMapping(path = "/create")
     public String studyCreatePage(@AuthUser UserDomain authUser, Model model) {
+        model.addAttribute(new CreateStudyForm());
         return "admin/study/studyCreatePage";
     }
 
@@ -45,11 +50,17 @@ public class AdminStudyController {
         if (errors.hasErrors()) {
             return "admin/study/studyCreatePage";
         }
+        StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
+//        mappedStudy.setOrganizer(authUser.getEmail());
+        StudyDomain savedStudy = studyService.createStudy(mappedStudy, authUser);
+        flash.addFlashAttribute("msg", savedStudy.getName() + " study create.");
         return "redirect:/admin/study/list";
     }
 
     @GetMapping(path = "/list")
     public String studyListPage(@AuthUser UserDomain authUser, PageDto pageDto, Model model) {
+        Page pagingStudy = studyService.pagingStudy(pageDto, authUser);
+        model.addAttribute("page", pagingStudy);
         return "admin/study/studyListPage";
 
     }
