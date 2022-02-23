@@ -7,6 +7,7 @@ import kr.co.won.blog.persistence.BlogResourcePersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserDomainBuilderFactory;
+import kr.co.won.user.persistence.UserPersistence;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +36,9 @@ class BlogServiceTest {
     private UserDomainBuilderFactory userDomainBuilder = new UserDomainBuilderFactory();
 
     @Mock
+    private UserPersistence userPersistence;
+
+    @Mock
     private BlogPersistence blogPersistence;
 
     @Mock
@@ -46,7 +50,7 @@ class BlogServiceTest {
     @DisplayName(value = "01. create blog Test")
     @Test
     void createBlogTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+        BlogService blogService = new BlogServiceImpl(modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
@@ -70,7 +74,7 @@ class BlogServiceTest {
     @DisplayName(value = "01. create blog Test - with user")
     @Test
     void createBlogWithUserTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+        BlogService blogService = new BlogServiceImpl(modelMapper,userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
@@ -95,7 +99,7 @@ class BlogServiceTest {
     @DisplayName(value = "02. read blog Test ")
     @Test
     void readBlogServiceTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+        BlogService blogService = new BlogServiceImpl(modelMapper,userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
