@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@RestControllerAdvice(basePackageClasses = {
+@RestControllerAdvice(assignableTypes = {
         UserApiController.class,
         BlogApiController.class,
         StudyApiController.class

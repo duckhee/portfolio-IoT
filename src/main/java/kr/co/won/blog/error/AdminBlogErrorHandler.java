@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.nio.file.AccessDeniedException;
 
-@ControllerAdvice(basePackageClasses = {AdminBlogController.class})
+@ControllerAdvice(assignableTypes = {AdminBlogController.class})
 public class AdminBlogErrorHandler {
 
 
