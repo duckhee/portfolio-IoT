@@ -67,11 +67,13 @@ public class AdminStudyController {
 
     @GetMapping(path = "/{studyPath}")
     public String studyInformationPage(@AuthUser UserDomain authUser, @PathVariable(name = "studyPath") String path, Model model) {
+        StudyDomain findStudy = studyService.findStudyWithPath(path);
+        model.addAttribute("study", findStudy);
         return "admin/study/studyInformationPage";
     }
 
     @GetMapping(path = "/update")
-    public String studyUpdatePage(@AuthUser UserDomain authUser, @RequestParam(name = "studyPath") String pat, Model model) {
+    public String studyUpdatePage(@AuthUser UserDomain authUser, @RequestParam(name = "studyPath") String path, Model model) {
         return "admin/study/studyInformationPage";
     }
 

@@ -65,7 +65,7 @@
                               th:erros="*{shortDescription}"></span>
                     </div>
                     <!--./short-description-->
-                    <div class="form-group" th:class="${#fields.hasErrors('arrowMemberNumber')} ? 'has-error':''">
+                    <div class="form-group" th:class="${#fields.hasErrors('allowMemberNumber')} ? 'has-error':''">
                         <label for="allowMemberNumber" class="control-label">Study Short Description</label>
                         <input th:fields="*{allowMemberNumber}" id="allowMemberNumber" name="allowMemberNumber"
                                th:class="form-control" type="number" placeholder="study allow member ....">

@@ -1,5 +1,6 @@
 package kr.co.won.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
@@ -20,6 +21,11 @@ public class TestAppConfiguration {
                 .setSourceNameTokenizer(NameTokenizers.UNDERSCORE)
                 .setSkipNullEnabled(true);
         return modelMapper;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 
     @Bean
