@@ -13,6 +13,7 @@ import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Lock;
@@ -156,6 +157,7 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     @Override
     public BlogDomain updatePartsBlog(Long blogIdx, BlogDomain updateBlog, UserDomain authUser) {
+
         return BlogService.super.updatePartsBlog(blogIdx, updateBlog, authUser);
     }
 
@@ -191,9 +193,19 @@ public class BlogServiceImpl implements BlogService {
         BlogService.super.bulkDeleteBlogs(blogIdxes, loginUser);
     }
 
+
     /**
      * Blog Reply
      */
+    @Transactional
+    @Override
+    public BlogReplyDomain createReply(Long blogIdx, BlogReplyDomain reply) {
+        BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
+                new IllegalArgumentException("not have blog."));
+        findBlog.addReply(reply);
+        return reply;
+    }
+
     @Transactional
     @Override
     public BlogReplyDomain createReply(Long blogIdx, BlogReplyDomain reply, UserDomain loginUser) {
@@ -202,8 +214,26 @@ public class BlogServiceImpl implements BlogService {
         reply.setReplyer(loginUser.getName());
         reply.setReplyerEmail(loginUser.getEmail());
         findBlog.addReply(reply);
-
         return reply;
+    }
+
+    @Transactional
+    @Override
+    public BlogReplyDomain createReply(Long blogIdx, BlogReplyDomain reply, String userEmail, String userName) {
+        BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
+                new IllegalArgumentException("not have blog."));
+        reply.setReplyerEmail(userEmail);
+        reply.setReplyer(userName);
+        findBlog.addReply(reply);
+        return reply;
+    }
+
+    /**
+     * Paging replies
+     */
+    @Override
+    public Page pagingReply(PageDto page) {
+        return BlogService.super.pagingReply(page);
     }
 
     @Override
@@ -223,7 +253,7 @@ public class BlogServiceImpl implements BlogService {
     public BlogReplyDomain readReply(Long blogIdx, Long replyIdx) {
         BlogReplyDomain findReply = blogReplyPersistence.findByIdx(replyIdx).orElseThrow(() ->
                 new IllegalArgumentException(replyIdx + " not have reply."));
-        return BlogService.super.readReply(blogIdx, replyIdx);
+        return findReply;
     }
 
     /**
@@ -248,6 +278,11 @@ public class BlogServiceImpl implements BlogService {
         return null;
     }
 
+    @Transactional
+    @Override
+    public void removeReplies(Long blogIdx, List<Long> repliesIdx, UserDomain loginUser) {
+        BlogService.super.removeReplies(blogIdx, repliesIdx, loginUser);
+    }
 
     // this is match user update possible
     private boolean isHaveAuth(UserDomain loginUser, BlogDomain findBlog) {

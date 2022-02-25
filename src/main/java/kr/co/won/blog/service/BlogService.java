@@ -168,6 +168,10 @@ public interface BlogService {
         return null;
     }
 
+    public default void removeReplies(Long blogIdx, List<Long> repliesIdx, UserDomain loginUser) {
+        return;
+    }
+
     /**
      * blog resource update
      */

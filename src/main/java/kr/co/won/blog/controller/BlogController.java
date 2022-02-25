@@ -105,12 +105,16 @@ public class BlogController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteListBlogDo(List<Long> blogIdxes) {
-        return null;
+    public ResponseEntity deleteListBlogDo(List<Long> blogIdxes, UserDomain loginUser) {
+        blogService.bulkDeleteBlogs(blogIdxes, loginUser);
+        // delete send 200
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/delete/{blogIdx}")
-    public ResponseEntity deleteBlogDo(@AuthUser UserDomain loginUser, @PathVariable(name = "blogIdx") Long blogIdx, RedirectAttributes flash) {
-        return null;
+    public ResponseEntity deleteBlogDo(@AuthUser UserDomain loginUser, @PathVariable(name = "blogIdx") Long blogIdx) {
+        blogService.deleteBlog(blogIdx, loginUser);
+        // delete send 200
+        return ResponseEntity.ok().build();
     }
 }

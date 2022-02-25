@@ -99,4 +99,9 @@ public class BlogReplyController {
         return ResponseEntity.ok().body("deleted");
     }
 
+    @DeleteMapping
+    public ResponseEntity removeBulkRepliesUsingDeleteMethod(@AuthUser UserDomain loginUser, @PathVariable(name = "blogIdx") Long blogIdx, @RequestBody(required = true) List<Long> repliesIdx) {
+        return null;
+    }
+
 }

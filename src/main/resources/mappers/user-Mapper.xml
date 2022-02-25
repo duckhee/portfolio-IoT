@@ -27,6 +27,12 @@
     </insert>
 
     <!--select user query-->
+    <!--select user with user role query-->
+    <select id="userFindWithRoleByEmail" parameterType="user" resultType="user">
+        SELECT *
+        FROM TBL_USER tu
+        WHERE tu.email = #{user.email}
+    </select>
     <!--select user list query-->
     <!--user update query-->
     <!--user delete query-->
