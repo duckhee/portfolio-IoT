@@ -33,7 +33,7 @@
                         GO TO LIST
                     </button>
                     <button type="button" class="btn btn-primary" id="createBtn">
-                        CREATE BLOG
+                        CREATE STUDY
                     </button>
                 </div>
                 <!--./registe blog button-->
@@ -41,7 +41,7 @@
             <!--./box-header-->
             <div class="box-body">
                 <form th:id="blog" th:name="blog" th:object="${createStudyForm}" th:method="POST" method="post"
-                      action="#create-blog" th:action="@{/admin/blogs/create}" enctype="multipart/form-data">
+                      action="#create-blog" th:action="@{/admin/study/create}" enctype="multipart/form-data">
                     <div class="form-group" th:class="${#fields.hasErrors('name')}?'has-error':''">
                         <label for="name" class="control-label">Blog Title</label>
                         <input th:field="*{name}" id="name" name="name" type="text" class="form-control"
@@ -80,7 +80,7 @@
 
                         </textarea>
                         <span class="help-block" th:if="${#fields.hasErrors('description')}"
-                              th:errors="*{content}"></span>
+                              th:errors="*{description}"></span>
                     </div>
                     <!--./form-group-->
                 </form>
