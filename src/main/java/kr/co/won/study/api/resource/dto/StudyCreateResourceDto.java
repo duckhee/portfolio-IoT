@@ -4,11 +4,17 @@ import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.domain.StudyStatusType;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDateTime;
 
-public class CreateStudyResourceDto extends RepresentationModel<CreateStudyResourceDto> {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class StudyCreateResourceDto extends RepresentationModel<StudyCreateResourceDto> {
 
     private Long idx;
 
@@ -20,7 +26,7 @@ public class CreateStudyResourceDto extends RepresentationModel<CreateStudyResou
 
     private LocalDateTime createdAt;
 
-    public CreateStudyResourceDto(StudyDomain studyDomain) {
+    public StudyCreateResourceDto(StudyDomain studyDomain) {
         this.idx = studyDomain.getIdx();
         this.name = studyDomain.getName();
         this.shortDescription = studyDomain.getShortDescription();
@@ -28,7 +34,7 @@ public class CreateStudyResourceDto extends RepresentationModel<CreateStudyResou
         this.createdAt = studyDomain.getCreatedAt();
     }
 
-    public CreateStudyResourceDto(StudyDomain studyDomain, UserDomain loginUser) {
+    public StudyCreateResourceDto(StudyDomain studyDomain, UserDomain loginUser) {
         this.idx = studyDomain.getIdx();
         this.name = studyDomain.getName();
         this.shortDescription = studyDomain.getShortDescription();
