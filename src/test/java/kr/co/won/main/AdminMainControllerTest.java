@@ -27,13 +27,13 @@ class AdminMainControllerTest {
     private UserPersistence userPersistence;
 
     @AfterEach
-    void testInit(){
+    void testInit() {
         userPersistence.deleteAll();
     }
 
     @DisplayName(value = "01. admin user login Test - with Success")
     @Test
-    void adminLoginPageWithGetTests() throws Exception{
+    void adminLoginPageWithGetTests() throws Exception {
         mockMvc.perform(get("/admin/login"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/loginPage"));
@@ -43,7 +43,7 @@ class AdminMainControllerTest {
     @TestUser(authLevel = UserRoleType.ADMIN)
     @DisplayName(value = "01. admin user login Test - with Failed")
     @Test
-    void adminLoginPageWithGetAndLoginDoneTests() throws Exception{
+    void adminLoginPageWithGetAndLoginDoneTests() throws Exception {
         mockMvc.perform(get("/admin/login"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin"))

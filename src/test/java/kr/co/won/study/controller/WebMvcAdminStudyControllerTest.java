@@ -3,6 +3,7 @@ package kr.co.won.study.controller;
 import kr.co.won.auth.TestMockUser;
 import kr.co.won.config.TestAppConfiguration;
 import kr.co.won.config.TestWebMvcConfig;
+import kr.co.won.config.WebSliceTest;
 import kr.co.won.study.service.StudyService;
 import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserRoleType;
@@ -35,10 +36,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         SecurityConfig.class
                 })
         })
+// custom Web Slice Annotation
+@WebSliceTest
+/*
 @AutoConfigureMockMvc
-@ExtendWith(value = {MockitoExtension.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(value = {MockitoExtension.class})
 @Import(value = {TestAppConfiguration.class, TestWebMvcConfig.class})
+ */
 class WebMvcAdminStudyControllerTest {
 
     @Autowired
