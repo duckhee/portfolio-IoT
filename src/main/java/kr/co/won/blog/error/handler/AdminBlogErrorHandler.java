@@ -1,4 +1,4 @@
-package kr.co.won.blog.error;
+package kr.co.won.blog.error.handler;
 
 import kr.co.won.blog.controller.AdminBlogController;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -3,6 +3,8 @@ package kr.co.won.study.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.errors.resource.ValidErrorResource;
+import kr.co.won.study.api.resource.StudyCreateResource;
+import kr.co.won.study.api.resource.dto.StudyCreateResourceDto;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.form.DeleteBulkForm;
@@ -22,6 +24,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +60,6 @@ public class StudyApiController {
         if (authUser == null) {
             throw new AccessDeniedException("Not Login.");
         }
-
         // validation failed
         if (errors.hasErrors()) {
             return validationResources(errors);
@@ -71,7 +73,12 @@ public class StudyApiController {
         StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
         StudyDomain savedStudy = studyService.createStudy(mappedStudy, authUser);
         WebMvcLinkBuilder baseLink = linkTo(StudyApiController.class);
-        return null;
+        // creat uri
+        URI createUri = URI.create(baseLink.slash(savedStudy.getIdx()).toString());
+        // return result setting
+        StudyCreateResourceDto studyDto = new StudyCreateResourceDto(savedStudy, authUser);
+        EntityModel<StudyCreateResourceDto> result = StudyCreateResource.of(studyDto);
+        return ResponseEntity.created(createUri).body(result);
     }
 
 
