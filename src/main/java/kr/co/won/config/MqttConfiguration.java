@@ -17,6 +17,8 @@ import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
+import org.springframework.integration.support.DefaultErrorMessageStrategy;
+import org.springframework.integration.support.ErrorMessageStrategy;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
@@ -40,8 +42,10 @@ public class MqttConfiguration {
         connectOptions.setCleanSession(true);
         connectOptions.setAutomaticReconnect(true);
         connectOptions.setConnectionTimeout(1000);
+
         // mqtt client factory option setting
         defaultMqttPahoClientFactory.setConnectionOptions(connectOptions);
+
         return defaultMqttPahoClientFactory;
     }
 
@@ -59,8 +63,11 @@ public class MqttConfiguration {
         mqttPahoMessageDrivenChannelAdapter.setCompletionTimeout(5000);
         mqttPahoMessageDrivenChannelAdapter.setConverter(new DefaultPahoMessageConverter());
         mqttPahoMessageDrivenChannelAdapter.setQos(2);
+
         return mqttPahoMessageDrivenChannelAdapter;
     }
+
+
 
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler mqttInBoundMessageHandler() {
