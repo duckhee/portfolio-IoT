@@ -87,6 +87,7 @@ public class StudyDomain {
     private int allowMemberNumber = 0;
 
     // join member count
+    @Builder.Default
     @Column(nullable = false)
     private int memberCount = 0;
 
@@ -99,6 +100,7 @@ public class StudyDomain {
     private LocalDateTime updatedAt;
 
     //
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "study", orphanRemoval = true)
     private List<StudyMemberDomain> joinMember = new ArrayList<>();
 
@@ -147,6 +149,23 @@ public class StudyDomain {
     }
 
     public boolean joinStudy(StudyMemberDomain... studyMembers) {
+        Arrays.stream(studyMembers).forEach(member -> {
+            if (this.isJoined()) {
+                this.joinMember.add(member);
+                member.setStudy(this);
+                this.memberCount += 1;
+            }
+            if (this.allowMemberNumber < this.memberCount) {
+                return;
+            }
+        });
+        if ((studyMembers.length + this.memberCount) > this.allowMemberNumber) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean joinStudyOverFailed(StudyMemberDomain... studyMembers) {
         // study join possible check
         if (this.allowMemberNumber < (studyMembers.length + this.memberCount)) {
             return false;
@@ -222,6 +241,10 @@ public class StudyDomain {
     /**
      * Join user check function
      */
+    public boolean isJoinMember(StudyMemberDomain member) {
+        return joinMember.stream().anyMatch(studyMember -> studyMember.equals(member));
+    }
+
     public boolean isJoinMember(UserDomain user) {
         return joinMember.stream().anyMatch(studyMember -> studyMember.getUser().equals(user));
     }
