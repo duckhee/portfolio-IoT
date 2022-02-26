@@ -9,6 +9,14 @@
         <typeAlias type="kr.co.won.user.domain.UserDomain" alias="user"></typeAlias>
         <!--user role domain-->
         <typeAlias type="kr.co.won.user.domain.UserRoleDomain" alias="user_role"></typeAlias>
+        <!--blog domain-->
+        <typeAlias type="kr.co.won.blog.domain.BlogDomain" alias="blog"></typeAlias>
+        <typeAlias type="kr.co.won.blog.domain.BlogReplyDomain" alias="blogReply"></typeAlias>
+        <typeAlias type="kr.co.won.blog.domain.BlogResourceDomain" alias="blogResource"></typeAlias>
+        <typeAlias type="kr.co.won.blog.domain.BlogFileDomain" alias="blogFile"></typeAlias>
+        <!--study domain-->
+        <typeAlias type="kr.co.won.study.domain.StudyDomain" alias="study"></typeAlias>
+        <typeAlias type="kr.co.won.study.domain.StudyMemberDomain" alias="studyMember"></typeAlias>
     </typeAliases>
 
 </configuration>

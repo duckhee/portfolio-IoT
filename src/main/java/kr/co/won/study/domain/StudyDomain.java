@@ -165,6 +165,9 @@ public class StudyDomain {
         return true;
     }
 
+    /**
+     * Join Study Member Over not Join Study
+     */
     public boolean joinStudyOverFailed(StudyMemberDomain... studyMembers) {
         // study join possible check
         if (this.allowMemberNumber < (studyMembers.length + this.memberCount)) {

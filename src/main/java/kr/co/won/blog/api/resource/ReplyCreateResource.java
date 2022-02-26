@@ -17,7 +17,7 @@ import java.util.List;
 public class ReplyCreateResource extends EntityModel<ReplyCreateResource> {
 
     @JsonIgnore
-    private static BlogDomain blog;
+    private BlogDomain blog;
 
     @JsonUnwrapped
     private ReplyResourceDto dto;
