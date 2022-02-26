@@ -79,7 +79,7 @@ public class StudyDomain {
      */
     // max member number
     @Builder.Default
-    private int arrowMemberNumber = 0;
+    private int allowMemberNumber = 0;
 
     // join member count
     @Column(nullable = false)
@@ -143,7 +143,7 @@ public class StudyDomain {
 
     public boolean joinStudy(StudyMemberDomain... studyMembers) {
         // study join possible check
-        if (this.arrowMemberNumber < (studyMembers.length + this.memberCount)) {
+        if (this.allowMemberNumber < (studyMembers.length + this.memberCount)) {
             return false;
         }
         Arrays.stream(studyMembers).forEach(member -> {
@@ -160,7 +160,7 @@ public class StudyDomain {
      * possible join left member
      */
     private boolean leftMember() {
-        return this.arrowMemberNumber == 0 ? true : this.arrowMemberNumber > this.memberCount ? true : false;
+        return this.allowMemberNumber == 0 ? true : this.allowMemberNumber > this.memberCount ? true : false;
     }
 
     /**

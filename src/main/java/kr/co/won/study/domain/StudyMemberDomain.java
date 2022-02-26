@@ -50,4 +50,5 @@ public class StudyMemberDomain {
 
     /** study join member domain function */
 
+
 }

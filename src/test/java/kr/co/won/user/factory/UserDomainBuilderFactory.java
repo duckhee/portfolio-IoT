@@ -6,7 +6,9 @@ import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;
 import org.springframework.boot.test.context.TestComponent;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @TestComponent
@@ -19,6 +21,17 @@ public class UserDomainBuilderFactory {
         testUser.addRole(testRole);
         testUser.setIdx(userIdx);
         return testUser;
+    }
+
+    public List<UserDomain> makeDomainBulkUser(String name, int number) {
+        Address testAddress = new Address("zipCode", "roadAddress", "detailAddress");
+        List<UserDomain> result = new ArrayList<>();
+        for (int i = 0; i < number; i++) {
+            Long idx = Long.valueOf(i + 1);
+            UserDomain makeUser = this.makeDomainUser(idx, name + i, name + i + "@co.kr", "1234", UserRoleType.USER);
+            result.add(makeUser);
+        }
+        return result;
     }
 
     // user domain
