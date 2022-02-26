@@ -69,6 +69,24 @@ public interface StudyService {
     public default StudyDomain updateStudy(Long studyIdx, StudyDomain findStudy, StudyDomain updateStudy, UserDomain loginUser) {
         return null;
     }
-    
+
+    /**
+     * update study slice
+     */
+    public default StudyDomain updateStudySlice(Long studyIdx, String userEmail) {
+        return null;
+    }
+
+    public default StudyDomain updateStudySlice(Long studyIdx, UserDomain loginUser) {
+        return null;
+    }
+
+    public default StudyDomain updateStudySlice(Long studyIdx, StudyDomain findStudy, StudyDomain updateStudy) {
+        return null;
+    }
+
+    public default StudyDomain updateStudySlice(Long studyIdx, StudyDomain findStudy, StudyDomain updateStudy, UserDomain loginUser) {
+        return null;
+    }
     /** delete Study */
 }

@@ -8,12 +8,12 @@ import java.net.URI;
 @TestComponent
 public class StudyDomainBuilderFactory {
 
-    public StudyDomain makeDefaultStudyInfinityAllowUser() {
+    public StudyDomain makeDefaultStudyInfinityAllowUser(String organizer) {
         StudyDomain mockStudy = StudyDomain.builder()
                 .name("default study")
                 .arrowMemberNumber(0)
                 .description("default study description")
-                .organizer("tester")
+                .organizer(organizer)
                 .path(URI.create("/testing/default-study").toString())
                 .recruiting(false)
                 .closed(true)

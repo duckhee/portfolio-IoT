@@ -21,6 +21,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +32,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BlogServiceImpl implements BlogService {
 
+    @Resource(name = "skipModelMapper")
     private final ModelMapper modelMapper;
+
+    @Resource(name = "notSkipModelMapper")
+    private final ModelMapper putModelMapper;
 
     private final UserPersistence userPersistence;
 
@@ -134,7 +139,7 @@ public class BlogServiceImpl implements BlogService {
         if (!isHaveAuth(loginUser, findBlog)) {
             throw new AccessDeniedException("not have auth.");
         }
-        BlogDomain mappedUpdateBlog = modelMapper.map(updateBlog, BlogDomain.class);
+        BlogDomain mappedUpdateBlog = putModelMapper.map(updateBlog, BlogDomain.class);
         // update input data check
         if (updateBlog.getTitle() != null || !updateBlog.getTitle().isBlank()) {
             findBlog.setTitle(updateBlog.getTitle());

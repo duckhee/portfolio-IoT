@@ -15,6 +15,15 @@ pipeline{
                 checkout scm
             }
         }
+        // get service config file
+        stage("Get Configuration"){
+            steps{
+                sh"""
+                #!/bin/bash
+                echo 'get configuration'
+                """
+            }
+        }
         // build test
         stage("Test Codes"){
             steps{
@@ -35,6 +44,8 @@ pipeline{
                 """
             }
         }
+        // step docker build
+        // step docker server send
         // deploy spring boot
         stage("Deploy Spring boot"){
             steps{

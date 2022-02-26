@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.ui.ModelMap;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -50,7 +51,10 @@ class BlogServiceTest {
     @DisplayName(value = "01. create blog Test")
     @Test
     void createBlogTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+        ModelMapper createModelMapper = new ModelMapper();
+        createModelMapper.getConfiguration()
+                .setSkipNullEnabled(true);
+        BlogService blogService = new BlogServiceImpl(createModelMapper, modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
@@ -74,7 +78,10 @@ class BlogServiceTest {
     @DisplayName(value = "01. create blog Test - with user")
     @Test
     void createBlogWithUserTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper,userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+        ModelMapper createModelMapper = new ModelMapper();
+        createModelMapper.getConfiguration()
+                .setSkipNullEnabled(true);
+        BlogService blogService = new BlogServiceImpl(createModelMapper, modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
@@ -99,7 +106,10 @@ class BlogServiceTest {
     @DisplayName(value = "02. read blog Test ")
     @Test
     void readBlogServiceTests() {
-        BlogService blogService = new BlogServiceImpl(modelMapper,userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+        ModelMapper createModelMapper = new ModelMapper();
+        createModelMapper.getConfiguration()
+                .setSkipNullEnabled(true);
+        BlogService blogService = new BlogServiceImpl(createModelMapper,modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";

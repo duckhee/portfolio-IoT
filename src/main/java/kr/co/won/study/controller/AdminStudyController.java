@@ -69,6 +69,7 @@ public class AdminStudyController {
     public String studyInformationPage(@AuthUser UserDomain authUser, @PathVariable(name = "studyPath") String path, Model model) {
         StudyDomain findStudy = studyService.findStudyWithPath(path);
         model.addAttribute("study", findStudy);
+        model.addAttribute("user", authUser);
         return "admin/study/studyInformationPage";
     }
 

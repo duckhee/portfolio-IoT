@@ -83,7 +83,6 @@ operation::create-users[snippets='request-headers,request-fields,request-body,ht
 
 operation::list-users[snippets='request-headers,request-parameters,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
 
-
 [[blog-reseources]]
 == BLOG RESOURCE
 
@@ -120,3 +119,26 @@ operation::create-replies[snippets='request-headers,path-parameters,http-request
 
 `POST` 요청으로 새로운 스터디 모임을 생성할 수 있다.
 
+[[study-find-resources]]
+=== Find Study
+
+`GET` 요청으로 현재 서비스에서 등록이 되어 있는 스터디를 찾을 수 있다.
+
+[[study-update-resources]]
+=== Update Study
+
+`PUT` 요청으로 현재 서비스에 등록된 스터디를 변경이 가능하다.
+
+[[study-part-update-resources]]
+=== Update Study
+
+`PATCH` 요청으로 현재 서비스에 등록된 스터디의 일 부분을 변경이 가능하다.
+현재 스터디의 상테를 변경하기 위해서 사용이 된다.
+
+
+[[study-delete-resources]]
+=== Delete Study
+
+`DELETE` 요청으로 현재 서비스에 등록이된 스터디를 삭제가 가능하다.
+
+삭제가 가능한 스터디는 현재 종료가 되어 있는 스터디이거나, 스터디를 주최한 주최자 혹은 사이트의 관리자만 가능하다.

@@ -18,6 +18,9 @@ import org.springframework.web.filter.ForwardedHeaderFilter;
 @Configuration
 public class AppConfiguration {
 
+    /**
+     * null skip model mapping
+     */
     @Primary
     @Bean(name = "skipModelMapper")
     @Qualifier(value = "skipModelMapper")
@@ -34,6 +37,9 @@ public class AppConfiguration {
         return modelMapper;
     }
 
+    /**
+     * null not skip model mapping
+     */
     @Bean(name = "notSkipModelMapper")
     @Qualifier(value = "notSkipModelMapper")
     public ModelMapper notSkipModelMapper() {
@@ -63,12 +69,11 @@ public class AppConfiguration {
         return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
     }
 /**
-    @Bean
-    FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter()
-    {
-        FilterRegistrationBean<ForwardedHeaderFilter> bean = new FilterRegistrationBean<>();
-        bean.setFilter(new ForwardedHeaderFilter());
-        return bean;
-    }
-*/
+ @Bean FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter()
+ {
+ FilterRegistrationBean<ForwardedHeaderFilter> bean = new FilterRegistrationBean<>();
+ bean.setFilter(new ForwardedHeaderFilter());
+ return bean;
+ }
+ */
 }

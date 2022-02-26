@@ -37,7 +37,14 @@ public class StudyApiController {
 
     private final ObjectMapper objectMapper;
 
+    /**
+     * study service
+     */
     private final StudyService studyService;
+
+    /**
+     * study validation
+     */
     private final CreateStudyValidation createStudyValidation;
 
     @GetMapping
@@ -60,7 +67,7 @@ public class StudyApiController {
         if (errors.hasErrors()) {
             return validationResources(errors);
         }
-
+        // save study
         StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
         StudyDomain savedStudy = studyService.createStudy(mappedStudy, authUser);
         WebMvcLinkBuilder baseLink = linkTo(StudyApiController.class);
@@ -73,13 +80,19 @@ public class StudyApiController {
         return null;
     }
 
+    /**
+     * study slice update
+     */
     @PatchMapping(path = "/{studyIdx}")
-    public ResponseEntity updateStudyPartsResource(@PathVariable(name = "studyIdx") Long studyIdx) {
+    public ResponseEntity updateStudyPartsResource(@PathVariable(name = "studyIdx") Long studyIdx, @AuthUser UserDomain loginUser) {
         return null;
     }
 
+    /**
+     * this is using admin user role
+     */
     @DeleteMapping
-    public ResponseEntity deleteStudyBulkResource(@RequestBody DeleteBulkForm studyIdxes) {
+    public ResponseEntity deleteStudyBulkResource(@RequestBody DeleteBulkForm studyIdxes, @AuthUser UserDomain loginUser) {
         log.info("bulk delete study ::: {}", studyIdxes.getStudy());
         return ResponseEntity.ok().build();
     }
