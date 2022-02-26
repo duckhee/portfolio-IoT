@@ -26,14 +26,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(path = "/admin/study")
 public class AdminStudyController {
 
+    /**
+     * Skip Mapping Null Value
+     */
     private final ModelMapper modelMapper;
 
     private final ObjectMapper objectMapper;
-
+    /**
+     * study validation
+     */
     private final CreateStudyValidation createStudyValidation;
-
+    /**
+     * study Service
+     */
     private final StudyService studyService;
 
+    /**
+     * validation binding
+     */
     @InitBinder(value = {"createStudyForm"})
     public void createStudyValidationBinding(WebDataBinder binder) {
         binder.addValidators(createStudyValidation);
@@ -42,12 +52,14 @@ public class AdminStudyController {
     @GetMapping(path = "/create")
     public String studyCreatePage(@AuthUser UserDomain authUser, Model model) {
         model.addAttribute(new CreateStudyForm());
+        model.addAttribute("user", authUser);
         return "admin/study/studyCreatePage";
     }
 
     @PostMapping(path = "/create")
     public String studyCreateDo(@AuthUser UserDomain authUser, @Validated CreateStudyForm form, Errors errors, Model model, RedirectAttributes flash) {
         if (errors.hasErrors()) {
+            model.addAttribute("user", authUser);
             return "admin/study/studyCreatePage";
         }
         StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
@@ -93,6 +105,7 @@ public class AdminStudyController {
     }
 
     private boolean isAuth(UserDomain loginUser, StudyDomain study) {
+        boolean isRole = loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER);
         return false;
     }
 

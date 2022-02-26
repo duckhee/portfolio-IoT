@@ -107,12 +107,28 @@ operation::list-blogs[snippets='request-headers,request-parameters,http-request,
 
 operation::read-blogs[snippets='request-headers,path-parameters,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
 
+[[blog-update-resources]]
+=== Update Blog
+
+`PUT` 요청으로 특정한 블로그에 대한 정보를 수정을 할 수 있다.
+
+현재 API를 사용할 수 있는 사용자는 블로그를 작성한 당사자와 관리자만 사용이 가능하다.
+
+[[blog-update-slice-resources]]
+
+`PATCH` 요청으로 특정한 블록의 일 부분을 수정을 할 수 있다.
+
+현재 API를 사용할 수 있는 사용자는 블로그를 작성한 당사자와 관리자만 사용이 가능하다.
+
 [[replies-create-resources]]
 === Create Blog Reply
 
 `POST` 요청으로 특정한 블로그에 Reply을 추가할 수 있다.
 
 operation::create-replies[snippets='request-headers,path-parameters,http-request,,curl-request,response-headers,response-fields,links,response-body,http-response']
+
+[[study-reseources]]
+== STUDY RESOURCES
 
 [[study-create-resources]]
 === Create Study
@@ -129,10 +145,16 @@ operation::create-replies[snippets='request-headers,path-parameters,http-request
 
 `PUT` 요청으로 현재 서비스에 등록된 스터디를 변경이 가능하다.
 
+현재 API를 사용할 수 있는 사용자는 스터디를 생성한 사람 및 관리자만 사용이 가능하다.
+
+
 [[study-part-update-resources]]
 === Update Study
 
 `PATCH` 요청으로 현재 서비스에 등록된 스터디의 일 부분을 변경이 가능하다.
+
+현재 API를 사용할 수 있는 사용자는 스터디를 생성한 사람 및 관리자만 사용이 가능하다.
+
 현재 스터디의 상테를 변경하기 위해서 사용이 된다.
 
 
@@ -142,3 +164,4 @@ operation::create-replies[snippets='request-headers,path-parameters,http-request
 `DELETE` 요청으로 현재 서비스에 등록이된 스터디를 삭제가 가능하다.
 
 삭제가 가능한 스터디는 현재 종료가 되어 있는 스터디이거나, 스터디를 주최한 주최자 혹은 사이트의 관리자만 가능하다.
+

@@ -81,7 +81,7 @@
                         <div class="dataTables_paginate paging_simple_numbers" style="text-align: center;">
                             <ul class="pagination" th:if="${page != null}">
                                 <li id="previousPage" class="paginate_button previous" th:if="${page.prevPage}">
-                                    <a th:href="@{'/admin/users/list'(page=${page.prevPage.pageNumber}+1)}">Previous</a>
+                                    <a th:href="@{'/admin/blogs/list'(page=${page.prevPage.pageNumber}+1)}">Previous</a>
                                 </li>
                                 <li id="previousPage" class="paginate_button previous disabled"
                                     th:if="${page.prevPage} == null">
@@ -90,12 +90,12 @@
                                 <li class="page-item"
                                     th:classappend="${p.pageNumber == page.currentPageNum -1}?active: '' "
                                     th:each="p:${page.pageList}">
-                                    <a th:href="@{'/admin/users/list'(page=${p.pageNumber}+1)}">[[${p.pageNumber}
+                                    <a th:href="@{'/admin/blogs/list'(page=${p.pageNumber}+1)}">[[${p.pageNumber}
                                         +1]]</a>
                                 </li>
 
                                 <li id="nextPage" class="paginate_button next" th:if="${page.nextPage}">
-                                    <a th:href="@{'/admin/users/list'(page=${page.nextPage.pageNumber} + 1)}">Next</a>
+                                    <a th:href="@{'/admin/blogs/list'(page=${page.nextPage.pageNumber} + 1)}">Next</a>
                                 </li>
                                 <li id="nextPage" class="paginate_button next disabled"
                                     th:if="${page.nextPage} == null">

@@ -18,8 +18,8 @@
         <!--./header title-->
         <ol class="breadcrumb">
             <li><a href="#" th:href="@{/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
-            <li><a href="#"> Blog</a></li>
-            <li class="active">Blog Create Page</li>
+            <li><a href="#"> Study</a></li>
+            <li class="active">Study Create Page</li>
         </ol>
     </section>
     <!--./content-header-->
@@ -43,14 +43,14 @@
                 <form th:id="blog" th:name="blog" th:object="${createStudyForm}" th:method="POST" method="post"
                       action="#create-blog" th:action="@{/admin/study/create}" enctype="multipart/form-data">
                     <div class="form-group" th:class="${#fields.hasErrors('name')}?'has-error':''">
-                        <label for="name" class="control-label">Blog Title</label>
+                        <label for="name" class="control-label">Study Name</label>
                         <input th:field="*{name}" id="name" name="name" type="text" class="form-control"
                                placeholder="study name..." required>
                         <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                     </div>
                     <!--./study-name Input-->
                     <div class="form-group" th:class="${#fields.hasErrors('path')}?'has-error':''">
-                        <label for="path" class="control-label">Project URL</label>
+                        <label for="path" class="control-label">Study URI Path</label>
                         <input th:field="*{path}" id="path" name="path" class="form-control"
                                type="url" placeholder="study url path setting...">
                         <span class="help-block" th:if="${#fields.hasErrors('path')}"
@@ -66,7 +66,7 @@
                     </div>
                     <!--./short-description-->
                     <div class="form-group" th:class="${#fields.hasErrors('allowMemberNumber')} ? 'has-error':''">
-                        <label for="allowMemberNumber" class="control-label">Study Short Description</label>
+                        <label for="allowMemberNumber" class="control-label">Study Allow Member Number</label>
                         <input th:fields="*{allowMemberNumber}" id="allowMemberNumber" name="allowMemberNumber"
                                th:class="form-control" type="number" placeholder="study allow member ....">
                         <span class="help-block" th:if="${#fields.hasErrors('allowMemberNumber')}"
@@ -75,7 +75,7 @@
                     <!--./short-description-->
                     <!--./form-group-->
                     <div class="form-group" th:class="${#fields.hasErrors('description')}?'has-error':''">
-                        <label for="content" class="control-label">Blog Content</label>
+                        <label for="content" class="control-label">Study Description</label>
                         <textarea th:field="*{description}" id="content" name="content" rows="10" cols="30">
 
                         </textarea>
@@ -132,7 +132,7 @@
                     htmlEncodeOutput: false,
                     // filebrowserUploadMethod: "form", // file upload javascript function
                     // fileTools_requestHeaders:{}
-                    filebrowserUploadUrl: "/blogs/resources/upload"
+                    filebrowserUploadUrl: "/study/resources/upload"
                 });
                 // editor.addCss('.cke_editable img { max-width: 100% !important; height: auto !important; }');
                 // check editor obj
@@ -184,54 +184,11 @@
                     window.parent.CKEDITOR.tools.callFunction(1, '"+fileUrl+"', '파일이 업로드되었습니다.');
                 });
 
-                /*  editor.on('fileUploadRequest', function (evt) {
-                      console.log("file upload function request call :::: ", evt);
-                      console.log("get file data :::: ", evt.data.requestData);
-                      /!*var xhr = evt.data.fileLoader.xhr;
-
-                      xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
-                      xhr.setRequestHeader( 'X-File-Name', this.fileName );
-                      xhr.setRequestHeader( 'X-File-Size', this.total );
-                      xhr.send( this.file );
-
-                      // Prevented the default behavior.
-                      evt.stop();*!/
-           /!*           var fileLoader = evt.data.fileLoader,
-                          formData = new FormData(),
-                          xhr = fileLoader.xhr;
-                      console.log('file loader :::: ', fileLoader);
-                      xhr.open('POST', fileLoader.uploadUrl, true);
-                      formData.append('upload', fileLoader.file, fileLoader.fileName);
-                      console.log("form data :::: ", formData);
-                      fileLoader.xhr.send(formData);
-
-                      evt.stop();*!/
-
-                  });
-                  editor.on('fileUploadResponse', function (evt) {
-                      console.log("file upload function response call :::: ", evt);
-
-
-                  });*/
-
-
-                //bootstrap WYSIHTML5 - text editor
-                //$(".textarea").wysihtml5();
             });
-            /*
-            $("#sendBtn").click(function(){
-                const content = CKEDITOR.instances.editor1.getData();
-                const title = $("#title").val();
 
-                $("#editor1").val(content);
-                alert(content);
-
-                document.boarder.submit();
-            });
-            */
 
             $("#cancelBtn").click(function () {
-                location.replace('/admin/blogs/list');
+                location.replace('/admin/study/list');
             });
             // create button
             $("#createBtn").click(function (event) {
