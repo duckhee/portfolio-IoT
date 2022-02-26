@@ -64,6 +64,11 @@ public class StudyDomain {
      * TODO check UserDomain or User Email
      * study organizer email
      */
+    /*
+    @ManyToOne
+    @JoinColumn(name = "user_idx",nullable = false)
+    private UserDomain organizer;
+     */
     @Column(nullable = false)
     private String organizer;
     /**
