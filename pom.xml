@@ -31,6 +31,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+        <!--elastic search-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
@@ -39,6 +40,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
         </dependency>
+        <!--hibernate spring jpa-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -52,6 +54,7 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
         </dependency>
+        <!--redis setting-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -60,6 +63,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
         </dependency>
+        <!--hateoas setting REST API-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
@@ -80,6 +84,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+       <!-- <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-messaging</artifactId>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -101,6 +113,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
+        <!--web socket-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
@@ -110,6 +123,7 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.2.1</version>
         </dependency>
+        <!--monitoring-->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-rest-hal-explorer</artifactId>
@@ -142,6 +156,7 @@
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-security</artifactId>
         </dependency>
+        <!--stomp socket-->
         <dependency>
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-stomp</artifactId>
