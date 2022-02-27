@@ -27,15 +27,9 @@ public class UserAssembler implements RepresentationModelAssembler<UserDomain, U
 
     @Override
     public UserResourceDto toModel(UserDomain entity) {
-        UserResourceDto mappedUser = modelMapper.map(entity, UserResourceDto.class);
-
-        Set<UserRoleType> roles = entity.getRoles().stream().map(UserRoleDomain::getRole).collect(Collectors.toSet());
-        mappedUser.setAddress(entity.getAddress());
-        mappedUser.setActive(entity.isActiveFlag());
-        mappedUser.setDelete(entity.isDeleteFlag());
-        mappedUser.setRoles(roles);
+        UserResourceDto mappedUser = makeModelDto(entity);
         WebMvcLinkBuilder selfLink = WebMvcLinkBuilder.linkTo(UserApiController.class);
-        mappedUser.add(selfLink.slash(entity.getIdx()).withSelfRel());
+        mappedUser.add(selfLink.slash(entity.getIdx()).withSelfRel().withType(HttpMethod.GET.name()));
 //        mappedUser.add(selfLink.slash(entity.getIdx()).withRel("query-users").withType(HttpMethod.GET.name()));
         mappedUser.add(selfLink.slash(entity.getIdx()).withRel("update-users").withType(HttpMethod.PUT.name()));
         mappedUser.add(selfLink.slash(entity.getIdx()).withRel("delete-users").withType(HttpMethod.DELETE.name()));
@@ -43,12 +37,7 @@ public class UserAssembler implements RepresentationModelAssembler<UserDomain, U
     }
 
     public UserResourceDto toModel(UserDomain entity, UserDomain authUser) {
-        UserResourceDto mappedUser = modelMapper.map(entity, UserResourceDto.class);
-        Set<UserRoleType> roles = entity.getRoles().stream().map(UserRoleDomain::getRole).collect(Collectors.toSet());
-        mappedUser.setAddress(entity.getAddress());
-        mappedUser.setActive(entity.isActiveFlag());
-        mappedUser.setDelete(entity.isDeleteFlag());
-        mappedUser.setRoles(roles);
+        UserResourceDto mappedUser = makeModelDto(entity);
         WebMvcLinkBuilder selfLink = WebMvcLinkBuilder.linkTo(UserApiController.class);
         mappedUser.add(selfLink.slash(entity.getIdx()).withSelfRel().withType(HttpMethod.GET.name()));
         if (authUser.hasRole(UserRoleType.ADMIN) || authUser.getEmail().equals(entity.getEmail())) {
@@ -70,5 +59,16 @@ public class UserAssembler implements RepresentationModelAssembler<UserDomain, U
         entities.forEach(entity -> list.add(this.toModel(entity, authUser)));
         return CollectionModel.of(list);
 
+    }
+
+    private UserResourceDto makeModelDto(UserDomain entity) {
+        UserResourceDto mappedUser = modelMapper.map(entity, UserResourceDto.class);
+        Set<UserRoleType> roles = entity.getRoles().stream().map(UserRoleDomain::getRole).collect(Collectors.toSet());
+        mappedUser.setAddress(entity.getAddress());
+        mappedUser.setActive(entity.isActiveFlag());
+        mappedUser.setDelete(entity.isDeleteFlag());
+        mappedUser.setRoles(roles);
+
+        return mappedUser;
     }
 }

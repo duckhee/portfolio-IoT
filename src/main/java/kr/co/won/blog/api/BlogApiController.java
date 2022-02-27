@@ -126,7 +126,7 @@ public class BlogApiController {
         // make blog resource
         BlogReadResourcesDto resultResource = new BlogReadResourcesDto(updateBlog, loginUser);
         // add profile link
-        resultResource.add(Link.of("/docs/index.html#blog-update-resources", "profile"));
+        resultResource.add(Link.of("/docs/index.html#blog-update-resources", "profile").withType(HttpMethod.GET.name()));
         return ResponseEntity.ok().body(resultResource);
     }
 

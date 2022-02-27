@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.Errors;
@@ -46,7 +47,7 @@ public class BlogReplyApiController {
         CollectionModel<ReplyResourceDto> resourceDtos = ReplyCollectResources.of(getReplies, authUser);
 
         // add profile link
-        resourceDtos.add(Link.of("/docs/index.html#replies-list-resources", "profile"));
+        resourceDtos.add(Link.of("/docs/index.html#replies-list-resources", "profile").withType(HttpMethod.GET.name()));
         return ResponseEntity.ok().body(resourceDtos);
     }
 
@@ -67,7 +68,7 @@ public class BlogReplyApiController {
         URI createUri = URI.create("/api/blogs/" + blogIdx + "/reply/" + savedReply.getIdx());
         // make createReply Resource add blog reply resource link
         EntityModel<ReplyResourceDto> resultResource = ReplyCreateResource.of(savedReply.getBlog(), mappedResource);
-        resultResource.add(Link.of("/docs/index.html#replies-create-resources", "profile"));
+        resultResource.add(Link.of("/docs/index.html#replies-create-resources", "profile").withType(HttpMethod.GET.name()));
         return ResponseEntity.created(createUri).body(resultResource);
     }
 
