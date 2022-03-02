@@ -5,6 +5,8 @@ import kr.co.won.study.persistence.StudyPersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.common.SuppressLoggerChecks;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -80,7 +80,7 @@ class BlogApiControllerTest {
     @TestUser(authLevel = UserRoleType.USER)
     @DisplayName(value = "01. Blog create api Test ")
     @Test
-    void createBlogTests() throws Exception {
+    void createBlogTests_withUSER() throws Exception {
         BlogForm blogForm = BlogForm.builder()
                 .title("testing")
                 .content("content")
@@ -142,7 +142,7 @@ class BlogApiControllerTest {
     @TestUser(authLevel = UserRoleType.ADMIN)
     @DisplayName(value = "02. blog find api Test- ROLE ADMIN")
     @Test
-    void findBlogTestsWithAdmin() throws Exception {
+    void findBlogTests_withADMIN() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
         BlogDomain testBlog = blogFactory.makeBlogWithReply("title", "content", testUser, 10);
         mockMvc.perform(get("/api/blogs/{idx}", testBlog.getIdx()))
@@ -199,7 +199,7 @@ class BlogApiControllerTest {
     @TestUser(authLevel = UserRoleType.USER)
     @DisplayName(value = "02. blog find api Test - ROLE USER")
     @Test
-    void findBlogTestsWithUser() throws Exception {
+    void findBlogTests_withUSER() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
         BlogDomain testBlog = blogFactory.makeBlogWithReply("title", "content", testUser, 10);
         mockMvc.perform(get("/api/blogs/{idx}", testBlog.getIdx()))
@@ -252,7 +252,7 @@ class BlogApiControllerTest {
     @TestUser(authLevel = UserRoleType.ADMIN)
     @DisplayName(value = "03. list blog api Test - ROLE ADMIN")
     @Test
-    void listBlogTestsWithAdmin() throws Exception {
+    void listBlogTests_withADMIN() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
         blogFactory.makeBulkBlogWithReply(100, "title", "content", testUser, 1);
         mockMvc.perform(get("/api/blogs")
@@ -321,7 +321,7 @@ class BlogApiControllerTest {
     @TestUser(authLevel = UserRoleType.USER)
     @DisplayName(value = "03. list blog api Test - ROLE USER")
     @Test
-    void listBlogTestsWithUser() throws Exception {
+    void listBlogTests_withUSER() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
         blogFactory.makeBulkBlogWithReply(100, "title", "content", testUser, 1);
         mockMvc.perform(get("/api/blogs")

@@ -6,6 +6,8 @@ import kr.co.won.user.persistence.UserPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestComponent;
 
+import java.util.List;
+
 @TestComponent
 @RequiredArgsConstructor
 public class StudyFactory {
@@ -17,6 +19,10 @@ public class StudyFactory {
     }
 
     public StudyDomain makeStudy() {
+        return null;
+    }
+
+    public List<StudyDomain> makeBulkStudies() {
         return null;
     }
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.Max;
@@ -22,7 +23,7 @@ public class CreateStudyForm {
     @NotBlank
     private String path;
 
-    @Max(value = 255, message = "max length is 255.")
+    @Length(max = 255, message = "max length is 255.")
     private String shortDescription;
 
     private String description;

@@ -16,8 +16,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.Errors;
@@ -46,17 +50,25 @@ public class StudyApiController {
     private final StudyService studyService;
 
     /**
+     * Paging
+     */
+    private final PagedResourcesAssembler pagedResourcesAssembler;
+
+    /**
      * study validation
      */
     private final CreateStudyValidation createStudyValidation;
 
     @GetMapping
-    public ResponseEntity listStudyResources(PageDto pageDto) {
+    public ResponseEntity listStudyResources(@AuthUser UserDomain loginUser, PageDto pageDto) {
+
+        Page page = studyService.pagingStudy(pageDto, loginUser);
+
         return null;
     }
 
     @PostMapping
-    public ResponseEntity createStudyResource(@AuthUser UserDomain authUser, @Validated CreateStudyForm form, Errors errors) {
+    public ResponseEntity createStudyResource(@AuthUser UserDomain authUser, @Validated @RequestBody CreateStudyForm form, Errors errors) {
         if (authUser == null) {
             throw new AccessDeniedException("Not Login.");
         }
@@ -74,11 +86,16 @@ public class StudyApiController {
         StudyDomain savedStudy = studyService.createStudy(mappedStudy, authUser);
         WebMvcLinkBuilder baseLink = linkTo(StudyApiController.class);
         // creat uri
-        URI createUri = URI.create(baseLink.slash(savedStudy.getIdx()).toString());
+        URI createUri = URI.create(baseLink.slash(savedStudy.getPath()).toString());
         // return result setting
         StudyCreateResourceDto studyDto = new StudyCreateResourceDto(savedStudy, authUser);
-        EntityModel<StudyCreateResourceDto> result = StudyCreateResource.of(studyDto);
-        return ResponseEntity.created(createUri).body(result);
+        EntityModel<StudyCreateResourceDto> studyResource = StudyCreateResource.of(studyDto);
+        studyResource.add(baseLink.slash(savedStudy.getName()).withRel("query-study").withType(HttpMethod.GET.name()));
+        studyResource.add(baseLink.slash(savedStudy.getName()).withRel("list-study").withType(HttpMethod.GET.name()));
+        studyResource.add(baseLink.slash(savedStudy.getName()).withRel("update-study").withType(HttpMethod.PUT.name()));
+        studyResource.add(baseLink.slash(savedStudy.getName()).withRel("delete-study").withType(HttpMethod.DELETE.name()));
+        studyResource.add(Link.of("/docs/index.html#study-create-resources", "profile").withType(HttpMethod.GET.name()));
+        return ResponseEntity.created(createUri).body(studyResource);
     }
 
 

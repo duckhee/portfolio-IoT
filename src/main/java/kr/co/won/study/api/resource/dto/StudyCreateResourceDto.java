@@ -1,5 +1,7 @@
 package kr.co.won.study.api.resource.dto;
 
+import kr.co.won.blog.api.BlogApiController;
+import kr.co.won.study.api.StudyApiController;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.domain.StudyStatusType;
 import kr.co.won.user.domain.UserDomain;
@@ -8,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +26,8 @@ public class StudyCreateResourceDto extends RepresentationModel<StudyCreateResou
 
     private String shortDescription;
 
+    private String path;
+
     private StudyStatusType status;
 
     private LocalDateTime createdAt;
@@ -29,6 +35,7 @@ public class StudyCreateResourceDto extends RepresentationModel<StudyCreateResou
     public StudyCreateResourceDto(StudyDomain studyDomain) {
         this.idx = studyDomain.getIdx();
         this.name = studyDomain.getName();
+        this.path = studyDomain.getPath();
         this.shortDescription = studyDomain.getShortDescription();
         this.status = studyDomain.studyStatus();
         this.createdAt = studyDomain.getCreatedAt();
@@ -37,9 +44,12 @@ public class StudyCreateResourceDto extends RepresentationModel<StudyCreateResou
     public StudyCreateResourceDto(StudyDomain studyDomain, UserDomain loginUser) {
         this.idx = studyDomain.getIdx();
         this.name = studyDomain.getName();
+        this.path = studyDomain.getPath();
         this.shortDescription = studyDomain.getShortDescription();
         this.status = studyDomain.studyStatus();
         this.createdAt = studyDomain.getCreatedAt();
+
+
     }
 
     private boolean isAuth(StudyDomain studyDomain, UserDomain loginUser) {

@@ -32,7 +32,7 @@ public class StudyDomain {
     @Column(nullable = false, unique = true)
     private String path;
 
-    @Column(length = 255)
+    @Column
     private String shortDescription;
 
     @Lob
@@ -76,7 +76,7 @@ public class StudyDomain {
      * now just one manager
      * study manager email
      */
-    @Column(nullable = false)
+    @Column
     private String manager;
 
     /**
