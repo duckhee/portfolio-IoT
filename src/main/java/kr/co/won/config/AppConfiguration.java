@@ -31,9 +31,7 @@ public class AppConfiguration {
                 .setSkipNullEnabled(true)
                 // model mapper set object UnderScope
                 .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
-                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE)
-                // model mapper not update null value
-                .setSkipNullEnabled(true);
+                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
         return modelMapper;
     }
 
@@ -46,7 +44,7 @@ public class AppConfiguration {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
                 // this is null value not mapping
-                .setSkipNullEnabled(true)
+                .setSkipNullEnabled(false)
                 // model mapper set object UnderScope
                 .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
                 .setSourceNameTokenizer(NameTokenizers.UNDERSCORE);

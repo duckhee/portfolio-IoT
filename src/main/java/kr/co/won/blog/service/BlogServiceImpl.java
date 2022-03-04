@@ -114,7 +114,7 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     @Override
     public BlogDomain updateBlog(Long blogIdx, BlogDomain updateBlog) {
-        BlogDomain findBlog = blogPersistence.findById(blogIdx).orElseThrow(() ->
+        BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
                 new IllegalArgumentException("not have blogs."));
         // update input data check
         if (updateBlog.getTitle() != null || !updateBlog.getTitle().isBlank()) {
@@ -133,13 +133,13 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogDomain updateBlog(Long blogIdx, BlogDomain updateBlog, UserDomain loginUser) {
         // find update blog
-        BlogDomain findBlog = blogPersistence.findById(blogIdx).orElseThrow(() ->
+        BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
                 new IllegalArgumentException("not have blogs."));
         // user role check and owner check
         if (!isHaveAuth(loginUser, findBlog)) {
             throw new AccessDeniedException("not have auth.");
         }
-        BlogDomain mappedUpdateBlog = putModelMapper.map(updateBlog, BlogDomain.class);
+        modelMapper.map(updateBlog, findBlog);
         // update input data check
         if (updateBlog.getTitle() != null || !updateBlog.getTitle().isBlank()) {
             findBlog.setTitle(updateBlog.getTitle());

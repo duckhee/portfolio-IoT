@@ -41,6 +41,9 @@ class BlogServiceTest {
     @Mock
     private ModelMapper modelMapper = configuration.modelMapper();
 
+    @Mock
+    private ModelMapper skipModelMapper = configuration.notSkipModelMapper();
+
     @Autowired
     private UserDomainBuilderFactory userDomainBuilder = new UserDomainBuilderFactory();
 
@@ -63,11 +66,6 @@ class BlogServiceTest {
     @DisplayName(value = "01. create blog Test")
     @Test
     void createBlogTests() {
-        ModelMapper createModelMapper = new ModelMapper();
-        createModelMapper.getConfiguration()
-                .setSkipNullEnabled(true);
-
-
         String title = "test";
         String content = "testContent";
         String writer = "writer";
@@ -90,9 +88,9 @@ class BlogServiceTest {
     @DisplayName(value = "01. create blog Test - with user")
     @Test
     void createBlogWithUserTests() {
-        ModelMapper createModelMapper = new ModelMapper();
-        createModelMapper.getConfiguration()
-                .setSkipNullEnabled(true);
+//        ModelMapper createModelMapper = new ModelMapper();
+//        createModelMapper.getConfiguration()
+//                .setSkipNullEnabled(true);
 //        BlogService blogService = new BlogServiceImpl(createModelMapper, modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
@@ -118,9 +116,9 @@ class BlogServiceTest {
     @DisplayName(value = "02. read blog Test ")
     @Test
     void readBlogServiceTests() {
-        ModelMapper createModelMapper = new ModelMapper();
-        createModelMapper.getConfiguration()
-                .setSkipNullEnabled(true);
+//        ModelMapper createModelMapper = new ModelMapper();
+//        createModelMapper.getConfiguration()
+//                .setSkipNullEnabled(true);
 //        BlogService blogService = new BlogServiceImpl(createModelMapper, modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
@@ -139,6 +137,53 @@ class BlogServiceTest {
         // assertions
         assertThat(findBlog).isEqualTo(makeBlog);
         assertThat(findBlog.getViewCnt()).isEqualTo(initViewCnt + 1);
+    }
+
+    @DisplayName(value = "03. update blog Tests")
+    @Test
+    void updateBlogServiceTests() {
+        String title = "test";
+        String updateTitle = "testtt";
+        String content = "testContent";
+        String updateContent = "testContenttetingdadpauf";
+        String name = "tester";
+        String email = "tester@co.kr";
+        String password = "1234";
+        String projectUri = URI.create("/github.com/test/blog").toString();
+        UserDomain testUser = userDomainBuilder.makeDomainUser(1L, name, email, password, UserRoleType.USER);
+        BlogDomain testBlog = blogBuilder(title, content, projectUri);
+        BlogDomain updateBlog = blogBuilder(updateTitle, updateContent, projectUri);
+        BlogDomain makeBlog = stubBlog(testBlog);
+        Long initViewCnt = makeBlog.getViewCnt();
+        when(blogPersistence.findByIdx(makeBlog.getIdx())).thenReturn(Optional.of(makeBlog));
+        BlogDomain blogDomain = blogService.updateBlog(testBlog.getIdx(), updateBlog);
+        assertThat(blogDomain.getTitle()).isEqualTo(updateTitle);
+        assertThat(blogDomain.getContent()).isEqualTo(updateContent);
+        assertThat(blogDomain.getViewCnt()).isEqualTo(initViewCnt);
+    }
+
+    @DisplayName(value = "03. update blog Tests - with User")
+    @Test
+    void updateBlogServiceTests_withUSER(){
+        String title = "test";
+        String updateTitle = "testtt";
+        String content = "testContent";
+        String updateContent = "testContenttetingdadpauf";
+        String name = "tester";
+        String email = "tester@co.kr";
+        String password = "1234";
+        String projectUri = URI.create("/github.com/test/blog").toString();
+        UserDomain testUser = userDomainBuilder.makeDomainUser(1L, name, email, password, UserRoleType.ADMIN);
+        BlogDomain testBlog = blogBuilder(title, content, projectUri);
+        BlogDomain updateBlog = blogBuilder(updateTitle, updateContent, projectUri);
+        BlogDomain makeBlog = stubBlog(testBlog);
+        Long initViewCnt = makeBlog.getViewCnt();
+        when(blogPersistence.findByIdx(makeBlog.getIdx())).thenReturn(Optional.of(makeBlog));
+        BlogDomain blogDomain = blogService.updateBlog(testBlog.getIdx(), updateBlog, testUser);
+        log.info("get update blog ::: {}", blogDomain);
+        assertThat(blogDomain.getTitle()).isEqualTo(updateTitle);
+        assertThat(blogDomain.getContent()).isEqualTo(updateContent);
+        assertThat(blogDomain.getViewCnt()).isEqualTo(initViewCnt);
     }
 
 
