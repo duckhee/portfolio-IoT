@@ -55,19 +55,18 @@ public class BlogApiController {
     public ResponseEntity listBlogResources(@AuthUser UserDomain authUser, PageDto pageDto) {
         Page pageList = blogService.pagingBlog(pageDto);
         PagedModel resultResource = pagedResourcesAssembler.toModel(pageList, blogAssembler);
-        PageMetadata pageMetadata = new PageMetadata(pageDto.getSize(), pageList.getNumber(), pageList.getTotalElements(), pageList.getTotalPages());
+      /*  PageMetadata pageMetadata = new PageMetadata(pageDto.getSize(), pageList.getNumber(), pageList.getTotalElements(), pageList.getTotalPages());
 
-        /** Paging */
+        *//** Paging *//*
         List<BlogDomain> content = pageList.getContent();
         // make hal resource
         List<BlogReadResourcesDto> collect = content.stream().map(blog -> new BlogReadResourcesDto(blog, authUser)).collect(Collectors.toList());
         // make paging hal resource
         PagedModel<BlogReadResourcesDto> result = of(collect, pageMetadata);
         // webLink Base
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);*/
         resultResource.add(Link.of("/docs/index.html#blog-list-resources", "profile").withType(HttpMethod.GET.name()));
-        // self link
-        resultResource.add(WebMvcLinkBuilder.linkTo(methodOn(BlogApiController.class).listBlogResources(authUser, pageDto)).withSelfRel());
+
         return ResponseEntity.ok(resultResource);
     }
 
