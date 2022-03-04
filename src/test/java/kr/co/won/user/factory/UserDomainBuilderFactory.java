@@ -4,6 +4,8 @@ import kr.co.won.common.Address;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
 import kr.co.won.user.domain.UserRoleType;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.TestComponent;
 
 import java.util.ArrayList;
@@ -11,7 +13,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @TestComponent
+@RequiredArgsConstructor
 public class UserDomainBuilderFactory {
 
     public UserDomain makeDomainUser(Long userIdx, String name, String email, String password, UserRoleType role) {

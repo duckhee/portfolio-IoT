@@ -4,6 +4,8 @@ import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.blog.persistence.BlogReplyPersistence;
 import kr.co.won.blog.persistence.BlogResourcePersistence;
+import kr.co.won.config.DomainFactoryConfiguration;
+import kr.co.won.config.TestAppConfiguration;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserDomainBuilderFactory;
@@ -13,10 +15,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.ui.ModelMap;
 
@@ -29,11 +33,15 @@ import static org.mockito.Mockito.when;
 
 @Slf4j
 @ExtendWith(value = {MockitoExtension.class})
-@Import(value = {UserDomainBuilderFactory.class})
+@Import(value = {UserDomainBuilderFactory.class, TestAppConfiguration.class, DomainFactoryConfiguration.class})
 class BlogServiceTest {
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private TestAppConfiguration configuration = new TestAppConfiguration();
 
+    @Mock
+    private ModelMapper modelMapper = configuration.modelMapper();
+
+    @Autowired
     private UserDomainBuilderFactory userDomainBuilder = new UserDomainBuilderFactory();
 
     @Mock
@@ -48,13 +56,17 @@ class BlogServiceTest {
     @Mock
     private BlogResourcePersistence blogResourcePersistence;
 
+    @InjectMocks
+    @MockBean
+    private BlogServiceImpl blogService;
+
     @DisplayName(value = "01. create blog Test")
     @Test
     void createBlogTests() {
         ModelMapper createModelMapper = new ModelMapper();
         createModelMapper.getConfiguration()
                 .setSkipNullEnabled(true);
-        BlogService blogService = new BlogServiceImpl(createModelMapper, modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+
 
         String title = "test";
         String content = "testContent";
@@ -81,7 +93,7 @@ class BlogServiceTest {
         ModelMapper createModelMapper = new ModelMapper();
         createModelMapper.getConfiguration()
                 .setSkipNullEnabled(true);
-        BlogService blogService = new BlogServiceImpl(createModelMapper, modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+//        BlogService blogService = new BlogServiceImpl(createModelMapper, modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
@@ -109,7 +121,7 @@ class BlogServiceTest {
         ModelMapper createModelMapper = new ModelMapper();
         createModelMapper.getConfiguration()
                 .setSkipNullEnabled(true);
-        BlogService blogService = new BlogServiceImpl(createModelMapper,modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
+//        BlogService blogService = new BlogServiceImpl(createModelMapper, modelMapper, userPersistence, blogPersistence, blogReplyPersistence, blogResourcePersistence);
 
         String title = "test";
         String content = "testContent";
