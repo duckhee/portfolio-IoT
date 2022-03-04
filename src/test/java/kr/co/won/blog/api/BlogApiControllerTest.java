@@ -140,7 +140,7 @@ class BlogApiControllerTest {
     }
 
     @TestUser(authLevel = UserRoleType.ADMIN)
-    @DisplayName(value = "02. blog find api Test- ROLE ADMIN")
+    @DisplayName(value = "02. blog find api Test - ROLE ADMIN")
     @Test
     void findBlogTests_withADMIN() throws Exception {
         UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");

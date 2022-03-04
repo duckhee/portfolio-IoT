@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.PagedModel.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
@@ -65,6 +66,8 @@ public class BlogApiController {
         // webLink Base
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);
         resultResource.add(Link.of("/docs/index.html#blog-list-resources", "profile").withType(HttpMethod.GET.name()));
+        // self link
+        resultResource.add(WebMvcLinkBuilder.linkTo(methodOn(BlogApiController.class).listBlogResources(authUser, pageDto)).withSelfRel());
         return ResponseEntity.ok(resultResource);
     }
 

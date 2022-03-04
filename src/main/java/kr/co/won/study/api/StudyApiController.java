@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
@@ -65,8 +67,12 @@ public class StudyApiController {
     public ResponseEntity listStudyResources(@AuthUser UserDomain loginUser, PageDto pageDto) {
 
         Page page = studyService.pagingStudy(pageDto, loginUser);
-
-        return null;
+        PagedModel pagedModel = pagedResourcesAssembler.toModel(page, pageStudyAssembler);
+        //
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(methodOn(StudyApiController.class).listStudyResources(loginUser, pageDto));
+        pagedModel.add(Link.of("/docs/index.html#study-list-resources", "profile"));
+        pagedModel.add(webMvcLinkBuilder.withSelfRel());
+        return ResponseEntity.ok().body(pagedModel);
     }
 
     @PostMapping
