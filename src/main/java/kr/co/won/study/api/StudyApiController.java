@@ -3,6 +3,7 @@ package kr.co.won.study.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.errors.resource.ValidErrorResource;
+import kr.co.won.study.api.assembler.PageStudyAssembler;
 import kr.co.won.study.api.resource.StudyCreateResource;
 import kr.co.won.study.api.resource.dto.StudyCreateResourceDto;
 import kr.co.won.study.domain.StudyDomain;
@@ -52,6 +53,7 @@ public class StudyApiController {
     /**
      * Paging
      */
+    private final PageStudyAssembler pageStudyAssembler;
     private final PagedResourcesAssembler pagedResourcesAssembler;
 
     /**
@@ -98,6 +100,14 @@ public class StudyApiController {
         return ResponseEntity.created(createUri).body(studyResource);
     }
 
+    /**
+     * study find
+     */
+    @GetMapping(path = "/{studyPath}")
+    public ResponseEntity findStudyUsingPathResource(@AuthUser UserDomain loginUser, @PathVariable(name = "studyPath") String path) {
+        StudyDomain findStudy = studyService.findStudyWithPath(path, loginUser);
+        return null;
+    }
 
     @PutMapping(path = "/{studyIdx}")
     public ResponseEntity updateStudyResource(@PathVariable(name = "studyIdx") Long studyIdx) {
