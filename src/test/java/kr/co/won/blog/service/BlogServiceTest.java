@@ -186,7 +186,6 @@ class BlogServiceTest {
         Long initViewCnt = makeBlog.getViewCnt();
         when(blogPersistence.findByIdx(makeBlog.getIdx())).thenReturn(Optional.of(makeBlog));
         BlogDomain blogDomain = blogService.updateBlog(testBlog.getIdx(), updateBlog, testUser);
-        log.info("get update blog ::: {}", blogDomain);
         assertThat(blogDomain.getTitle()).isEqualTo(updateTitle);
         assertThat(blogDomain.getContent()).isEqualTo(updateContent);
         assertThat(blogDomain.getViewCnt()).isEqualTo(initViewCnt);
