@@ -12,6 +12,12 @@ EXPOSE 8080
 # making work directory
 RUN mkdir /portfolio
 #
+# making config directory
+RUN mkdir /portfolio/config
+#
+# making log directory
+RUN mkdir /portfolio/log
+#
 # spring boot package
 CMD ["./mvnw","clean","package"]
 #
@@ -21,11 +27,15 @@ ARG PORTFOLIO_IOT_PATH=target/*.jar
 # copy build jar file
 COPY ${PORTFOLIO_IOT_PATH} /portfolio/portfolioIoT.jar
 #
-# volumne setting
-VOLUME /portfolio
-
+# volume setting config folder
+VOLUME /portfolio/config
+#
+# volume setting log folder
+VOLUME /portfolio/log
 #
 # java start
+#ENTRYPOINT ["java","-Dspring.profiles.active=", "-jar", "/portfolio/portfolioIoT.jar"]
 ENTRYPOINT ["java", "-jar", "/portfolio/portfolioIoT.jar"]
+
 
 
