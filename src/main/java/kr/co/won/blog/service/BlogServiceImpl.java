@@ -141,15 +141,7 @@ public class BlogServiceImpl implements BlogService {
         }
         modelMapper.map(updateBlog, findBlog);
         // update input data check
-        if (updateBlog.getTitle() != null || !updateBlog.getTitle().isBlank()) {
-            findBlog.setTitle(updateBlog.getTitle());
-        }
-        if (updateBlog.getContent() != null || !updateBlog.getContent().isBlank()) {
-            findBlog.setContent(updateBlog.getContent());
-        }
-        if (updateBlog.getProjectUrl() != null || !updateBlog.getProjectUrl().isBlank()) {
-            findBlog.setContent(updateBlog.getProjectUrl());
-        }
+
         return findBlog;
     }
 

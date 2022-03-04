@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.ui.ModelMap;
 
+import javax.annotation.Resource;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -38,11 +41,13 @@ class BlogServiceTest {
 
     private TestAppConfiguration configuration = new TestAppConfiguration();
 
-    @Mock
-    private ModelMapper modelMapper = configuration.modelMapper();
+    @Spy
+    @Resource(name = "skipModelMapper")
+    private ModelMapper modelMapper;
 
-    @Mock
-    private ModelMapper skipModelMapper = configuration.notSkipModelMapper();
+    @Spy
+    @Resource(name = "notSkipModelMapper")
+    private ModelMapper skipModelMapper;
 
     @Autowired
     private UserDomainBuilderFactory userDomainBuilder = new UserDomainBuilderFactory();
@@ -156,6 +161,7 @@ class BlogServiceTest {
         BlogDomain makeBlog = stubBlog(testBlog);
         Long initViewCnt = makeBlog.getViewCnt();
         when(blogPersistence.findByIdx(makeBlog.getIdx())).thenReturn(Optional.of(makeBlog));
+
         BlogDomain blogDomain = blogService.updateBlog(testBlog.getIdx(), updateBlog);
         assertThat(blogDomain.getTitle()).isEqualTo(updateTitle);
         assertThat(blogDomain.getContent()).isEqualTo(updateContent);
@@ -164,7 +170,7 @@ class BlogServiceTest {
 
     @DisplayName(value = "03. update blog Tests - with User")
     @Test
-    void updateBlogServiceTests_withUSER(){
+    void updateBlogServiceTests_withUSER() {
         String title = "test";
         String updateTitle = "testtt";
         String content = "testContent";
@@ -175,7 +181,7 @@ class BlogServiceTest {
         String projectUri = URI.create("/github.com/test/blog").toString();
         UserDomain testUser = userDomainBuilder.makeDomainUser(1L, name, email, password, UserRoleType.ADMIN);
         BlogDomain testBlog = blogBuilder(title, content, projectUri);
-        BlogDomain updateBlog = blogBuilder(updateTitle, updateContent, projectUri);
+        BlogDomain updateBlog = blogBuilder(updateTitle, projectUri, updateContent);
         BlogDomain makeBlog = stubBlog(testBlog);
         Long initViewCnt = makeBlog.getViewCnt();
         when(blogPersistence.findByIdx(makeBlog.getIdx())).thenReturn(Optional.of(makeBlog));
