@@ -208,6 +208,7 @@ class StudyApiControllerTest {
                                 fieldWithPath("shortDescription").type(JsonFieldType.STRING).description("짧은 스터디에 대한 설명 글에 대해서 보여준다.").optional(),
                                 fieldWithPath("description").type(JsonFieldType.STRING).description("어떤 것에 대한 공부를 하는지 스터디에 대한 설명 글이다.").optional(),
                                 fieldWithPath("status").type(JsonFieldType.STRING).description("스터디의 현재 상태를 보여준다.\r\n 현재 스터디가 종료가 되었는지, 공개가 되었는지, 현재 인원을 모집 중인지를 나타낸다.").optional(),
+                                fieldWithPath("statusTime").type(JsonFieldType.STRING).description("스터디의 상태에 대한 시간 값을 보여준다. \r\n 스터디가 종료된 시간, 공개된 시간, 인원을 모집 시작한 시간을 보여준다.").optional(),
                                 fieldWithPath("createdAt").type(JsonFieldType.STRING).description("스터디가 생성된 시간").optional()
                         ),
                         /** Study Read Links */

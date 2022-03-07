@@ -35,4 +35,40 @@ public class StudyListQueryDto {
 
     private LocalDateTime updatedAt;
 
+
+
+
+
+    private LocalDateTime getStatusTime(LocalDateTime closeDateTime, LocalDateTime publishedDateTime, LocalDateTime recruitingEndDateTime, LocalDateTime createdAt, LocalDateTime updatedAt, StudyStatusType statusType) {
+        if (statusType != null) {
+            switch (statusType) {
+                case CLOSE:
+                    return closeDateTime;
+                case PUBLISHED:
+                    return publishedDateTime;
+                case RECRUIT:
+                    return recruitingEndDateTime;
+                case NEW:
+                    return createdAt;
+                case FINISHED:
+                    return updatedAt;
+            }
+        }
+        return null;
+    }
+
+
+    public StudyStatusType studyStatus(boolean closed, boolean published, boolean recruiting) {
+        if (closed == true) {
+            return StudyStatusType.CLOSE;
+        }
+        if (published == true) {
+            return StudyStatusType.PUBLISHED;
+        }
+        if (recruiting == true) {
+            return StudyStatusType.RECRUIT;
+        }
+        /** update time same create time is new else finished */
+        return this.createdAt.equals(updatedAt) ? StudyStatusType.NEW : StudyStatusType.FINISHED;
+    }
 }

@@ -27,6 +27,7 @@ public class StudyReadResourceDto extends RepresentationModel<StudyReadResourceD
     private String shortDescription;
     private String description;
     private StudyStatusType status;
+    private LocalDateTime statusTime;
     private LocalDateTime createdAt;
 
 
@@ -41,6 +42,7 @@ public class StudyReadResourceDto extends RepresentationModel<StudyReadResourceD
         this.shortDescription = study.getShortDescription();
         this.description = study.getDescription();
         this.status = study.studyStatus();
+        this.statusTime = getStatusTime(study, study.studyStatus());
         this.createdAt = study.getCreatedAt();
         this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).slash(this.idx).withSelfRel().withType(HttpMethod.GET.name()));
         this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).withRel("list-study").withType(HttpMethod.PUT.name()));
@@ -57,6 +59,7 @@ public class StudyReadResourceDto extends RepresentationModel<StudyReadResourceD
         this.shortDescription = study.getShortDescription();
         this.description = study.getDescription();
         this.status = study.studyStatus();
+        this.statusTime = getStatusTime(study, study.studyStatus());
         this.createdAt = study.getCreatedAt();
         this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).slash(this.idx).withSelfRel().withType(HttpMethod.GET.name()));
         this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).withRel("list-study").withType(HttpMethod.PUT.name()));
@@ -70,5 +73,21 @@ public class StudyReadResourceDto extends RepresentationModel<StudyReadResourceD
     // link auth Check
     private boolean isAuth(StudyDomain study, UserDomain authUser) {
         return authUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || study.getOrganizer().equals(authUser.getEmail()) || study.getManager().equals(authUser.getEmail());
+    }
+
+    private LocalDateTime getStatusTime(StudyDomain study, StudyStatusType status) {
+        switch (status) {
+            case CLOSE:
+                return study.getClosedDateTime();
+            case PUBLISHED:
+                return study.getPublishedDateTime();
+            case RECRUIT:
+                return study.getRecruitingEndDateTime();
+            case FINISHED:
+                return study.getUpdatedAt();
+            case NEW:
+                return study.getCreatedAt();
+        }
+        return null;
     }
 }

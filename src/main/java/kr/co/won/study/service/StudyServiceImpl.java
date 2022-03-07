@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 
 @Service(value = "studyService")
 @Transactional(readOnly = true)
@@ -34,6 +35,9 @@ public class StudyServiceImpl implements StudyService {
     @Transactional
     @Override
     public StudyDomain createStudy(StudyDomain studyDomain) {
+        LocalDateTime nowTime = LocalDateTime.now();
+        studyDomain.setCreatedAt(nowTime);
+        studyDomain.setUpdatedAt(nowTime);
         StudyDomain savedStudy = studyPersistence.save(studyDomain);
         return savedStudy;
     }
@@ -42,6 +46,9 @@ public class StudyServiceImpl implements StudyService {
     @Override
     public StudyDomain createStudy(StudyDomain studyDomain, String organizer) {
         studyDomain.setOrganizer(organizer);
+        LocalDateTime nowTime = LocalDateTime.now();
+        studyDomain.setCreatedAt(nowTime);
+        studyDomain.setUpdatedAt(nowTime);
         StudyDomain saveStudy = studyPersistence.save(studyDomain);
         return saveStudy;
     }
@@ -50,6 +57,9 @@ public class StudyServiceImpl implements StudyService {
     @Override
     public StudyDomain createStudy(StudyDomain studyDomain, UserDomain loginUser) {
         studyDomain.setOrganizer(loginUser.getEmail());
+        LocalDateTime nowTime = LocalDateTime.now();
+        studyDomain.setCreatedAt(nowTime);
+        studyDomain.setUpdatedAt(nowTime);
         StudyDomain savedStudy = studyPersistence.save(studyDomain);
         return savedStudy;
     }

@@ -6,6 +6,7 @@ import kr.co.won.user.domain.UserDomain;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestComponent;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @TestComponent
@@ -20,6 +21,8 @@ public class StudyFactory {
 
     public StudyDomain makeStudy(String path, String studyName, int allowMemberNumber, UserDomain loginUser) {
         String organizer =  loginUser.getEmail();
+        LocalDateTime nowTime = LocalDateTime.now();
+
         StudyDomain testStudy = StudyDomain.builder()
                 .name(studyName)
                 .shortDescription("shortDescription")
@@ -27,6 +30,8 @@ public class StudyFactory {
                 .path(path)
                 .allowMemberNumber(allowMemberNumber)
                 .organizer(organizer)
+                .createdAt(nowTime)
+                .updatedAt(nowTime)
                 .build();
         StudyDomain savedStudy = studyPersistence.save(testStudy);
         return savedStudy;

@@ -6,9 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -30,5 +34,8 @@ public class UpdateStudyForm {
 
     @NotNull(message = "study status setting required.")
     private StudyStatusType status;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime statusTime;
 
 }

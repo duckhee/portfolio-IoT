@@ -93,7 +93,7 @@ public class StudyListResourceDto extends RepresentationModel<StudyListResourceD
                     this.statusTime = study.getPublishedDateTime();
                     break;
                 case RECRUIT:
-                    this.statusTime = study.getRecruitingUpdateDateTime();
+                    this.statusTime = study.getRecruitingEndDateTime();
                     break;
                 case FINISHED:
                     this.statusTime = study.getUpdatedAt();

@@ -5,6 +5,7 @@ import kr.co.won.user.factory.UserDomainBuilderFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,7 +95,7 @@ class StudyDomainTest {
         assertThat(buildTestStudy.isClosed()).isTrue();
         assertThat(buildTestStudy.studyStatus()).isEqualTo(StudyStatusType.CLOSE);
         // study recruiting tests
-        buildTestStudy.studyRecruiting();
+        buildTestStudy.studyRecruiting(LocalDateTime.now().plusHours(1));
         assertThat(buildTestStudy.isPublished()).isFalse();
         assertThat(buildTestStudy.isRecruiting()).isTrue();
         assertThat(buildTestStudy.isClosed()).isFalse();

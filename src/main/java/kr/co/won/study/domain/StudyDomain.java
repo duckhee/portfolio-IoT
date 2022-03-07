@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -58,7 +59,7 @@ public class StudyDomain {
     @Builder.Default
     private boolean recruiting = false;
     // recruited start time
-    private LocalDateTime recruitingUpdateDateTime;
+    private LocalDateTime recruitingEndDateTime;
 
     /**
      * TODO check UserDomain or User Email
@@ -210,11 +211,14 @@ public class StudyDomain {
     /**
      * Study Recruiting
      */
-    public void studyRecruiting() {
+    public void studyRecruiting(LocalDateTime endTime) {
+        if (endTime.equals(LocalDateTime.now())) {
+            throw new IllegalArgumentException("can not now time.");
+        }
         this.closed = false;
         this.published = false;
         this.recruiting = true;
-        this.recruitingUpdateDateTime = LocalDateTime.now();
+        this.recruitingEndDateTime = endTime;
     }
 
     /**
@@ -237,8 +241,10 @@ public class StudyDomain {
         if (this.recruiting == true) {
             return StudyStatusType.RECRUIT;
         }
+
         /** update time same create time is new else finished */
-        return this.createdAt.equals(updatedAt) ? StudyStatusType.NEW : StudyStatusType.FINISHED;
+        /** update time is difference few seconds so add 1 min and compare */
+        return this.createdAt.plusMinutes(1).isAfter(updatedAt) ? StudyStatusType.NEW : StudyStatusType.FINISHED;
     }
 
     /**
