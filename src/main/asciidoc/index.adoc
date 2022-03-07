@@ -140,6 +140,8 @@ operation::create-replies[snippets='request-headers,path-parameters,http-request
 
 `GET` 요청으로 현재 서비스에서 등록이 되어 있는 스터디를 찾을 수 있다.
 
+operation::read-studies[snippets='request-headers,path-parameters,http-request,httpie-request,curl-request,response-headers,response-fields,links,response-body,http-response']
+
 [[study-update-resources]]
 === Update Study
 
