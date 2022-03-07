@@ -43,6 +43,7 @@ public class StudyReadResourceDto extends RepresentationModel<StudyReadResourceD
         this.status = study.studyStatus();
         this.createdAt = study.getCreatedAt();
         this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).slash(this.idx).withSelfRel().withType(HttpMethod.GET.name()));
+        this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).withRel("list-study").withType(HttpMethod.PUT.name()));
     }
 
     public StudyReadResourceDto(StudyDomain study, UserDomain loginUser) {
@@ -58,6 +59,7 @@ public class StudyReadResourceDto extends RepresentationModel<StudyReadResourceD
         this.status = study.studyStatus();
         this.createdAt = study.getCreatedAt();
         this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).slash(this.idx).withSelfRel().withType(HttpMethod.GET.name()));
+        this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).withRel("list-study").withType(HttpMethod.PUT.name()));
         if (isAuth(study, loginUser)) {
             this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).slash(this.idx).withRel("update-study").withType(HttpMethod.PUT.name()));
             this.add(WebMvcLinkBuilder.linkTo(StudyApiController.class).slash(this.idx).withRel("delete-study").withType(HttpMethod.DELETE.name()));

@@ -42,6 +42,9 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.li
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.relaxedRequestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -173,14 +176,53 @@ class StudyApiControllerTest {
         String path = "path";
 
         UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElseThrow(() -> new IllegalArgumentException(""));
-        StudyDomain testStudy = studyFactory.makeStudy(path, "testStudy", 0, findUser);
+        studyFactory.makeStudy(path, "testStudy", 0, findUser);
         mockMvc.perform(get("/api/studies/{path}", path))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.update-study").exists())
                 .andExpect(jsonPath("_links.delete-study").exists())
-                .andDo(document("read-studies"))
-        ;
+                .andDo(document("read-studies",
+                        /** Response Content Type */
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request Header */
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request Path Parameter */
+                        relaxedRequestParameters(
+                                parameterWithName("path").description("스터디를 볼수 잇는 경로 값이다.").optional()
+                        ),
+                        /** Response Body */
+                        relaxedResponseFields(
+                                fieldWithPath("idx").type(JsonFieldType.NUMBER).description("스터디의 고유 번호를 보여준다.").optional(),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("스터디의 이름을 보여준다.").optional(),
+                                fieldWithPath("organizer").type(JsonFieldType.STRING).description("스터디를 생성한 사용자의 이메일을 보여준다.").optional(),
+                                fieldWithPath("manager").type(JsonFieldType.STRING).description("스터디를 관리하는 매니저의 이메일을 보여준다.").optional(),
+                                fieldWithPath("path").type(JsonFieldType.STRING).description("스터디를 볼 수 있는 스터디의 URI를 보여준다.").optional(),
+                                fieldWithPath("allowMemberNumber").type(JsonFieldType.STRING).description("스터디를 모집을 하는 인원에 대한 수를 보여준다.").optional(),
+                                fieldWithPath("joinMemberNumber").type(JsonFieldType.STRING).description("현재 스터디에 참여하는 인원에 대한 수를 보여준다.").optional(),
+                                fieldWithPath("shortDescription").type(JsonFieldType.STRING).description("짧은 스터디에 대한 설명 글에 대해서 보여준다.").optional(),
+                                fieldWithPath("description").type(JsonFieldType.STRING).description("어떤 것에 대한 공부를 하는지 스터디에 대한 설명 글이다.").optional(),
+                                fieldWithPath("status").type(JsonFieldType.STRING).description("스터디의 현재 상태를 보여준다.\r\n 현재 스터디가 종료가 되었는지, 공개가 되었는지, 현재 인원을 모집 중인지를 나타낸다.").optional(),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("스터디가 생성된 시간").optional()
+                        ),
+                        /** Study Read Links */
+                        links(
+                                linkWithRel("self").description("현재 호출된 링크").optional(),
+                                linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional(),
+                                linkWithRel("list-study").description("스터디의 목록을 볼 수 있는 링크").optional(),
+                                linkWithRel("query-study").description("생성된 스터디에 대한 정보를 볼 수 있는 링크").optional(),
+                                linkWithRel("update-study").description("생성된 스터디를 업데이트할 수 있는 링크").optional(),
+                                linkWithRel("delete-study").description("생성된 스터디를 삭제를 할 수 있는 링크").optional()
+
+                        ))
+                );
     }
+
+
 }

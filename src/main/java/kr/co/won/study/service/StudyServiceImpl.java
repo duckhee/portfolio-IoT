@@ -3,6 +3,7 @@ package kr.co.won.study.service;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.persistence.StudyPersistence;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +12,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+
 @Service(value = "studyService")
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class StudyServiceImpl implements StudyService {
 
+    @Resource(name = "skipModelMapper")
     private final ModelMapper modelMapper;
+
+    @Resource(name = "notSkipModelMapper")
+    private final ModelMapper updateModelMapper;
 
     private final UserPersistence userPersistence;
 
@@ -69,9 +76,14 @@ public class StudyServiceImpl implements StudyService {
     public StudyDomain findStudyWithPath(String path, UserDomain authUser) {
         StudyDomain findStudy = studyPersistence.findByPath(path).orElseThrow(() ->
                 new IllegalArgumentException("study not found."));
-
-        return findStudy;
+        if(isHaveAuth(authUser, findStudy)){
+            return findStudy;
+        }
+        return null;
     }
 
-
+    // study user role check
+    private boolean isHaveAuth(UserDomain loginUser, StudyDomain study) {
+        return loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || loginUser.getEmail().equals(study.getOrganizer()) || loginUser.getEmail().equals(study.getManager());
+    }
 }
