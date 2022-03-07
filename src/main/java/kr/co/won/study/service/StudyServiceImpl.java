@@ -65,6 +65,13 @@ public class StudyServiceImpl implements StudyService {
         return findStudy;
     }
 
+    @Override
+    public StudyDomain findStudyWithPath(String path, UserDomain authUser) {
+        StudyDomain findStudy = studyPersistence.findByPath(path).orElseThrow(() ->
+                new IllegalArgumentException("study not found."));
+
+        return findStudy;
+    }
 
 
 }

@@ -6,6 +6,7 @@ import kr.co.won.errors.resource.ValidErrorResource;
 import kr.co.won.study.api.assembler.PageStudyAssembler;
 import kr.co.won.study.api.resource.StudyCreateResource;
 import kr.co.won.study.api.resource.dto.StudyCreateResourceDto;
+import kr.co.won.study.api.resource.dto.StudyReadResourceDto;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.form.DeleteBulkForm;
@@ -111,8 +112,11 @@ public class StudyApiController {
      */
     @GetMapping(path = "/{studyPath}")
     public ResponseEntity findStudyUsingPathResource(@AuthUser UserDomain loginUser, @PathVariable(name = "studyPath") String path) {
-        StudyDomain findStudy = studyService.findStudyWithPath(path, loginUser);
-        return null;
+//        StudyDomain findStudy = studyService.findStudyWithPath(path, loginUser);
+        StudyDomain findStudy = studyService.findStudyWithPath(path);
+        StudyReadResourceDto studyReadResourceDto = new StudyReadResourceDto(findStudy, loginUser);
+        studyReadResourceDto.add(Link.of("/docs/index.html#study-read-resources", "profile").withType(HttpMethod.GET.name()));
+        return ResponseEntity.ok().body(studyReadResourceDto);
     }
 
     @PutMapping(path = "/{studyIdx}")

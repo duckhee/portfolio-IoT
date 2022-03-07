@@ -4,13 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.TestUser;
 import kr.co.won.blog.factory.BlogFactory;
 import kr.co.won.config.RestDocsConfiguration;
+import kr.co.won.study.domain.StudyDomain;
+import kr.co.won.study.factory.StudyFactory;
 import kr.co.won.study.form.CreateStudyForm;
+import kr.co.won.study.persistence.StudyPersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.persistence.UserPersistence;
+import org.junit.Assume;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -47,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @AutoConfigureRestDocs
-@Import(value = {RestDocsConfiguration.class, UserFactory.class, BlogFactory.class})
+@Import(value = {RestDocsConfiguration.class, UserFactory.class, BlogFactory.class, StudyFactory.class})
 class StudyApiControllerTest {
 
     private final String HAL_JSON = "HAL JSON";
@@ -63,13 +66,19 @@ class StudyApiControllerTest {
     private UserFactory userFactory;
 
     @Autowired
-    private BlogFactory blogFactory;
-    @Autowired
     private UserPersistence userPersistence;
+
+    @Autowired
+    private StudyFactory studyFactory;
+
+    @Autowired
+    private StudyPersistence studyPersistence;
+
 
     @AfterEach
     void dataInit() {
         userPersistence.deleteAll();
+        studyPersistence.deleteAll();
     }
 
     @TestUser(authLevel = UserRoleType.ADMIN)
@@ -157,4 +166,21 @@ class StudyApiControllerTest {
     void studyListTests_withADMIN() throws Exception {
     }
 
+    @TestUser(authLevel = UserRoleType.ADMIN, email = "tester@co.kr")
+    @DisplayName(value = "03. study find Test - with ADMIN")
+    @Test
+    void studyFindTests_withADMIN() throws Exception {
+        String path = "path";
+
+        UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElseThrow(() -> new IllegalArgumentException(""));
+        StudyDomain testStudy = studyFactory.makeStudy(path, "testStudy", 0, findUser);
+        mockMvc.perform(get("/api/studies/{path}", path))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.update-study").exists())
+                .andExpect(jsonPath("_links.delete-study").exists())
+                .andDo(document("read-studies"))
+        ;
+    }
 }
