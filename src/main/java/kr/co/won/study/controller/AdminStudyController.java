@@ -87,6 +87,8 @@ public class AdminStudyController {
 
     @GetMapping(path = "/update")
     public String studyUpdatePage(@AuthUser UserDomain authUser, @RequestParam(name = "studyPath") String path, Model model) {
+        StudyDomain findStudy = studyService.findStudyWithPath(path);
+
         return "admin/study/studyInformationPage";
     }
 
