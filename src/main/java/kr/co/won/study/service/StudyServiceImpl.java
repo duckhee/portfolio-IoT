@@ -5,10 +5,12 @@ import kr.co.won.study.persistence.StudyPersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
+import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.common.SuppressLoggerChecks;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +54,20 @@ public class StudyServiceImpl implements StudyService {
         return savedStudy;
     }
 
+    @Override
+    public Page pagingStudy(PageDto page) {
+        return StudyService.super.pagingStudy(page);
+    }
+
+    /**
+     * Study List Paging
+     */
+
+    @Override
+    public Page pagingStudy(PageDto page, UserDomain authUser) {
+        return StudyService.super.pagingStudy(page, authUser);
+    }
+
     /**
      * Study Find Using Idx
      */
@@ -76,7 +92,7 @@ public class StudyServiceImpl implements StudyService {
     public StudyDomain findStudyWithPath(String path, UserDomain authUser) {
         StudyDomain findStudy = studyPersistence.findByPath(path).orElseThrow(() ->
                 new IllegalArgumentException("study not found."));
-        if(isHaveAuth(authUser, findStudy)){
+        if (isHaveAuth(authUser, findStudy)) {
             return findStudy;
         }
         return null;

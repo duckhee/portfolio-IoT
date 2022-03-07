@@ -1,10 +1,8 @@
-package kr.co.won.study.api.dto;
+package kr.co.won.study.dto;
 
-import jdk.jfr.DataAmount;
 import kr.co.won.study.domain.StudyStatusType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.elasticsearch.common.inject.BindingAnnotation;
 
 import java.time.LocalDateTime;
 
@@ -34,5 +32,4 @@ public class StudyListQueryDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
-
 }

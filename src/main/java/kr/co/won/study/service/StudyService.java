@@ -25,6 +25,10 @@ public interface StudyService {
     /**
      * paging study
      */
+    public default Page pagingStudy(PageDto page) {
+        return null;
+    }
+
     public default Page pagingStudy(PageDto page, UserDomain authUser) {
         return null;
     }
