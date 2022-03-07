@@ -74,13 +74,13 @@ public class StudyListQueryDto {
 
 
     public StudyStatusType studyStatus(boolean closed, boolean published, boolean recruiting) {
-        if (closed == true) {
+        if (closed) {
             return StudyStatusType.CLOSE;
         }
-        if (published == true) {
+        if (published) {
             return StudyStatusType.PUBLISHED;
         }
-        if (recruiting == true) {
+        if (recruiting) {
             return StudyStatusType.RECRUIT;
         }
         /** update time same create time is new else finished */
