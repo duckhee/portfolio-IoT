@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.common.SuppressLoggerChecks;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,7 +67,9 @@ public class StudyServiceImpl implements StudyService {
 
     @Override
     public Page pagingStudy(PageDto page) {
-        return StudyService.super.pagingStudy(page);
+        Pageable pageable = page.makePageable(0, "idx");
+        Page pagingResult = studyPersistence.pagingStudy(page.getType(), page.getKeyword(), pageable);
+        return pagingResult;
     }
 
     /**
@@ -75,7 +78,9 @@ public class StudyServiceImpl implements StudyService {
 
     @Override
     public Page pagingStudy(PageDto page, UserDomain authUser) {
-        return StudyService.super.pagingStudy(page, authUser);
+        Pageable pageable = page.makePageable(0, "idx");
+        Page pagingResult = studyPersistence.pagingStudy(page.getType(), page.getKeyword(), pageable, authUser);
+        return pagingResult;
     }
 
     /**

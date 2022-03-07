@@ -11,13 +11,17 @@ import org.hibernate.annotations.DiscriminatorFormula;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+
+import javax.annotation.Resource;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +33,15 @@ import static org.mockito.Mockito.when;
 @ExtendWith(value = {MockitoExtension.class})
 class StudyServiceTest {
 
-    @Autowired
+    private TestAppConfiguration configuration = new TestAppConfiguration();
+
+    @Spy
+    @Resource(name = "skipModelMapper")
     private ModelMapper modelMapper;
+
+    @Spy
+    @Resource(name = "notSkipModelMapper")
+    private ModelMapper skipModelMapper;
 
     @Mock
     private UserPersistence userPersistence;
