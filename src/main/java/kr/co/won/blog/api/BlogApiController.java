@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.*;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -26,7 +27,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.PagedModel.*;
@@ -55,9 +58,9 @@ public class BlogApiController {
     public ResponseEntity listBlogResources(@AuthUser UserDomain authUser, PageDto pageDto) {
         Page pageList = blogService.pagingBlog(pageDto);
         PagedModel resultResource = pagedResourcesAssembler.toModel(pageList, blogAssembler);
-      /*  PageMetadata pageMetadata = new PageMetadata(pageDto.getSize(), pageList.getNumber(), pageList.getTotalElements(), pageList.getTotalPages());
+        /*  PageMetadata pageMetadata = new PageMetadata(pageDto.getSize(), pageList.getNumber(), pageList.getTotalElements(), pageList.getTotalPages());
 
-        *//** Paging *//*
+         *//** Paging *//*
         List<BlogDomain> content = pageList.getContent();
         // make hal resource
         List<BlogReadResourcesDto> collect = content.stream().map(blog -> new BlogReadResourcesDto(blog, authUser)).collect(Collectors.toList());
@@ -65,6 +68,8 @@ public class BlogApiController {
         PagedModel<BlogReadResourcesDto> result = of(collect, pageMetadata);
         // webLink Base
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(BlogApiController.class);*/
+        // self list link add
+//        resultResource.add(linkTo(methodOn(BlogApiController.class).listBlogResources(authUser, pageDto)).withSelfRel().withType(HttpMethod.GET.name()));
         resultResource.add(Link.of("/docs/index.html#blog-list-resources", "profile").withType(HttpMethod.GET.name()));
 
         return ResponseEntity.ok(resultResource);

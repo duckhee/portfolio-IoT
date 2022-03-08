@@ -69,7 +69,7 @@ public class StudyApiController {
 
         Page page = studyService.pagingStudy(pageDto, loginUser);
         PagedModel pagedModel = pagedResourcesAssembler.toModel(page, pageStudyAssembler);
-        //
+        // self link make
         WebMvcLinkBuilder webMvcLinkBuilder = linkTo(methodOn(StudyApiController.class).listStudyResources(loginUser, pageDto));
         pagedModel.add(Link.of("/docs/index.html#study-list-resources", "profile"));
         pagedModel.add(webMvcLinkBuilder.withSelfRel());
