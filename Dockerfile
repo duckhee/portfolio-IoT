@@ -16,7 +16,7 @@ RUN mkdir /portfolio
 RUN mkdir /portfolio/config
 #
 # making log directory
-RUN mkdir /portfolio/log
+RUN mkdir /portfolio/logs
 #
 # spring boot package
 CMD ["./mvnw","clean","package"]
