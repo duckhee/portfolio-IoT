@@ -78,7 +78,8 @@ class AdminStudyControllerTest {
     @Test
     void createStudyDoTests_withADMIN() throws Exception {
         UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElse(null);
-        assumeNotNull(findUser);
+        // assume test
+//        assumeNotNull(findUser);
         CreateStudyForm studyForm = CreateStudyForm.builder()
                 .allowMemberNumber(0)
                 .name("study")
@@ -97,6 +98,13 @@ class AdminStudyControllerTest {
                 .andExpect(redirectedUrl("/admin/study/list"))
                 .andExpect(flash().attributeExists("msg"))
                 .andExpect(view().name("redirect:/admin/study/list"));
+    }
+
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @DisplayName(value = "02. list study Page Test - with GET(success) ROLE(ADMIN")
+    @Test
+    void listStudyPageTests_withADMIN() throws Exception {
+
     }
 
 }
