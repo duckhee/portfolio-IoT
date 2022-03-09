@@ -100,11 +100,17 @@ class AdminStudyControllerTest {
                 .andExpect(view().name("redirect:/admin/study/list"));
     }
 
-    @TestUser(authLevel = UserRoleType.ADMIN)
+    @TestUser(email = "tester@co.kr", authLevel = UserRoleType.ADMIN)
     @DisplayName(value = "02. list study Page Test - with GET(success) ROLE(ADMIN")
     @Test
     void listStudyPageTests_withADMIN() throws Exception {
-
+        UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElse(null);
+        Assume.assumeNotNull(findUser);
+        StudyDomain testStudy = studyFactory.makeStudy("/testing", "testStudy", 0, findUser);
+        mockMvc.perform(get("/admin/study/list"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("page"))
+                .andExpect(view().name("admin/study/studyListPage"));
     }
 
 }

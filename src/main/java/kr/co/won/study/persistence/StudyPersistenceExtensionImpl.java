@@ -8,6 +8,8 @@ import kr.co.won.study.dto.StudyListQueryDto;
 import kr.co.won.user.domain.QUserDomain;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.common.SuppressLoggerChecks;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ import java.util.List;
 import static kr.co.won.study.domain.QStudyDomain.studyDomain;
 import static kr.co.won.user.domain.QUserDomain.userDomain;
 
+@Slf4j
 @Transactional(readOnly = true)
 public class StudyPersistenceExtensionImpl extends QuerydslRepositorySupport implements StudyPersistenceExtension {
 
@@ -29,6 +32,7 @@ public class StudyPersistenceExtensionImpl extends QuerydslRepositorySupport imp
 
     @Override
     public Page pagingStudy(String type, String keyword, Pageable pageable) {
+        log.info("paging ::: type : {}, keyword : {}", type, keyword);
         QStudyDomain study = studyDomain;
         QUserDomain user = userDomain;
         JPQLQuery<StudyListQueryDto> defaultQuery = from(study)
@@ -36,7 +40,7 @@ public class StudyPersistenceExtensionImpl extends QuerydslRepositorySupport imp
                         new QStudyListQueryDto(
                                 study.idx, study.name, study.shortDescription, study.organizer,
                                 study.path, study.allowMemberNumber, study.memberCount, study.closed, study.closedDateTime,
-                                study.published, study.publishedDateTime, study.recruiting, study.recruitingUpdateDateTime, study.createdAt,
+                                study.published, study.publishedDateTime, study.recruiting, study.recruitingEndDateTime, study.createdAt,
                                 study.updatedAt
                         )
                 ).where(study.idx.gt(0L));

@@ -9,6 +9,7 @@ import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
+import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -80,8 +81,9 @@ public class AdminStudyController {
 
     @GetMapping(path = "/list")
     public String studyListPage(@AuthUser UserDomain authUser, PageDto pageDto, Model model) {
-        Page pagingStudy = studyService.pagingStudy(pageDto, authUser);
-        model.addAttribute("page", pagingStudy);
+        Page pagingStudy = studyService.pagingStudy(pageDto);
+        PageMaker pageMaker = new PageMaker<>(pagingStudy);
+        model.addAttribute("page", pageMaker);
         return "admin/study/studyListPage";
 
     }
