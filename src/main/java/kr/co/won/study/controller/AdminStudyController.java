@@ -21,6 +21,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/study")
@@ -29,7 +31,14 @@ public class AdminStudyController {
     /**
      * Skip Mapping Null Value
      */
+    @Resource(name = "skipModelMapper")
     private final ModelMapper modelMapper;
+
+    /**
+     * not skip null mapping
+     */
+    @Resource(name = "notSkipModelMapper")
+    private final ModelMapper putModelMapper;
 
     private final ObjectMapper objectMapper;
     /**

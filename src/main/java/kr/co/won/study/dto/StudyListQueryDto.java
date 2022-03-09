@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class StudyListQueryDto {
 
-
     private Long idx;
 
     private String name;
