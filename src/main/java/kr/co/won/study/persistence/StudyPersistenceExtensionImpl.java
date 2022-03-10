@@ -36,7 +36,7 @@ public class StudyPersistenceExtensionImpl extends QuerydslRepositorySupport imp
                         new QStudyListQueryDto(
                                 study.idx, study.name, study.shortDescription, study.organizer,
                                 study.path, study.allowMemberNumber, study.memberCount, study.closed, study.closedDateTime,
-                                study.published, study.publishedDateTime, study.recruiting, study.recruitingUpdateDateTime, study.createdAt,
+                                study.published, study.publishedDateTime, study.recruiting, study.recruitingEndDateTime, study.createdAt,
                                 study.updatedAt
                         )
                 ).where(study.idx.gt(0L));
