@@ -9,6 +9,7 @@ import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
+import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/study")
@@ -29,7 +32,14 @@ public class AdminStudyController {
     /**
      * Skip Mapping Null Value
      */
+    @Resource(name = "skipModelMapper")
     private final ModelMapper modelMapper;
+
+    /**
+     * not skip null mapping
+     */
+    @Resource(name = "notSkipModelMapper")
+    private final ModelMapper putModelMapper;
 
     private final ObjectMapper objectMapper;
     /**
@@ -71,8 +81,9 @@ public class AdminStudyController {
 
     @GetMapping(path = "/list")
     public String studyListPage(@AuthUser UserDomain authUser, PageDto pageDto, Model model) {
-        Page pagingStudy = studyService.pagingStudy(pageDto, authUser);
-        model.addAttribute("page", pagingStudy);
+        Page pagingStudy = studyService.pagingStudy(pageDto);
+        PageMaker pageMaker = new PageMaker<>(pagingStudy);
+        model.addAttribute("page", pageMaker);
         return "admin/study/studyListPage";
 
     }

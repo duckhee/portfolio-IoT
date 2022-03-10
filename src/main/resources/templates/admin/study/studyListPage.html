@@ -49,13 +49,30 @@
                         <th>number</th>
                         <th>Study name</th>
                         <th>Study organizer</th>
+                        <th>path</th>
+                        <th>allow member number</th>
                         <th>Study Join Member Number</th>
+                        <th>status</th>
+                        <th>status Time</th>
                         <th>Study create Time</th>
                     </tr>
                     </thead>
                     <!--./table-header-->
                     <tbody style="text-align: center;">
-
+                    <tr th:if="${page?.result != null}" th:each="study : ${page?.result}">
+                        <td><input type="checkbox" name="checkRow" th:value="${study.idx}"></td>
+                        <td th:text="${page.getCurrentPage().getPageNumber()*10+studyStat.index+1}"></td>
+                        <td><a th:href="@{/admin/study/}+${study.idx}" th:text="${study.name}"></a></td>
+                        <td th:text="${study.organizer}"></td>
+                        <td th:text="${study.path}"></td>
+                        <td th:text="${study.allowMemberNumber}"></td>
+                        <td th:text="${study.joinMemberNumber}"></td>
+                        <td th:text="${study.status}"></td>
+                        <td th:text="${study.statusTime}"></td>
+                        <td th:text="${study.statusTime}"></td>
+                        <td th:text="${study.createdAt}"></td>
+                        <td th:text="${study.updatedAt}"></td>
+                    </tr>
                     </tbody>
                     <!--./tbody-->
                 </table>
