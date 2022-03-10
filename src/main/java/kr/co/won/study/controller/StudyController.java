@@ -45,7 +45,7 @@ public class StudyController {
         }
         model.addAttribute(new CreateStudyForm());
         model.addAttribute("user", loginUser);
-        return "";
+        return "study/createPage";
     }
 
     @PostMapping(path = "/create")
