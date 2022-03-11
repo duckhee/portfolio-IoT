@@ -101,7 +101,7 @@ class AdminStudyControllerTest {
     }
 
     @TestUser(email = "tester@co.kr", authLevel = UserRoleType.ADMIN)
-    @DisplayName(value = "02. list study Page Test - with GET(success) ROLE(ADMIN")
+    @DisplayName(value = "02. list study Page Test - with GET(success) ROLE(ADMIN)")
     @Test
     void listStudyPageTests_withADMIN() throws Exception {
         UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElse(null);
@@ -113,4 +113,29 @@ class AdminStudyControllerTest {
                 .andExpect(view().name("admin/study/studyListPage"));
     }
 
+    @TestUser(authLevel = UserRoleType.ADMIN, email = "tester@co.kr")
+    @DisplayName(value = "03. find study Page Test - with GET(success) ROLE(ADMIN)")
+    @Test
+    void findStudyPageTests_withADMIN() throws Exception {
+        UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElse(null);
+        Assume.assumeNotNull(findUser);
+        StudyDomain findStudy = studyFactory.makeStudy("testing", "testStudy", 0, findUser);
+        mockMvc.perform(get("/admin/study/"+findStudy.getPath()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("study", "user"))
+                .andExpect(view().name("admin/study/studyInformationPage"));
+    }
+
+    @TestUser(authLevel = UserRoleType.ADMIN, email = "tester@co.kr")
+    @DisplayName(value = "04. update study Page Test - with GET(success) ROLE(ADMIN)")
+    @Test
+    void updateStudyPageTest_withADMIN() throws Exception {
+        UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElse(null);
+        Assume.assumeNotNull(findUser);
+        StudyDomain findStudy = studyFactory.makeStudy("testing", "testStudy", 0, findUser);
+        mockMvc.perform(get("/admin/study/update/" + findStudy.getPath()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("updateStudyForm"))
+                .andExpect(view().name("admin/study/studyUpdatePage"));
+    }
 }

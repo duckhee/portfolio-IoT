@@ -56,13 +56,13 @@ public interface StudyService {
     }
 
     /**
-     * update Study
+     * update Study using study IDX
      */
-    public default StudyDomain updateStudy(Long studyIdx, String userEmail) {
+    public default StudyDomain updateStudy(Long studyIdx, StudyDomain updateStudy, String userEmail) {
         return null;
     }
 
-    public default StudyDomain updateStudy(Long studyIdx, UserDomain loginUser) {
+    public default StudyDomain updateStudy(Long studyIdx, StudyDomain updateStudy, UserDomain loginUser) {
         return null;
     }
 
@@ -71,6 +71,23 @@ public interface StudyService {
     }
 
     public default StudyDomain updateStudy(Long studyIdx, StudyDomain findStudy, StudyDomain updateStudy, UserDomain loginUser) {
+        return null;
+    }
+
+    /** update Study using Study Path */
+    public default StudyDomain updateStudy(String studyPath, StudyDomain updateStudy, String userEmail) {
+        return null;
+    }
+
+    public default StudyDomain updateStudy(String studyPath, StudyDomain updateStudy, UserDomain loginUser) {
+        return null;
+    }
+
+    public default StudyDomain updateStudy(String studyPath, StudyDomain findStudy, StudyDomain updateStudy) {
+        return null;
+    }
+
+    public default StudyDomain updateStudy(String studyPath, StudyDomain findStudy, StudyDomain updateStudy, UserDomain loginUser) {
         return null;
     }
 

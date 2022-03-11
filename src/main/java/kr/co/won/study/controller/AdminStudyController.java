@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
+import kr.co.won.study.form.UpdateStudyForm;
 import kr.co.won.study.service.StudyService;
 import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
@@ -11,6 +12,7 @@ import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/study")
@@ -96,16 +99,28 @@ public class AdminStudyController {
         return "admin/study/studyInformationPage";
     }
 
-    @GetMapping(path = "/update")
-    public String studyUpdatePage(@AuthUser UserDomain authUser, @RequestParam(name = "studyPath") String path, Model model) {
+    @GetMapping(path = "/update/{studyPath}")
+    public String studyUpdatePage(@AuthUser UserDomain authUser, @PathVariable(name = "studyPath") String path, Model model) {
+        // login user check auth and organizer check
+        log.info("testing get path ::: {}", path);
         StudyDomain findStudy = studyService.findStudyWithPath(path);
-
-        return "admin/study/studyInformationPage";
+        UpdateStudyForm updateStudyForm = modelMapper.map(findStudy, UpdateStudyForm.class);
+        // update study information mapping update form
+        model.addAttribute(updateStudyForm);
+        model.addAttribute("user", authUser);
+        return "admin/study/studyUpdatePage";
     }
 
-    @PostMapping(path = "/update")
-    public String studyUpdateDo(@AuthUser UserDomain authUser, @RequestParam(name = "studyPath") String path, Model model, RedirectAttributes flash) {
-        return "redirect:/admin/study/" + path;
+//    @PostMapping(path = "/update/{studyPath}")
+    public String studyUpdateDo(@AuthUser UserDomain authUser, @PathVariable(name = "studyPath") String path, @Validated UpdateStudyForm form, Errors errors, Model model, RedirectAttributes flash) {
+        // validation update
+        if (errors.hasErrors()) {
+            model.addAttribute("user", authUser);
+            return "admin/study/studyUpdatePage";
+        }
+        StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
+        StudyDomain updateStudy = studyService.updateStudy(path, mappedStudy, authUser);
+        return "redirect:/admin/study/" + updateStudy.getPath();
     }
 
     @DeleteMapping(path = "/{studyIdx}")

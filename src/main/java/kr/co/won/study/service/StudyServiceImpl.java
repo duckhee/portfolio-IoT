@@ -12,6 +12,7 @@ import org.elasticsearch.common.SuppressLoggerChecks;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -112,6 +113,23 @@ public class StudyServiceImpl implements StudyService {
         }
         return null;
     }
+
+    /**
+     * Study update Using Path
+     */
+    @Override
+    public StudyDomain updateStudy(String studyPath, StudyDomain updateStudy, UserDomain loginUser) {
+        StudyDomain findStudy = studyPersistence.findByPath(studyPath).orElseThrow(() -> new IllegalArgumentException("wrong study path. check study path or not have study."));
+        if (!isHaveAuth(loginUser, findStudy)) {
+            throw new AccessDeniedException("not have auth.");
+        }
+        // update study information
+        modelMapper.map(updateStudy, findStudy);
+        return findStudy;
+    }
+
+
+
 
     // study user role check
     private boolean isHaveAuth(UserDomain loginUser, StudyDomain study) {

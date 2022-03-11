@@ -4,11 +4,14 @@ import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.persistence.StudyPersistence;
 import kr.co.won.user.domain.UserDomain;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.TestComponent;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @TestComponent
 @RequiredArgsConstructor
 public class StudyFactory {
@@ -34,6 +37,7 @@ public class StudyFactory {
                 .updatedAt(nowTime)
                 .build();
         StudyDomain savedStudy = studyPersistence.save(testStudy);
+        log.info("make factory get path::: {}", savedStudy.getPath());
         return savedStudy;
     }
 
