@@ -111,7 +111,7 @@ public class AdminStudyController {
         return "admin/study/studyUpdatePage";
     }
 
-//    @PostMapping(path = "/update/{studyPath}")
+    @PostMapping(path = "/update/{studyPath}")
     public String studyUpdateDo(@AuthUser UserDomain authUser, @PathVariable(name = "studyPath") String path, @Validated UpdateStudyForm form, Errors errors, Model model, RedirectAttributes flash) {
         // validation update
         if (errors.hasErrors()) {
