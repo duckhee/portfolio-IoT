@@ -128,6 +128,7 @@ public class BlogApiController {
         }
         // mapping blog
         BlogDomain mappedUpdateBlog = modelMapper.map(form, BlogDomain.class);
+        mappedUpdateBlog.setReplies(null);
         // update blogs all
         BlogDomain updateBlog = blogService.updateBlog(idx, mappedUpdateBlog, loginUser);
         // make blog resource
@@ -148,6 +149,8 @@ public class BlogApiController {
         }
         return null;
     }
+
+
 
     private ResponseEntity validationResources(Errors errors) {
         EntityModel<Errors> validationErrorResource = ValidErrorResource.of(errors);
