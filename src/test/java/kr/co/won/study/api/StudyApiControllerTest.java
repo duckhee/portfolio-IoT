@@ -7,6 +7,7 @@ import kr.co.won.config.RestDocsConfiguration;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.factory.StudyFactory;
 import kr.co.won.study.form.CreateStudyForm;
+import kr.co.won.study.form.UpdateStudyForm;
 import kr.co.won.study.persistence.StudyPersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
@@ -223,6 +224,27 @@ class StudyApiControllerTest {
 
                         ))
                 );
+    }
+
+    @TestUser(authLevel = UserRoleType.ADMIN, email = "tester@co.kr")
+    @DisplayName(value = "04. study Update Tests - with ADMIN")
+    @Test
+    void studyUpdate_Tests() throws Exception {
+        UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElse(null);
+        Assume.assumeNotNull(findUser);
+
+        StudyDomain newStudy = studyFactory.makeStudy("test-update", "testStudy", 0, findUser);
+        UpdateStudyForm updateForm = UpdateStudyForm.builder()
+                .allowMemberNumber(1)
+                .name("testingUpdateStudy")
+                .build();
+
+        mockMvc.perform(patch("/api/studies/{studyPath}", String.valueOf(newStudy.getPath()))
+                        .contentType(MediaTypes.HAL_JSON)
+                        .content(objectMapper.writeValueAsString(updateForm)))
+                .andDo(print())
+                .andExpect(status().isOk());
+
     }
 
 

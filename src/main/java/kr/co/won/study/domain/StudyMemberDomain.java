@@ -36,8 +36,8 @@ public class StudyMemberDomain {
      */
     private boolean manager;
 
-    @ManyToOne//(fetch = FetchType.LAZY)
-    @JoinColumn(name = "study_idx", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_idx")
     private StudyDomain study;
 
     @CreationTimestamp

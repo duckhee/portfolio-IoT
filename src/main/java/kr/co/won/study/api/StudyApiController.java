@@ -123,7 +123,7 @@ public class StudyApiController {
     }
 
     @PutMapping(path = "/{studyPath}")
-    public ResponseEntity updateStudyResource(@PathVariable(name = "studyPath") Long studyPath) {
+    public ResponseEntity updateStudyResource(@PathVariable(name = "studyPath") String studyPath) {
         return null;
     }
 
@@ -131,7 +131,8 @@ public class StudyApiController {
      * study slice update
      */
     @PatchMapping(path = "/{studyPath}")
-    public ResponseEntity updateStudyPartsResource(@PathVariable(name = "studyPath") Long studyPath, @AuthUser UserDomain loginUser, @RequestBody @Validated UpdateStudyForm form, Errors errors) {
+    public ResponseEntity updateStudyPartsResource(@PathVariable(name = "studyPath") String studyPath, @AuthUser UserDomain loginUser, @RequestBody @Validated UpdateStudyForm form, Errors errors) {
+        log.info("get update study api controller");
         // jsr validation
         if (errors.hasErrors()) {
             return validationResources(errors);
@@ -142,6 +143,7 @@ public class StudyApiController {
             return validationResources(errors);
         }
         StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
+        mappedStudy.setJoinMember(null);
         StudyDomain updateStudy = studyService.updateStudy(studyPath, mappedStudy, loginUser);
         // TODO Update DO resource check
         StudyReadResourceDto resultResource = new StudyReadResourceDto(updateStudy, loginUser);
@@ -165,6 +167,7 @@ public class StudyApiController {
 
     // validation error resource
     private ResponseEntity validationResources(Errors errors) {
+        log.info("get validation error ::: {}", errors);
         EntityModel<Errors> validationErrorResource = ValidErrorResource.of(errors);
         return ResponseEntity.badRequest().body(validationErrorResource);
     }

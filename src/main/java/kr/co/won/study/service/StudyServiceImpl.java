@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service(value = "studyService")
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

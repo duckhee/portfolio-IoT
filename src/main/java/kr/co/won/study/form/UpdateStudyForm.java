@@ -32,7 +32,7 @@ public class UpdateStudyForm {
 
     private String description;
 
-    @NotNull(message = "study status setting required.")
+//    @NotNull(message = "study status setting required.")
     private StudyStatusType status;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
