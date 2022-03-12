@@ -174,7 +174,8 @@ class StudyApiControllerTest {
     void studyFindTests_withADMIN() throws Exception {
         String path = "path";
 
-        UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElseThrow(() -> new IllegalArgumentException(""));
+        UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElse(null);
+        Assume.assumeNotNull(findUser);
         studyFactory.makeStudy(path, "testStudy", 0, findUser);
         mockMvc.perform(get("/api/studies/{path}", path))
                 .andDo(print())

@@ -117,6 +117,7 @@ public class StudyServiceImpl implements StudyService {
     /**
      * Study update Using Path
      */
+    @Transactional
     @Override
     public StudyDomain updateStudy(String studyPath, StudyDomain updateStudy, UserDomain loginUser) {
         StudyDomain findStudy = studyPersistence.findByPath(studyPath).orElseThrow(() -> new IllegalArgumentException("wrong study path. check study path or not have study."));
@@ -128,7 +129,23 @@ public class StudyServiceImpl implements StudyService {
         return findStudy;
     }
 
+    @Transactional
+    @Override
+    public StudyDomain updateStudySlice(String path, StudyDomain updateStudy) {
+        StudyDomain findStudy = studyPersistence.findByPath(path).orElseThrow(() -> new IllegalArgumentException("wrong study Path. check study path or not have study."));
+        modelMapper.map(updateStudy, findStudy);
+        return findStudy;
+    }
 
+    @Transactional
+    @Override
+    public StudyDomain updateStudySlice(String path, StudyDomain updateStudy, UserDomain loginUser) {
+        return StudyService.super.updateStudySlice(path, updateStudy, loginUser);
+    }
+
+    /**
+     * Study Update Slice Using Path
+     */
 
 
     // study user role check

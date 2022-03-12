@@ -10,8 +10,10 @@ import kr.co.won.study.api.resource.dto.StudyReadResourceDto;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.form.DeleteBulkForm;
+import kr.co.won.study.form.UpdateStudyForm;
 import kr.co.won.study.service.StudyService;
 import kr.co.won.study.validation.CreateStudyValidation;
+import kr.co.won.study.validation.UpdateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +65,7 @@ public class StudyApiController {
      * study validation
      */
     private final CreateStudyValidation createStudyValidation;
+    private final UpdateStudyValidation updateStudyValidation;
 
     @GetMapping
     public ResponseEntity listStudyResources(@AuthUser UserDomain loginUser, PageDto pageDto) {
@@ -119,17 +122,31 @@ public class StudyApiController {
         return ResponseEntity.ok().body(studyReadResourceDto);
     }
 
-    @PutMapping(path = "/{studyIdx}")
-    public ResponseEntity updateStudyResource(@PathVariable(name = "studyIdx") Long studyIdx) {
+    @PutMapping(path = "/{studyPath}")
+    public ResponseEntity updateStudyResource(@PathVariable(name = "studyPath") Long studyPath) {
         return null;
     }
 
     /**
      * study slice update
      */
-    @PatchMapping(path = "/{studyIdx}")
-    public ResponseEntity updateStudyPartsResource(@PathVariable(name = "studyIdx") Long studyIdx, @AuthUser UserDomain loginUser) {
-        return null;
+    @PatchMapping(path = "/{studyPath}")
+    public ResponseEntity updateStudyPartsResource(@PathVariable(name = "studyPath") Long studyPath, @AuthUser UserDomain loginUser, @RequestBody @Validated UpdateStudyForm form, Errors errors) {
+        // jsr validation
+        if (errors.hasErrors()) {
+            return validationResources(errors);
+        }
+        // custom validation
+        updateStudyValidation.validate(form, errors);
+        if (errors.hasErrors()) {
+            return validationResources(errors);
+        }
+        StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
+        StudyDomain updateStudy = studyService.updateStudy(studyPath, mappedStudy, loginUser);
+        // TODO Update DO resource check
+        StudyReadResourceDto resultResource = new StudyReadResourceDto(updateStudy, loginUser);
+
+        return ResponseEntity.ok().body(resultResource);
     }
 
     /**
