@@ -33,6 +33,9 @@ VOLUME /portfolio/config/
 # volume setting log folder
 VOLUME /portfolio/logs/
 #
+# volume setting upload file folder
+VOLUME /portfolio/upload/
+#
 # java start
 #ENTRYPOINT ["java","-Dspring.profiles.active=", "-jar", "/portfolio/portfolioIoT.jar"]
 ENTRYPOINT ["java", "-jar", "/portfolio/portfolioIoT.jar"]
