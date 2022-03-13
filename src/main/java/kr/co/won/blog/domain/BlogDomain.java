@@ -56,6 +56,10 @@ public class BlogDomain {
     private Long viewCnt = 0L;
 
     @Builder.Default
+    @Column(nullable = false)
+    private boolean deleted = false;
+
+    @Builder.Default
     @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<BlogReplyDomain> replies = new ArrayList<>();
 

@@ -32,6 +32,9 @@ public class BlogReplyDomain {
     @JoinColumn(name = "blog_idx", nullable = false)
     private BlogDomain blog;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean deleted = false;
 
     @Column(nullable = false)
     private String replyContent;
