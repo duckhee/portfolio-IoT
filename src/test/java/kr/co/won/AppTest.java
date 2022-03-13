@@ -56,5 +56,11 @@ public class AppTest {
         log.info("update user ::: {}", updateUser);
     }
 
+    @DisplayName(value = "00. get Path")
+    @Test
+    void getFilePathTests() {
+        String getPath = System.getProperty("user.dir");
+        log.info("get path ::: {}", getPath);
+    }
 
 }

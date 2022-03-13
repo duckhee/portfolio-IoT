@@ -1,6 +1,6 @@
 package kr.co.won.study.validation;
 
-import groovyjarjarpicocli.CommandLine;
+
 import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.persistence.StudyPersistence;
 import lombok.RequiredArgsConstructor;

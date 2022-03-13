@@ -31,6 +31,7 @@ public class BlogResourceFileUtilImpl implements BlogResourceFileUtil {
 
     @Override
     public BlogResourceDomain fileUpload(MultipartFile file) throws IOException {
+        String getPath = System.getProperty("user.dir");
         BlogResourceDomain blogFileResource = BlogResourceDomain.builder()
                 .fileSize(String.valueOf(file.getSize()))
                 .originalName(file.getOriginalFilename())
@@ -41,10 +42,10 @@ public class BlogResourceFileUtilImpl implements BlogResourceFileUtil {
         // make file save path
         String contextPath = servletContext.getContextPath();
         log.info("servlet context path ::: {}", contextPath);
-        String savedFilePath = appProperties.getUploadFolderPath() + "/" + blogFileResource.getSaveFileName();
+        String savedFilePath = getPath + "/" + appProperties.getUploadFolderPath() + "/" + blogFileResource.getSaveFileName();
         File newUploadFile = new File(savedFilePath);
         // folder not have make folder
-        if(!newUploadFile.exists()){
+        if (!newUploadFile.exists()) {
             newUploadFile.mkdirs();
         }
         file.transferTo(newUploadFile);

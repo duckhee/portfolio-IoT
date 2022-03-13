@@ -11,6 +11,6 @@ public class AppProperties {
 
     private String host = "localhost";
 
-    private String uploadFolderPath = "/Users/duckheewon/Desktop/workspace/project/portfolioIoT/upload";
+    private String uploadFolderPath = "upload";
 
 }

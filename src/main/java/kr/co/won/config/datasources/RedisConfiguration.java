@@ -1,6 +1,6 @@
 package kr.co.won.config.datasources;
 
-import groovy.transform.ConditionalInterrupt;
+
 import kr.co.won.properties.RedisProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
