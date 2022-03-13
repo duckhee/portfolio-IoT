@@ -5,6 +5,8 @@ import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface StudyService {
 
     /**
@@ -127,5 +129,39 @@ public interface StudyService {
         return null;
     }
 
-    /** delete Study */
+    /**
+     * delete Study
+     */
+    public default StudyDomain deleteStudy(Long idx) {
+        return null;
+    }
+    public default StudyDomain deleteStudy(Long idx, UserDomain loginUser) {
+        return null;
+    }
+
+    public default void deleteStudyBulkWithIdxes(List<Long> idxes) {
+        return;
+    }
+
+    public default void deleteStudyBulkWithIdxes(List<Long> idxes, UserDomain loginUser) {
+        return;
+    }
+
+    public default StudyDomain deleteStudy(String path) {
+        return null;
+    }
+
+    public default StudyDomain deleteStudy(String path, UserDomain loginUser) {
+        return null;
+    }
+
+    public default void deleteStudyBulkWithPaths(List<String> paths) {
+        return;
+    }
+
+    public default void deleteStudyBulkWithPaths(List<String> paths, UserDomain loginUser) {
+        return;
+    }
+
+
 }

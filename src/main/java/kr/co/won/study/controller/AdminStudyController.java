@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -121,6 +122,13 @@ public class AdminStudyController {
         StudyDomain mappedStudy = modelMapper.map(form, StudyDomain.class);
         StudyDomain updateStudy = studyService.updateStudy(path, mappedStudy, authUser);
         return "redirect:/admin/study/" + updateStudy.getPath();
+    }
+
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity studyDeleteBulkDo(@RequestBody List<Long> studyIdxes) {
+        log.info("get study delete List ::: {}", studyIdxes);
+
+        return null;
     }
 
     @DeleteMapping(path = "/{studyIdx}")
