@@ -43,7 +43,6 @@ public class UserApiController {
     private final ModelMapper modelMapper;
 
     private final ObjectMapper objectMapper;
-
     @Resource(name = "adminUserService")
     private final UserService adminUserService;
 
