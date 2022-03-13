@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service(value = "studyService")
@@ -130,6 +131,10 @@ public class StudyServiceImpl implements StudyService {
         return findStudy;
     }
 
+    /**
+     * Study Update Slice Using Path
+     */
+
     @Transactional
     @Override
     public StudyDomain updateStudySlice(String path, StudyDomain updateStudy) {
@@ -145,9 +150,44 @@ public class StudyServiceImpl implements StudyService {
     }
 
     /**
-     * Study Update Slice Using Path
+     * Study soft Delete Using study path
      */
 
+    @Transactional
+    @Override
+    public StudyDomain deleteStudy(String path, UserDomain loginUser) {
+        // find study
+        StudyDomain findStudy = studyPersistence.findByPath(path).orElseThrow(() -> new IllegalArgumentException("wrong study path. not have study or wrong study path"));
+        // user role check
+        if (!isHaveAuth(loginUser, findStudy)) {
+            return null;
+        }
+        // delete flag setting true
+        findStudy.setDeleted(true);
+        return findStudy;
+    }
+
+    @Override
+    public void deleteStudyBulkWithPaths(List<String> paths, UserDomain loginUser) {
+        StudyService.super.deleteStudyBulkWithPaths(paths, loginUser);
+    }
+
+    /**
+     * Study hard delete using study path
+     */
+
+    @Transactional
+    @Override
+    public StudyDomain deleteStudy(String path) {
+        StudyDomain findStudy = studyPersistence.findByPath(path).orElseThrow(() -> new IllegalArgumentException("wrong study path. not have study or wrong study path"));
+        studyPersistence.delete(findStudy);
+        return findStudy;
+    }
+
+    @Override
+    public void deleteStudyBulkWithPaths(List<String> paths) {
+        StudyService.super.deleteStudyBulkWithPaths(paths);
+    }
 
     // study user role check
     private boolean isHaveAuth(UserDomain loginUser, StudyDomain study) {

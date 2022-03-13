@@ -43,7 +43,7 @@ public class StudyPersistenceExtensionImpl extends QuerydslRepositorySupport imp
                                 study.published, study.publishedDateTime, study.recruiting, study.recruitingEndDateTime, study.createdAt,
                                 study.updatedAt
                         )
-                ).where(study.idx.gt(0L));
+                ).where(study.idx.gt(0L).and(study.deleted.isFalse()));
 
         // study search option
         if (type != null) {
