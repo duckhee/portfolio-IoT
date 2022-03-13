@@ -28,10 +28,10 @@ ARG PORTFOLIO_IOT_PATH=target/*.jar
 COPY ${PORTFOLIO_IOT_PATH} /portfolio/portfolioIoT.jar
 #
 # volume setting config folder
-VOLUME /portfolio/config
+VOLUME /portfolio/config/
 #
 # volume setting log folder
-VOLUME /portfolio/log
+VOLUME /portfolio/logs/
 #
 # java start
 #ENTRYPOINT ["java","-Dspring.profiles.active=", "-jar", "/portfolio/portfolioIoT.jar"]
