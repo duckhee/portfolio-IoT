@@ -40,7 +40,7 @@
             </div>
             <!--./box-header-->
             <div class="box-body">
-                <form th:id="blog" th:name="blog" th:object="${createStudyForm}" th:method="POST" method="post"
+                <form th:id="blog" th:name="blog" th:object="${study}" th:method="POST" method="post"
                       action="#create-blog" th:action="@{/admin/study/create}" enctype="multipart/form-data">
                     <div class="form-group" th:class="${#fields.hasErrors('name')}?'has-error':''">
                         <label for="name" class="control-label">Study Name</label>
