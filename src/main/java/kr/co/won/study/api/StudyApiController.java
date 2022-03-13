@@ -147,7 +147,7 @@ public class StudyApiController {
         StudyDomain updateStudy = studyService.updateStudy(studyPath, mappedStudy, loginUser);
         // TODO Update DO resource check
         StudyReadResourceDto resultResource = new StudyReadResourceDto(updateStudy, loginUser);
-
+        resultResource.add(Link.of("/docs/index.html#study-update-resources", "profile"));
         return ResponseEntity.ok().body(resultResource);
     }
 
