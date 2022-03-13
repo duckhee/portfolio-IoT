@@ -29,8 +29,11 @@ public class UpdateStudyValidation implements Validator {
     public void validate(Object target, Errors errors) {
         UpdateStudyForm form = (UpdateStudyForm) target;
         Locale local = LocaleContextHolder.getLocale();
-        if (studyPersistence.existsByPath(form.getPath())) {
-            errors.rejectValue("path", "duplicated.path", messageSource.getMessage("duplicated.path", null, "already have path. try to another path.", local));
+        // todo check path have form
+        if (form.getPath() != null) {
+            if (studyPersistence.existsByPath(form.getPath())) {
+                errors.rejectValue("path", "duplicated.path", messageSource.getMessage("duplicated.path", null, "already have path. try to another path.", local));
+            }
         }
         // recruiting time now before and same
         if (form.getStatus() != null) {
@@ -38,6 +41,6 @@ public class UpdateStudyValidation implements Validator {
                 errors.rejectValue("statusTime", "wrong.statusTime", messageSource.getMessage("wrong.statusTime", null, "wrong recruiting time.", local));
             }
         }
-
+        //
     }
 }
