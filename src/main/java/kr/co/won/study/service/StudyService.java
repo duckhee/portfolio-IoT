@@ -132,8 +132,8 @@ public interface StudyService {
     /**
      * delete Study
      */
-    public default StudyDomain deleteStudy(Long idx) {
-        return null;
+    public default void deleteStudy(Long idx) {
+        return;
     }
 
     public default void deleteStudyBulkWithIdxes(List<Long> idxes) {

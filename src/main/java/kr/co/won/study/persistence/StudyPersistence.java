@@ -16,4 +16,5 @@ public interface StudyPersistence extends JpaRepository<StudyDomain, Long>, Stud
 
     List<StudyDomain> findByPathIn(List<String> paths);
 
+    List<StudyDomain> findByIdxIn(List<Long> idxes);
 }

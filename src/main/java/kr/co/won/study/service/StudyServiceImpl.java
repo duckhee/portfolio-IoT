@@ -8,6 +8,7 @@ import kr.co.won.user.persistence.UserPersistence;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.elasticsearch.common.SuppressLoggerChecks;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.JoinTable;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -151,6 +153,28 @@ public class StudyServiceImpl implements StudyService {
     }
 
     /**
+     * Study soft Delete Using study Idx
+     */
+    @Transactional
+    @Override
+    public StudyDomain deleteStudy(Long idx, UserDomain loginUser) {
+        StudyDomain findStudy = studyPersistence.findByIdx(idx).orElseThrow(() -> new IllegalArgumentException("wrong study idx. not have study"));
+        if (!isHaveAuth(loginUser, findStudy)) {
+            return null;
+        }
+        findStudy.setDeleted(true);
+        return findStudy;
+    }
+
+    @Transactional
+    @Override
+    public List<StudyDomain> deleteStudyBulkWithIdxes(List<Long> idxes, UserDomain loginUser) {
+        List<StudyDomain> studies = studyPersistence.findByIdxIn(idxes);
+        studies.forEach(study -> study.setDeleted(true));
+        return studies;
+    }
+
+    /**
      * Study soft Delete Using study path
      */
 
@@ -178,6 +202,23 @@ public class StudyServiceImpl implements StudyService {
         // study list setting delete flag true
         findStudies.forEach(study -> study.setDeleted(true));
         return findStudies;
+    }
+
+    /**
+     * Study hard delete using study idx
+     */
+    @Transactional
+    @Override
+    public void deleteStudy(Long idx) {
+        StudyDomain findStudy = studyPersistence.findByIdx(idx).orElseThrow(() -> new IllegalArgumentException("wrong study. not have study."));
+        studyPersistence.delete(findStudy);
+    }
+
+    @Transactional
+    @Override
+    public void deleteStudyBulkWithIdxes(List<Long> idxes) {
+        List<StudyDomain> findStudies = studyPersistence.findByIdxIn(idxes);
+        studyPersistence.deleteAll(findStudies);
     }
 
     /**
