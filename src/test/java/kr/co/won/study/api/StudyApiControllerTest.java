@@ -32,6 +32,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.w3c.dom.stylesheets.LinkStyle;
+import springfox.documentation.spring.web.json.Json;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -258,7 +259,18 @@ class StudyApiControllerTest {
                                 headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
                         ),
+                        /** Request Path Parameter */
+                        relaxedPathParameters(
+                                parameterWithName("studyPath").description("수정할 스터디의 경록 값").optional()
+                        ),
                         /** Request Body */
+                        relaxedRequestFields(
+                                fieldWithPath("path").type(JsonFieldType.STRING).description("스터디 경로를 변경할 경우 입력해야한다. 중복이 안되는 값이여야한다.").optional(),
+                                fieldWithPath("allowMemberNumber").type(JsonFieldType.NUMBER).description("스터디의 참여할 수 있는 인원에 대한 숫자를 수정할 경우 사용한다. 0일 경우 인원 수 제한이 없다.").optional(),
+                                fieldWithPath("status").type(JsonFieldType.STRING).description("스터디의 상태를 변경할 경우 입력 한다.").optional(),
+                                fieldWithPath("statusTime").type(JsonFieldType.STRING).description("스터디의 멤버를 받는 중이면, 모집 마지막 기간을 입력을 해야한다.").optional(),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("스터디의 이름을 변경할 경우 입력을 하면된다.").optional()
+                        ),
                         /** Study Update Links */
                         relaxedLinks(
                                 linkWithRel("self").description("현재 호출된 링크").optional(),
@@ -268,7 +280,6 @@ class StudyApiControllerTest {
                                 linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional()
                         )
                 ));
-
     }
 
 
@@ -293,7 +304,10 @@ class StudyApiControllerTest {
                                 headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
                         ),
-                        /** Request Body */
+                        /** Request Path Parameter */
+                        relaxedPathParameters(
+                                parameterWithName("studyIdx").description("삭제할 스터디의 고유 번호 값").optional()
+                        ),
                         /** Study Delete Links */
                         relaxedLinks(
                                 linkWithRel("self").description("현재 호출된 링크").optional(),
