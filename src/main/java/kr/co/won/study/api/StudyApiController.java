@@ -31,6 +31,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.integration.http.dsl.Http;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -168,6 +169,16 @@ public class StudyApiController {
     public ResponseEntity deleteStudyResource(@AuthUser UserDomain loginUser, @PathVariable(name = "studyIdx") Long studyIdx) {
         StudyDomain deleteStudy = studyService.deleteStudy(studyIdx, loginUser);
         RepresentationModel emptyResource = new RepresentationModel();
+        WebMvcLinkBuilder baseLink = linkTo(StudyApiController.class);
+        // list study link add
+        emptyResource.add(baseLink.withRel("list-study").withType(HttpMethod.GET.name()));
+        // create study link add
+        emptyResource.add(baseLink.withRel("create-study").withType(HttpMethod.POST.name()));
+        // self links
+        emptyResource.add(baseLink.slash(deleteStudy.getIdx()).withSelfRel().withType(HttpMethod.GET.name()));
+        // profile link add
+        emptyResource.add(Link.of("/docs/index.html#study-delete-resources", "profile").withType(HttpMethod.GET.name()));
+
         if (deleteStudy.isDeleted()) {
             return ResponseEntity.status(HttpStatus.GONE).body(emptyResource);
         }

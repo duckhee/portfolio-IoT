@@ -292,9 +292,15 @@ class StudyApiControllerTest {
                         requestHeaders(
                                 headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
-                        )
+                        ),
                         /** Request Body */
                         /** Study Delete Links */
+                        relaxedLinks(
+                                linkWithRel("self").description("현재 호출된 링크").optional(),
+                                linkWithRel("list-study").description("스터디의 목록을 볼 수 있는 링크").optional(),
+                                linkWithRel("create-study").description("스터디를 생성할 수 있는 링크").optional(),
+                                linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional()
+                        )
                 ));
 
     }
