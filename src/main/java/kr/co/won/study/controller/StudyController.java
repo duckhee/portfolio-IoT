@@ -7,6 +7,7 @@ import kr.co.won.study.form.UpdateStudyForm;
 import kr.co.won.study.service.StudyService;
 import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.user.domain.UserRoleType;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
@@ -92,6 +93,21 @@ public class StudyController {
         }
         flash.addFlashAttribute("msg", "update study done.");
         return "redirect:/study/" + path;
+    }
+
+
+    // user role check
+    private boolean isAuth(UserDomain loginUser) {
+        return loginUser.hasRole(UserRoleType.MANAGER, UserRoleType.ADMIN);
+    }
+
+    // user role check
+    private boolean isAuth(UserDomain loginUser, StudyDomain study) {
+        // user role check
+        if (study.getOrganizer().equals(loginUser.getEmail()) || loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            return true;
+        }
+        return false;
     }
 
 }

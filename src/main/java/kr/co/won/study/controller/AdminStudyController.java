@@ -128,21 +128,33 @@ public class AdminStudyController {
     @DeleteMapping(path = "/delete")
     public ResponseEntity studyDeleteBulkDo(@AuthUser UserDomain loginUser, @RequestBody DeleteBulkForm deleteBulkForm) {
         log.info("get study delete List ::: {}", deleteBulkForm);
-        studyService.deleteStudyBulkWithIdxes(deleteBulkForm.getStudy(), loginUser);
-        return null;
+        List<StudyDomain> deleteStudies = studyService.deleteStudyBulkWithIdxes(deleteBulkForm.getStudy(), loginUser);
+        if (deleteStudies.stream().allMatch(StudyDomain::isDeleted)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping(path = "/{studyIdx}")
     public ResponseEntity studyDeleteDo(@PathVariable(name = "studyIdx") Long studyIdx, @AuthUser UserDomain loginUser) {
-        return null;
+        StudyDomain deleteStudy = studyService.deleteStudy(studyIdx, loginUser);
+        if (deleteStudy.isDeleted()) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
+    // user role check
     private boolean isAuth(UserDomain loginUser) {
         return loginUser.hasRole(UserRoleType.MANAGER, UserRoleType.ADMIN);
     }
 
+    // user role check
     private boolean isAuth(UserDomain loginUser, StudyDomain study) {
-        boolean isRole = loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER);
+        // user role check
+        if (study.getOrganizer().equals(loginUser.getEmail()) || loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            return true;
+        }
         return false;
     }
 

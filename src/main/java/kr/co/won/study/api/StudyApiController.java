@@ -25,8 +25,11 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.Errors;
@@ -161,8 +164,14 @@ public class StudyApiController {
     }
 
     @DeleteMapping(path = "/{studyIdx}")
-    public ResponseEntity deleteStudyResource(@PathVariable(name = "studyIdx") Long studyIdx) {
-        return null;
+    @ResponseStatus(HttpStatus.GONE)
+    public ResponseEntity deleteStudyResource(@AuthUser UserDomain loginUser, @PathVariable(name = "studyIdx") Long studyIdx) {
+        StudyDomain deleteStudy = studyService.deleteStudy(studyIdx, loginUser);
+        RepresentationModel emptyResource = new RepresentationModel();
+        if (deleteStudy.isDeleted()) {
+            return ResponseEntity.status(HttpStatus.GONE).body(emptyResource);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     // validation error resource

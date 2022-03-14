@@ -5,6 +5,7 @@ import kr.co.won.auth.TestUser;
 import kr.co.won.blog.factory.BlogFactory;
 import kr.co.won.config.RestDocsConfiguration;
 import kr.co.won.study.domain.StudyDomain;
+import kr.co.won.study.domain.StudyStatusType;
 import kr.co.won.study.factory.StudyFactory;
 import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.form.UpdateStudyForm;
@@ -26,11 +27,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +41,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -150,7 +152,7 @@ class StudyApiControllerTest {
                                 fieldWithPath("createdAt").type(JsonFieldType.STRING).description("스터디의 생성 시간").optional()
                         ),
                         /** Study Create Links */
-                        links(
+                        relaxedLinks(
                                 linkWithRel("self").description("현재 호출된 링크").optional(),
                                 linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional(),
                                 linkWithRel("list-study").description("스터디의 목록을 볼 수 있는 링크").optional(),
@@ -214,14 +216,13 @@ class StudyApiControllerTest {
                                 fieldWithPath("createdAt").type(JsonFieldType.STRING).description("스터디가 생성된 시간").optional()
                         ),
                         /** Study Read Links */
-                        links(
+                        relaxedLinks(
                                 linkWithRel("self").description("현재 호출된 링크").optional(),
                                 linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional(),
                                 linkWithRel("list-study").description("스터디의 목록을 볼 수 있는 링크").optional(),
-                                linkWithRel("query-study").description("생성된 스터디에 대한 정보를 볼 수 있는 링크").optional(),
-                                linkWithRel("update-study").description("생성된 스터디를 업데이트할 수 있는 링크").optional(),
-                                linkWithRel("delete-study").description("생성된 스터디를 삭제를 할 수 있는 링크").optional()
-
+                                linkWithRel("query-study").description("현재 스터디에 대한 정보를 볼 수 있는 링크").optional(),
+                                linkWithRel("update-study").description("현재 스터디를 업데이트할 수 있는 링크").optional(),
+                                linkWithRel("delete-study").description("현재 스터디를 삭제를 할 수 있는 링크").optional()
                         ))
                 );
     }
@@ -235,7 +236,10 @@ class StudyApiControllerTest {
 
         StudyDomain newStudy = studyFactory.makeStudy("test-update", "testStudy", 0, findUser);
         UpdateStudyForm updateForm = UpdateStudyForm.builder()
+                .path("update-pathing")
                 .allowMemberNumber(1)
+                .status(StudyStatusType.RECRUIT)
+                .statusTime(LocalDateTime.now().plusDays(10L))
                 .name("testingUpdateStudy")
                 .build();
 
@@ -243,7 +247,55 @@ class StudyApiControllerTest {
                         .contentType(MediaTypes.HAL_JSON)
                         .content(objectMapper.writeValueAsString(updateForm)))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(document("update-study",
+                        /** Response Content Type */
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request Header */
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request Body */
+                        /** Study Update Links */
+                        relaxedLinks(
+                                linkWithRel("self").description("현재 호출된 링크").optional(),
+                                linkWithRel("list-study").description("스터디의 목록을 볼 수 있는 링크").optional(),
+                                linkWithRel("update-study").description("스터디를 업데이트할 수 있는 링크").optional(),
+                                linkWithRel("delete-study").description("스터디를 삭제할 수 있는 링크").optional(),
+                                linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional()
+                        )
+                ));
+
+    }
+
+
+    @TestUser(authLevel = UserRoleType.ADMIN, email = "tester@co.kr")
+    @DisplayName(value = "05. study delete Tests - with ADMIN")
+    @Test
+    void studyDelete_Tests() throws Exception {
+        UserDomain findUser = userPersistence.findByEmail("tester@co.kr").orElse(null);
+        Assume.assumeNotNull(findUser);
+
+        StudyDomain testStudy = studyFactory.makeStudy("test-delete", "testStudy", 0, findUser);
+        mockMvc.perform(delete("/api/studies/{studyIdx}", testStudy.getIdx()))
+                .andDo(print())
+                .andExpect(status().isGone())
+                .andDo(document("delete-study",
+                        /** Response Content Type */
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request Header */
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        )
+                        /** Request Body */
+                        /** Study Delete Links */
+                ));
 
     }
 
