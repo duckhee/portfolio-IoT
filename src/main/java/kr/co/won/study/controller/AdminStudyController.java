@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
+import kr.co.won.study.form.DeleteBulkForm;
 import kr.co.won.study.form.UpdateStudyForm;
 import kr.co.won.study.service.StudyService;
 import kr.co.won.study.validation.CreateStudyValidation;
@@ -125,9 +126,9 @@ public class AdminStudyController {
     }
 
     @DeleteMapping(path = "/delete")
-    public ResponseEntity studyDeleteBulkDo(@RequestBody List<Long> studyIdxes) {
-        log.info("get study delete List ::: {}", studyIdxes);
-
+    public ResponseEntity studyDeleteBulkDo(@AuthUser UserDomain loginUser, @RequestBody DeleteBulkForm deleteBulkForm) {
+        log.info("get study delete List ::: {}", deleteBulkForm);
+        studyService.deleteStudyBulkWithIdxes(deleteBulkForm.getStudy(), loginUser);
         return null;
     }
 

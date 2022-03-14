@@ -10,4 +10,5 @@ import org.springframework.web.servlet.HandlerInterceptor;
  * study organizer, study manager have alert add member, recruiting done
  */
 public class StudyInterceptor implements HandlerInterceptor {
+
 }

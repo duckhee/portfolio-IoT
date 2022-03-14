@@ -136,16 +136,17 @@ public interface StudyService {
         return null;
     }
 
-    public default StudyDomain deleteStudy(Long idx, UserDomain loginUser) {
-        return null;
-    }
-
     public default void deleteStudyBulkWithIdxes(List<Long> idxes) {
         return;
     }
 
-    public default void deleteStudyBulkWithIdxes(List<Long> idxes, UserDomain loginUser) {
-        return;
+    public default StudyDomain deleteStudy(Long idx, UserDomain loginUser) {
+        return null;
+    }
+
+
+    public default List<StudyDomain> deleteStudyBulkWithIdxes(List<Long> idxes, UserDomain loginUser) {
+        return null;
     }
 
     public default void deleteStudy(String path) {
