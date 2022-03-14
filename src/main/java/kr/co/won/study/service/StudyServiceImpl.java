@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -167,9 +168,16 @@ public class StudyServiceImpl implements StudyService {
         return findStudy;
     }
 
+    @Transactional
     @Override
-    public void deleteStudyBulkWithPaths(List<String> paths, UserDomain loginUser) {
-        StudyService.super.deleteStudyBulkWithPaths(paths, loginUser);
+    public List<StudyDomain> deleteStudyBulkWithPaths(List<String> paths, UserDomain loginUser) {
+        List<StudyDomain> findStudies = studyPersistence.findByPathIn(paths);
+        if (!isHaveAuth(loginUser, findStudies)) {
+            return null;
+        }
+        // study list setting delete flag true
+        findStudies.forEach(study -> study.setDeleted(true));
+        return findStudies;
     }
 
     /**
@@ -178,19 +186,36 @@ public class StudyServiceImpl implements StudyService {
 
     @Transactional
     @Override
-    public StudyDomain deleteStudy(String path) {
+    public void deleteStudy(String path) {
         StudyDomain findStudy = studyPersistence.findByPath(path).orElseThrow(() -> new IllegalArgumentException("wrong study path. not have study or wrong study path"));
         studyPersistence.delete(findStudy);
-        return findStudy;
+
     }
 
+    @Transactional
     @Override
     public void deleteStudyBulkWithPaths(List<String> paths) {
-        StudyService.super.deleteStudyBulkWithPaths(paths);
+        List<StudyDomain> findStudies = studyPersistence.findByPathIn(paths);
+        studyPersistence.deleteAll(findStudies);
     }
 
     // study user role check
     private boolean isHaveAuth(UserDomain loginUser, StudyDomain study) {
         return loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER) || loginUser.getEmail().equals(study.getOrganizer()) || loginUser.getEmail().equals(study.getManager());
     }
+
+    private boolean isHaveAuth(UserDomain loginUser, StudyDomain... studies) {
+        if (loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            return true;
+        }
+        return Arrays.stream(studies).allMatch(studyDomain -> studyDomain.getOrganizer().equals(loginUser.getEmail()));
+    }
+
+    private boolean isHaveAuth(UserDomain loginUser, List<StudyDomain> studies) {
+        if (loginUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            return true;
+        }
+        return studies.stream().allMatch(studyDomain -> studyDomain.getOrganizer().equals(loginUser.getEmail()));
+    }
+
 }

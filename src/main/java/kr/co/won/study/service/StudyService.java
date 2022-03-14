@@ -135,6 +135,7 @@ public interface StudyService {
     public default StudyDomain deleteStudy(Long idx) {
         return null;
     }
+
     public default StudyDomain deleteStudy(Long idx, UserDomain loginUser) {
         return null;
     }
@@ -147,8 +148,8 @@ public interface StudyService {
         return;
     }
 
-    public default StudyDomain deleteStudy(String path) {
-        return null;
+    public default void deleteStudy(String path) {
+        return;
     }
 
     public default StudyDomain deleteStudy(String path, UserDomain loginUser) {
@@ -159,8 +160,8 @@ public interface StudyService {
         return;
     }
 
-    public default void deleteStudyBulkWithPaths(List<String> paths, UserDomain loginUser) {
-        return;
+    public default List<StudyDomain> deleteStudyBulkWithPaths(List<String> paths, UserDomain loginUser) {
+        return null;
     }
 
 
