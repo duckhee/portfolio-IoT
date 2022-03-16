@@ -23,6 +23,8 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users")
                 .permitAll()
+                .antMatchers(HttpMethod.POST, "/api/auth-login") // user login path
+                .permitAll()
                 .mvcMatchers("/api/h2-console")
                 .permitAll()
                 // TODO Delete

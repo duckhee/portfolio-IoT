@@ -1,7 +1,7 @@
 package kr.co.won.user.controller;
 
-import kr.co.won.common.Address;
 import kr.co.won.auth.AuthUser;
+import kr.co.won.common.Address;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.form.CreateMemberForm;
@@ -56,6 +56,7 @@ public class AdminUserController {
         return "admin/users/listMemberPage";
     }
 
+
     @GetMapping(path = "/create")
     public String memberCreatePage(@AuthUser UserDomain user, Model model) {
         log.info("login user : {}", user);
@@ -88,7 +89,7 @@ public class AdminUserController {
         UserDomain savedMember = userService.createUser(setMember, authUser, formRoles);
         // flash message setting
         flash.addFlashAttribute("msg", messageSource.getMessage("create.member",
-                        new String[]{savedMember.getName()},
+                new String[]{savedMember.getName()},
                 LocaleContextHolder.getLocale()));
         return "redirect:/admin/users";
     }
@@ -113,12 +114,12 @@ public class AdminUserController {
     }
 
     @GetMapping(path = "/update")
-    public String memberUpdatePage(@RequestParam(name = "email") String email, @AuthUser UserDomain authUser, Model model){
+    public String memberUpdatePage(@RequestParam(name = "email") String email, @AuthUser UserDomain authUser, Model model) {
         return "";
     }
 
     @PostMapping(path = "/update")
-    public String memberUpdateDo(@RequestParam(name = "email") String email, @AuthUser UserDomain authUser, Model model){
+    public String memberUpdateDo(@RequestParam(name = "email") String email, @AuthUser UserDomain authUser, Model model) {
         return "";
     }
 }

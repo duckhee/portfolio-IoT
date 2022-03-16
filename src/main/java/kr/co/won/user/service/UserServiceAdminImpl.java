@@ -52,6 +52,30 @@ public class UserServiceAdminImpl implements UserService {
 
     private final UserPersistence userPersistence;
 
+    /**
+     * Admin User Make
+     */
+    @PostConstruct
+    public void InitAdmin() {
+        UserDomain adminUser = UserDomain.builder()
+                .name("admin")
+                .email("adminuser@co.kr")
+                .password(passwordEncoder.encode("won1228"))
+                .emailVerified(true)
+                .activeFlag(true)
+                .joinTime(LocalDateTime.now())
+                .emailVerified(true)
+                .deleteFlag(false)
+                .build();
+        UserRoleDomain adminRole = UserRoleDomain.builder()
+                .role(UserRoleType.ADMIN)
+                .build();
+        UserRoleDomain userRole = UserRoleDomain.builder()
+                .role(UserRoleType.USER)
+                .build();
+        adminUser.addRole(adminRole, userRole);
+        userPersistence.save(adminUser);
+    }
 
     @Transactional
     @Override

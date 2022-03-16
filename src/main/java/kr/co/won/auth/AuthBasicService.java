@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class AuthBasicService implements UserDetailsService {
 
     private final UserPersistence userPersistence;
 
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -51,5 +53,13 @@ public class AuthBasicService implements UserDetailsService {
         return new LoginUser(findUser);
     }
 
+    public LoginUser jwtLogin(String email, String password){
+        UserDomain findUser = userPersistence.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email + " not registe."));
+        if(!passwordEncoder.matches(password, findUser.getPassword())){
+            throw new BadCredentialsException("check email or password");
+        }
+
+        return new LoginUser(findUser);
+    }
 
 }

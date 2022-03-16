@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttConnect;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessageProducer;
@@ -22,6 +23,7 @@ import org.springframework.integration.support.ErrorMessageStrategy;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
+@Profile(value = {"mqtt"})
 @RequiredArgsConstructor
 public class MqttConfiguration {
 
@@ -30,6 +32,7 @@ public class MqttConfiguration {
     /**
      * Mqtt Client Factory Setting
      */
+//    @Bean
     public MqttPahoClientFactory mqttPahoClientFactory() {
         DefaultMqttPahoClientFactory defaultMqttPahoClientFactory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions connectOptions = new MqttConnectOptions();
@@ -52,11 +55,13 @@ public class MqttConfiguration {
     /**
      * Mqtt Inbound Channel Setting
      */
+//    @Bean
     public MessageChannel mqttInBoundChannel() {
         DirectChannel directChannel = new DirectChannel();
         return directChannel;
     }
 
+//    @Bean
     public MessageProducer mqttInBound() {
         MqttPahoMessageDrivenChannelAdapter mqttPahoMessageDrivenChannelAdapter =
                 new MqttPahoMessageDrivenChannelAdapter("PORTFOLIO-Mqtt-In", mqttPahoClientFactory(), mqttProperties.getBaseTopic());
@@ -68,13 +73,14 @@ public class MqttConfiguration {
     }
 
 
-
+//    @Bean
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler mqttInBoundMessageHandler() {
         MqttSubScript subScript = null;
         return subScript.subscript();
     }
 
+//    @Bean
     public IntegrationFlow mqttOutBoundFlow() {
         return flow
                 -> flow.handle(
@@ -82,14 +88,19 @@ public class MqttConfiguration {
         );
     }
 
+//    @Bean
     public MessageChannel mqttOutBoundChannel() {
         DirectChannel directChannel = new DirectChannel();
         return directChannel;
     }
 
+    /**
+     * Service Activator 는 서비스를 메시징 시스템에 연결하기 위한 엔드포인트이다. 입력 채널이 설정되어 있어야 하고 서비스가 값을 리턴하도록 구현했다면 출력 채널도 설정해야 한다.
+     */
+//    @Bean
     @ServiceActivator(outputChannel = "mqttOutputChannel", inputChannel = "mqttInputChannel")
     public MessageHandler mqttOutputHandler() {
-        MqttPahoMessageHandler mqttPahoMessageHandler = new MqttPahoMessageHandler("PORTFOLIO-Mqtt-Out", mqttPahoClientFactory());
+        MqttPahoMessageHandler mqttPahoMessageHandler = new MqttPahoMessageHandler("", mqttPahoClientFactory());
         mqttPahoMessageHandler.setAsync(true);
         mqttPahoMessageHandler.setDefaultTopic("#");
         mqttPahoMessageHandler.setDefaultRetained(true);
