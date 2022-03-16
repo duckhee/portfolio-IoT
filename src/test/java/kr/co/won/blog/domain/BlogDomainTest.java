@@ -60,6 +60,26 @@ class BlogDomainTest {
         assertThat(blogBuilder.getReplies()).isNotNull();
     }
 
+    @DisplayName(value = "01. blog domain delete Test")
+    @Test
+    void blogDomainDeleteTests(){
+        String title = "blog title";
+        String content = "blog content";
+        String email = "test@co.kr";
+        String name = "test";
+        String uri = URI.create("github.com/portfolio/project").toString();
+        BlogDomain blogBuilder = makeBlogDomain(title, content, email, name, uri);
+
+        assertThat(blogBuilder.getTitle()).isEqualTo(title);
+        assertThat(blogBuilder.getContent()).isEqualTo(content);
+        assertThat(blogBuilder.getWriter()).isEqualTo(name);
+        assertThat(blogBuilder.getWriterEmail()).isEqualTo(email);
+        assertThat(blogBuilder.getReplies()).isNotNull();
+        blogBuilder.delete();
+        assertThat(blogBuilder.isDeleted()).isTrue();
+        assertThat(blogBuilder.replies.size()).isEqualTo(0);
+    }
+
 
     @DisplayName(value = "02. blog domain reply add Test")
     @Test
@@ -107,6 +127,34 @@ class BlogDomainTest {
         assertThat(blogBuilder.getReplies().size()).isEqualTo(1);
 
         blogBuilder.removeReply(replyBuilder);
+        assertThat(blogBuilder.getReplies().size()).isEqualTo(0);
+    }
+
+    @DisplayName(value = "03. blog soft delete with reply Tests")
+    @Test
+    void blogDeleteWithReplySoftTest(){
+        String title = "blog title";
+        String content = "blog content";
+        String email = "test@co.kr";
+        String name = "test";
+        String uri = URI.create("github.com/portfolio/project").toString();
+        BlogDomain blogBuilder = makeBlogDomain(title, content, email, name, uri);
+
+        BlogReplyDomain replyBuilder = makeReplyDomain(email, name, "reply content");
+        blogBuilder.addReply(replyBuilder);
+
+        assertThat(blogBuilder.getTitle()).isEqualTo(title);
+        assertThat(blogBuilder.getViewCnt()).isEqualTo(0);
+        assertThat(blogBuilder.getContent()).isEqualTo(content);
+        assertThat(blogBuilder.getWriter()).isEqualTo(name);
+        assertThat(blogBuilder.getWriterEmail()).isEqualTo(email);
+        assertThat(blogBuilder.getReplies()).isNotNull();
+        assertThat(blogBuilder.getReplies()).contains(replyBuilder);
+        assertThat(blogBuilder.getReplies().size()).isEqualTo(1);
+
+        blogBuilder.delete();
+        assertThat(blogBuilder.isDeleted()).isTrue();
+        assertThat(replyBuilder.isDeleted()).isTrue();
         assertThat(blogBuilder.getReplies().size()).isEqualTo(0);
     }
 
