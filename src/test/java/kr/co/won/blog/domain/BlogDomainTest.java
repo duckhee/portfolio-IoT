@@ -155,7 +155,8 @@ class BlogDomainTest {
         blogBuilder.delete();
         assertThat(blogBuilder.isDeleted()).isTrue();
         assertThat(replyBuilder.isDeleted()).isTrue();
-        assertThat(blogBuilder.getReplies().size()).isEqualTo(0);
+        assertThat(blogBuilder.getReplies().size()).isEqualTo(1);
+        assertThat(blogBuilder.getReplies().stream().allMatch(BlogReplyDomain::isDeleted)).isTrue();
     }
 
     // make reply domain builder

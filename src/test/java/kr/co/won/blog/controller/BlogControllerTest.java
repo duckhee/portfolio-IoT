@@ -69,7 +69,7 @@ class BlogControllerTest {
                 .andExpect(flash().attributeExists("msg"))
                 .andExpect(view().name("redirect:/blogs/list"));
         List<BlogDomain> all = blogPersistence.findAll();
-        log.info("get all blog ::: {}", all.toString());
+        log.info("get all blog ::: {}", all);
     }
 
     @DisplayName(value = "01. create blog do Test - with POST(Not Login)")

@@ -27,7 +27,7 @@ public class BlogFileDomain {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "blog_idx", nullable = false)
+    @JoinColumn(name = "blog_idx")
     private BlogDomain blog;
 
     @Column(nullable = false, length = 255)
@@ -52,4 +52,5 @@ public class BlogFileDomain {
 
 
     /** blog file domain function */
+
 }

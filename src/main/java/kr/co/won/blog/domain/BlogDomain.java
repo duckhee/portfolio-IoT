@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Builder
-@ToString(exclude = {"replies"})
+@ToString(exclude = {"replies", "files"})
 @EqualsAndHashCode(of = {"idx"})
 @NoArgsConstructor
 @AllArgsConstructor
@@ -62,6 +62,10 @@ public class BlogDomain {
     @Builder.Default
     @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<BlogReplyDomain> replies = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    List<BlogFileDomain> files = new ArrayList<>();
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -121,14 +125,54 @@ public class BlogDomain {
     /**
      * remove replies all
      */
-    public void removeReplyAll() {
+    public void removeSoftReplyAll() {
         this.replies.forEach(reply -> reply.setDeleted(true));
 //        this.replies = new ArrayList<>();
     }
 
+    /**
+     * blog file add function
+     */
+    public void addFile(BlogFileDomain file) {
+        this.files.add(file);
+        file.setBlog(this);
+    }
+
+    /**
+     * blog file add function
+     */
+    public void addFile(BlogFileDomain... files) {
+        Arrays.stream(files).forEach(file -> {
+            file.setBlog(this);
+            this.files.add(file);
+        });
+    }
+
+    /**
+     * remove file
+     */
+    public void removeFile(BlogFileDomain file) {
+        this.files.remove(file);
+        file.setBlog(null);
+    }
+
+    /**
+     * remove file
+     */
+    public void removeFile(BlogFileDomain... files) {
+        Arrays.stream(files).forEach(file->{
+            this.files.remove(file);
+            file.setBlog(null);
+        });
+    }
+
+
+    /**
+     * blog remove
+     */
     public void delete() {
         this.deleted = true;
-        removeReplyAll();
+        removeSoftReplyAll();
     }
 
     /**
