@@ -18,6 +18,21 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserDomainBuilderFactory {
 
+
+    public UserDomain makeDomainUser(String name, String email, String password) {
+        Address testAddress = new Address("zipCode", "roadAddress", "detailAddress");
+        UserDomain testUser = userBuilder(testAddress, name, email, password);
+        return testUser;
+    }
+
+    public UserDomain makeDomainUser(String name, String email, String password, UserRoleType role) {
+        Address testAddress = new Address("zipCode", "roadAddress", "detailAddress");
+        UserDomain testUser = userBuilder(testAddress, name, email, password);
+        UserRoleDomain testRole = testRoleBuilder(role);
+        testUser.addRole(testRole);
+        return testUser;
+    }
+
     public UserDomain makeDomainUser(Long userIdx, String name, String email, String password, UserRoleType role) {
         Address testAddress = new Address("zipCode", "roadAddress", "detailAddress");
         UserDomain testUser = userBuilder(testAddress, name, email, password);

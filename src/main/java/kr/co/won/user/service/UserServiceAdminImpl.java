@@ -55,26 +55,29 @@ public class UserServiceAdminImpl implements UserService {
     /**
      * Admin User Make
      */
+
     @PostConstruct
-    public void InitAdmin() {
-        UserDomain adminUser = UserDomain.builder()
-                .name("admin")
-                .email("adminuser@co.kr")
-                .password(passwordEncoder.encode("won1228"))
+    public void adminUser() {
+        Address address = new Address("zipCode", "roadAddress", "detailAddress");
+        UserDomain testUser = UserDomain.builder()
+                .email("admin@co.kr")
+                .name("testing")
+                .password(passwordEncoder.encode("1234"))
                 .emailVerified(true)
+                .job("DEVELOPER")
                 .activeFlag(true)
+                .address(address)
                 .joinTime(LocalDateTime.now())
-                .emailVerified(true)
-                .deleteFlag(false)
                 .build();
-        UserRoleDomain adminRole = UserRoleDomain.builder()
-                .role(UserRoleType.ADMIN)
-                .build();
-        UserRoleDomain userRole = UserRoleDomain.builder()
+        testUser.makeEmailToken();
+        UserRoleDomain defaultRole = UserRoleDomain.builder()
                 .role(UserRoleType.USER)
                 .build();
-        adminUser.addRole(adminRole, userRole);
-        userPersistence.save(adminUser);
+        UserRoleDomain testUserAdmin = UserRoleDomain.builder()
+                .role(UserRoleType.ADMIN)
+                .build();
+        testUser.addRole(defaultRole, testUserAdmin);
+        userPersistence.save(testUser);
     }
 
     @Transactional
@@ -84,7 +87,7 @@ public class UserServiceAdminImpl implements UserService {
         UserDomain findUser = userPersistence.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("not login user."));
         /** user Role check */
-        if (!findUser.hasRole(UserRoleType.ADMIN) || !findUser.hasRole(UserRoleType.MANAGER)) {
+        if (!findUser.hasRole(UserRoleType.ADMIN, UserRoleType.MANAGER)) {
             throw new IllegalArgumentException("access denied.");
         }
         /** user roles set */
@@ -134,7 +137,7 @@ public class UserServiceAdminImpl implements UserService {
                 .build();
         userRoles.add(defaultRole);
         // if member role form have
-        if(roles != null){
+        if (roles != null) {
             Set<UserRoleDomain> collectRoles = roles.stream().map(userRoleType -> UserRoleDomain.builder().role(userRoleType).build()).collect(Collectors.toSet());
             userRoles.addAll(collectRoles);
         }
@@ -169,6 +172,21 @@ public class UserServiceAdminImpl implements UserService {
         return findUser;
     }
 
+    @Transactional
+    @Override
+    public UserDomain updateUser(Long userIdx, UserDomain updateUser, UserDomain loginUser) {
+        UserDomain findUser = userPersistence.findById(userIdx).orElseThrow(() -> new IllegalArgumentException("해당되는 사용자는 존재하지 않습니다."));
+        if (!isAuthUser(loginUser, UserRoleType.ADMIN, UserRoleType.MANAGER)) {
+            return null;
+        }
+        Set<UserRoleDomain> roles = findUser.getRoles();
+        modelMapper.map(findUser, updateUser);
+        // role set
+        findUser.addRole(roles);
+        // return update user
+        return findUser;
+    }
+
     @Override
     public Page pagingUser(PageDto page) {
         Pageable makePageable = page.makePageable(0, "idx");
@@ -192,6 +210,17 @@ public class UserServiceAdminImpl implements UserService {
         return findUser;
     }
 
+    // user role check
+    private boolean isAuthUser(UserDomain authUser, UserRoleType... roles) {
+        UserDomain findUser = userPersistence.findWithRoleByEmail(authUser.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("not login user."));
+        /** user Role check */
+        if (!findUser.hasRole(roles)) {
+            return false;
+        }
+        return true;
+    }
+
     // make random password
     private String randomPassword() {
         String random = UUID.randomUUID().toString();
@@ -210,30 +239,6 @@ public class UserServiceAdminImpl implements UserService {
         emailMsg.setPassword(password);
         emailService.sendConfirmEmail(emailMsg);
 
-    }
-
-    @PostConstruct
-    public void adminUser() {
-        Address address = new Address("zipCode", "roadAddress", "detailAddress");
-        UserDomain testUser = UserDomain.builder()
-                .email("admin@co.kr")
-                .name("testing")
-                .password(passwordEncoder.encode("1234"))
-                .emailVerified(true)
-                .job("DEVELOPER")
-                .activeFlag(true)
-                .address(address)
-                .joinTime(LocalDateTime.now())
-                .build();
-        testUser.makeEmailToken();
-        UserRoleDomain defaultRole = UserRoleDomain.builder()
-                .role(UserRoleType.USER)
-                .build();
-        UserRoleDomain testUserAdmin = UserRoleDomain.builder()
-                .role(UserRoleType.ADMIN)
-                .build();
-        testUser.addRole(defaultRole, testUserAdmin);
-        userPersistence.save(testUser);
     }
 
 }

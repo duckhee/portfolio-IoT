@@ -70,7 +70,15 @@ public interface UserService {
     /**
      * update User
      */
-    public default UserDomain updateUser() {
+    public default UserDomain updateUser(UserDomain updateUser, UserDomain loginUser) {
+        return null;
+    }
+
+    public default UserDomain updateUser(Long userIdx, UserDomain updateUser) {
+        return null;
+    }
+
+    public default UserDomain updateUser(Long userIdx, UserDomain updateUser, UserDomain loginUser) {
         return null;
     }
 

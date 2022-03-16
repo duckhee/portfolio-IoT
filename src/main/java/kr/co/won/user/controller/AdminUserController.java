@@ -120,6 +120,7 @@ public class AdminUserController {
 
     @PostMapping(path = "/update")
     public String memberUpdateDo(@RequestParam(name = "email") String email, @AuthUser UserDomain authUser, Model model) {
+
         return "";
     }
 }
