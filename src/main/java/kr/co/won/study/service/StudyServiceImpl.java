@@ -131,6 +131,7 @@ public class StudyServiceImpl implements StudyService {
         }
         // update study information
         modelMapper.map(updateStudy, findStudy);
+        log.info("get update study ::: {}", findStudy);
         return findStudy;
     }
 
