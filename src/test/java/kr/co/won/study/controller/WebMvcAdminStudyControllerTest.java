@@ -11,6 +11,7 @@ import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserRoleType;
 import lombok.experimental.FieldDefaults;
 import org.apache.catalina.security.SecurityConfig;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -99,6 +100,7 @@ class WebMvcAdminStudyControllerTest {
                 .andExpect(view().name("admin/study/studyCreatePage"));
     }
 
+    @Disabled
     @TestMockUser(authLevel = UserRoleType.ADMIN)
     @DisplayName(value = "02. Admin Study Create Do Web Slice Tests - with ADMIN")
     @Test

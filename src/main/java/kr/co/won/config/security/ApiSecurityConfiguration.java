@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Order(value = 2)
 @Configuration
@@ -42,6 +43,12 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatcher("/api/**")
                 .cors()
                 .disable();
+        /** http form login disable setting */
+        /*http
+                .antMatcher("/api/**")
+                .formLogin()
+                .disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
     }
 
     @Override

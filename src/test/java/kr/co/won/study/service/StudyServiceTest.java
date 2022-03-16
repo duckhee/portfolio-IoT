@@ -141,6 +141,7 @@ class StudyServiceTest {
         // mock study
         when(studyPersistence.findByPath(path)).thenReturn(Optional.of(studyDomain));
         StudyDomain updateStudyDone = studyService.updateStudy(path, updateStudy, testUser);
+        log.info("get study update information ::: {}", updateStudyDone);
         assertThat(updateStudyDone.getName()).isEqualTo(updateStudyName);
         assertThat(updateStudyDone.getPath()).isEqualTo(path);
         assertThat(updateStudyDone.getOrganizer()).isEqualTo(testUser.getEmail());
