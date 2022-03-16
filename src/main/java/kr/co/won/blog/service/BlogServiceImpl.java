@@ -185,8 +185,9 @@ public class BlogServiceImpl implements BlogService {
         if (!isHaveAuth(loginUser, findBlog)) {
             throw new AccessDeniedException("not have auth user.");
         }
-        findBlog.setDeleted(true);
-
+//        findBlog.setDeleted(true);
+//        findBlog.removeReplyAll();
+        findBlog.delete();
         return findBlog;
     }
 

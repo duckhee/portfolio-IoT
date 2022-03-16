@@ -9,6 +9,7 @@ import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.errors.resource.ValidErrorResource;
+import kr.co.won.main.MainApiController;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
@@ -152,12 +153,21 @@ public class BlogApiController {
         return null;
     }
 
-    /** Delete Blog */
+    /**
+     * Delete Blog
+     */
     @DeleteMapping(path = "/{idx}")
     @ResponseStatus(HttpStatus.GONE)
-    public ResponseEntity deleteBlogResource(@PathVariable(name = "idx") Long blogIdx, @AuthUser UserDomain loginUser){
-        blogService.deleteBlog(blogIdx, loginUser);
-        return null;
+    public ResponseEntity deleteBlogResource(@PathVariable(name = "idx") Long blogIdx, @AuthUser UserDomain loginUser) {
+        BlogDomain blogDomain = blogService.deleteBlog(blogIdx, loginUser);
+        RepresentationModel<?> deleteResource = RepresentationModel.of(null);
+        deleteResource.add(linkTo(MainApiController.class).withRel("resource-index"));
+        log.info("get delete blog ::: {}", blogDomain);
+        if (blogDomain.isDeleted()) {
+
+            return ResponseEntity.status(HttpStatus.GONE).body(deleteResource);
+        }
+        return ResponseEntity.badRequest().body(deleteResource);
     }
 
 

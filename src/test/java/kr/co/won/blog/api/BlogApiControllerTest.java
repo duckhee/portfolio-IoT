@@ -3,13 +3,18 @@ package kr.co.won.blog.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.TestUser;
 import kr.co.won.blog.domain.BlogDomain;
+import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.factory.BlogFactory;
 import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.persistence.BlogPersistence;
+import kr.co.won.blog.persistence.BlogReplyPersistence;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.persistence.UserPersistence;
+import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
+import org.junit.Assume;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,16 +29,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URL;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -41,6 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -64,6 +72,9 @@ class BlogApiControllerTest {
 
     @Autowired
     private BlogPersistence blogPersistence;
+
+    @Autowired
+    private BlogReplyPersistence replyPersistence;
 
     @Autowired
     private UserFactory userFactory;
@@ -386,4 +397,44 @@ class BlogApiControllerTest {
                         )
                 ));
     }
+
+    @DisplayName(value = "04. blog delete Tests - with ADMIN")
+    @TestUser(authLevel = UserRoleType.ADMIN)
+    @Test
+    void deleteBlogTests_withADMIN() throws Exception {
+        UserDomain testUser = userFactory.testUser("testinguser", "testinguser@co.kr", "1234");
+        BlogDomain blog = blogFactory.makeBlogWithReply("title", "content", testUser);
+
+        mockMvc.perform(delete("/api/blogs/{blogIdx}", blog.getIdx()))
+                .andExpect(status().is(HttpStatus.GONE.value()))
+                .andDo(print())
+                .andExpect(jsonPath("_links.resource-index").exists())
+                .andDo(document("delete-blog",
+                        /** response content type */
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request Header */
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("ACCEPT Header 값이다.").optional(),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description(HAL_JSON).optional()
+                        ),
+                        /** Request PathParameter */
+                        relaxedPathParameters(
+                                parameterWithName("blogIdx").description("삭제를 할 blog의 아이디 값을 의미한다.").optional()
+                        ),
+                        /** user create links */
+                        relaxedLinks(
+                                linkWithRel("resource-index").description("현재 서비스의 기능을 볼 수 있는 메인 주소").optional()
+                        )
+                ));
+        // blog delete flag test
+        BlogDomain findBlog = blogPersistence.findByIdx(blog.getIdx()).orElseThrow(() -> new IllegalArgumentException(""));
+        Assume.assumeNotNull(findBlog);
+        assertThat(findBlog.isDeleted()).isTrue();
+        // reply delete flag test
+        List<BlogReplyDomain> byBlogIdx = replyPersistence.findByBlogIdx(findBlog.getIdx());
+        log.info("get blog reply ::: {}", byBlogIdx);
+    }
+
 }

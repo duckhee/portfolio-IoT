@@ -123,7 +123,7 @@ public class BlogDomain {
      */
     public void removeReplyAll() {
         this.replies.forEach(reply -> reply.setDeleted(true));
-        this.replies = new ArrayList<>();
+//        this.replies = new ArrayList<>();
     }
 
     public void delete() {
