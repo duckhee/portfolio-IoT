@@ -159,6 +159,7 @@ public class StudyApiController {
      * this is using admin user role
      */
     @DeleteMapping
+    @ResponseStatus(HttpStatus.GONE)
     public ResponseEntity deleteStudyBulkResource(@RequestBody DeleteBulkForm studyIdxes, @AuthUser UserDomain loginUser) {
         log.info("bulk delete study ::: {}", studyIdxes.getStudy());
         return ResponseEntity.ok().build();

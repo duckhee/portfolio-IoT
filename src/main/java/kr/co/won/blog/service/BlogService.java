@@ -103,17 +103,31 @@ public interface BlogService {
     }
 
     /**
-     * Delete Blog
+     * Hard Delete Blog
      */
-    public default void deleteBlog(Long blogIdx, UserDomain loginUser) {
+    public default void deleteBlog(Long blogIdx) {
         return;
     }
 
     /**
-     * Delete Bulk Blog
+     * Soft Delete Blog
      */
-    public default void bulkDeleteBlogs(List<Long> blogIdxes, UserDomain loginUser) {
+    public default BlogDomain deleteBlog(Long blogIdx, UserDomain loginUser) {
+        return null;
+    }
+
+    /**
+     * Hard Delete Bulk Blog
+     */
+    public default void bulkDeleteBlogs(List<Long> blogIdxes) {
         return;
+    }
+
+    /**
+     * Soft Delete Bulk Blog
+     */
+    public default List<BlogDomain> bulkDeleteBlogs(List<Long> blogIdxes, UserDomain loginUser) {
+        return null;
     }
 
     /**

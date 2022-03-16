@@ -20,8 +20,10 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.*;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -150,6 +152,13 @@ public class BlogApiController {
         return null;
     }
 
+    /** Delete Blog */
+    @DeleteMapping(path = "/{idx}")
+    @ResponseStatus(HttpStatus.GONE)
+    public ResponseEntity deleteBlogResource(@PathVariable(name = "idx") Long blogIdx, @AuthUser UserDomain loginUser){
+        blogService.deleteBlog(blogIdx, loginUser);
+        return null;
+    }
 
 
     private ResponseEntity validationResources(Errors errors) {

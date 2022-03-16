@@ -119,6 +119,19 @@ public class BlogDomain {
     }
 
     /**
+     * remove replies all
+     */
+    public void removeReplyAll() {
+        this.replies.forEach(reply -> reply.setDeleted(true));
+        this.replies = new ArrayList<>();
+    }
+
+    public void delete() {
+        this.deleted = true;
+        removeReplyAll();
+    }
+
+    /**
      * blog writer
      */
     public boolean isOwner(String email) {

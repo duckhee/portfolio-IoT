@@ -172,22 +172,47 @@ public class BlogServiceImpl implements BlogService {
         return pageResult;
     }
 
+    /**
+     * Soft Delete Blog
+     */
     @Transactional
     @Override
-    public void deleteBlog(Long blogIdx, UserDomain loginUser) {
+    public BlogDomain deleteBlog(Long blogIdx, UserDomain loginUser) {
+
         BlogDomain findBlog = blogPersistence.findByIdx(blogIdx).orElseThrow(() ->
                 new IllegalArgumentException("not have blogs."));
         // not match writer
         if (!isHaveAuth(loginUser, findBlog)) {
             throw new AccessDeniedException("not have auth user.");
         }
-        blogPersistence.delete(findBlog);
+        findBlog.setDeleted(true);
+
+        return findBlog;
     }
 
+    /**
+     * Soft Delete Blog
+     */
     @Transactional
     @Override
-    public void bulkDeleteBlogs(List<Long> blogIdxes, UserDomain loginUser) {
-        BlogService.super.bulkDeleteBlogs(blogIdxes, loginUser);
+    public List<BlogDomain> bulkDeleteBlogs(List<Long> blogIdxes, UserDomain loginUser) {
+        List<BlogDomain> findBlogs = blogPersistence.findByIdxIn(blogIdxes);
+        List<BlogDomain> collectNotDeleteBlog = findBlogs.stream().filter(BlogDomain::isDeleted).collect(Collectors.toList());
+        // check blog list user owner check
+        boolean authCheck = collectNotDeleteBlog
+                .stream().allMatch(blog -> {
+                    if (!isHaveAuth(loginUser, blog)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+        // is all Blog owner
+        if (authCheck) {
+            collectNotDeleteBlog.forEach(BlogDomain::delete);
+            return findBlogs;
+        }
+        return null;
     }
 
 
