@@ -59,7 +59,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionRegistry(sessionRegistry);*/
 
         /** form login add */
-        http.formLogin()
+        http
+                .antMatcher("/**")
+                .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
@@ -70,6 +72,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         /** logout setting */
         http
+                .antMatcher("/**")
                 .logout()
                 .logoutUrl("/logout")
                 .clearAuthentication(true)

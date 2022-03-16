@@ -47,10 +47,13 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(true)
                 .expiredUrl("/duplicated-login")
                 .sessionRegistry(sessionRegistry);*/
-        http.userDetailsService(authBasicService);
+        http
+                .antMatcher("/admin/**")
+                .userDetailsService(authBasicService);
 
         /** form Login */
         http
+                .antMatcher("/admin/**")
                 .formLogin()
                 .loginPage("/admin/login")
                 .loginProcessingUrl("/admin/login")
@@ -58,10 +61,12 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .successForwardUrl("/admin")
                 .successHandler(loginSuccessHandler)
+                .failureHandler(loginFailedHandler)
                 .defaultSuccessUrl("/admin")
                 .failureHandler(new SimpleLoginFailedHandler("/admin/login?error=true"));
         /** logout */
         http
+                .antMatcher("/admin/**")
                 .logout()
                 .logoutUrl("/admin/logout")
                 .logoutSuccessUrl("/")

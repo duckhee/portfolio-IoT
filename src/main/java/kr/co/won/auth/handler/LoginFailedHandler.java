@@ -2,6 +2,7 @@ package kr.co.won.auth.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -27,19 +28,21 @@ public class LoginFailedHandler implements AuthenticationFailureHandler {
             log.info("get user name not found ::: {}, code = {}", exception.toString(), exception.hashCode());
         }
 
-        if (exception instanceof DisabledException){
+        if (exception instanceof DisabledException) {
             log.info("get user disabled ::: {}", exception.toString());
         }
-
+        if (exception instanceof AccountExpiredException) {
+            log.info("user delete ::: {}", exception.toString());
+        }
         if (exception instanceof BadCredentialsException) {
             log.info("get user login failed ::: {}", exception.toString());
         }
 
-        if(exception instanceof InternalAuthenticationServiceException){
+        if (exception instanceof InternalAuthenticationServiceException) {
             log.info("not have user ::: {}", exception.toString());
         }
 
-        if(exception instanceof AuthenticationException){
+        if (exception instanceof AuthenticationException) {
             log.info("root failed ::: {}", exception.toString());
         }
         response.sendRedirect("/admin/login");

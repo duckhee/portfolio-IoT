@@ -37,6 +37,7 @@ public class TestUserData {
                 .emailVerified(true)
                 .job("DEVELOPER")
                 .activeFlag(true)
+                .deleteFlag(false)
                 .address(address)
                 .joinTime(LocalDateTime.now())
                 .build();
