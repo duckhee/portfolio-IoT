@@ -1,8 +1,8 @@
 package kr.co.won.websocket.stomp.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.message.SimpleMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -11,12 +11,13 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @RequiredArgsConstructor
-public class ChattingStompController {
+public class ChattingStompControllers {
 
     // send message
     private final SimpMessagingTemplate msgTemplate;
 
     @MessageMapping(value = "/stomp/chat/enter")
+    @SendTo(value = "/stomp/chat/enter")
     public void enterChattingRoom(){
     }
 

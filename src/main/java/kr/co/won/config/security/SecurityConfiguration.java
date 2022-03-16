@@ -84,7 +84,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         /** remember-me add */
 
-
+        /** Web Socket path origin setting */
+       /* http
+                .antMatcher("/sock/**")
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+                .xssProtection().disable()
+                .and()
+                .cors()
+                .disable();*/
     }
 
     @Override

@@ -10,8 +10,8 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 import org.springframework.web.socket.sockjs.frame.SockJsMessageCodec;
 
-@Configuration
-@EnableWebSocket
+//@Configuration
+//@EnableWebSocket
 @RequiredArgsConstructor
 public class WebSocketConfiguration implements WebSocketConfigurer {
 
