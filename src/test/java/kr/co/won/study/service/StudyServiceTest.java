@@ -136,6 +136,7 @@ class StudyServiceTest {
         StudyDomain updateStudy = StudyDomain.builder()
                 .name(updateStudyName)
                 .build();
+        log.info("get study create ::: {}", studyDomain);
         // user mock factory
         UserDomain testUser = userFactory.makeDomainUser(1L, "tester", organizer, "1234", UserRoleType.USER);
         // mock study

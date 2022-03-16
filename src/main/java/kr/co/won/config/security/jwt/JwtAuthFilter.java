@@ -21,6 +21,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This is using api path only
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -31,8 +34,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     // token util
     private final JwtTokenUtil jwtTokenUtil;
-
-    private static final List<String> EXCUTED_URL = Collections.unmodifiableList(Arrays.asList("/api/auth-login", "/api/*", "/admin/*"));
+    // api login path
+    private static final List<String> EXCUTED_URL = Collections.unmodifiableList(Arrays.asList("/api/auth-login"));
 
     // jwt filter
     @Override

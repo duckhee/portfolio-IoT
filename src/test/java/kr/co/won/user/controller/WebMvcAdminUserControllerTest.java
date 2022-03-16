@@ -1,15 +1,12 @@
 package kr.co.won.user.controller;
 
-import kr.co.won.auth.AuthBasicService;
 import kr.co.won.auth.TestMockUser;
-import kr.co.won.auth.handler.LoginFailedHandler;
-import kr.co.won.auth.handler.LoginSuccessHandler;
 import kr.co.won.config.AppConfiguration;
 import kr.co.won.config.TestAppConfiguration;
 import kr.co.won.config.TestWebMvcConfig;
 import kr.co.won.config.datasources.DataSourceConfiguration;
 import kr.co.won.config.datasources.RedisConfiguration;
-import kr.co.won.properties.AppProperties;
+import kr.co.won.config.security.ApiSecurityConfiguration;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.service.UserService;
 import kr.co.won.user.validation.CreateMemberValidation;
@@ -23,11 +20,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -39,7 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = {AdminUserController.class},
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-                        SecurityConfig.class
+                        SecurityConfig.class,
+                        ApiSecurityConfiguration.class
                 }),
         },
         excludeAutoConfiguration = {

@@ -77,6 +77,7 @@ class UserApiControllerTest {
         userPersistence.deleteAll();
     }
 
+
     @DisplayName(value = "01. user create api Test - success")
     @Test
     void userCreateSuccessTests() throws Exception {
