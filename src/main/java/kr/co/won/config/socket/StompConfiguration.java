@@ -24,7 +24,9 @@ public class StompConfiguration implements WebSocketMessageBrokerConfigurer {
     // client subscript
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/stomp/message", "/stomp/iot");
-        registry.setApplicationDestinationPrefixes("/stomp/msg", "/stomp/topic");
+        // prefix setting
+        registry.enableSimpleBroker("/stomp/chat","/stomp/msg", "/stomp/iot");
+        // controller end point
+        registry.setApplicationDestinationPrefixes("/stomp/chat","/stomp/msg", "/stomp/topic");
     }
 }
