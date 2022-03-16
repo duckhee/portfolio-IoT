@@ -1,7 +1,5 @@
-package kr.co.won.websocket.stomp.domain;
+package kr.co.won.chat.domain;
 
-
-import kr.co.won.user.domain.UserDomain;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
@@ -10,9 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
-
+@Entity
+@Table(name = "tbl_chatting_msg")
 @Getter
 @Setter
 @Builder
@@ -20,9 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(of = {"idx"})
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "tbl_chatting_room_user")
-public class ChattingRoomUserDomain {
+public class ChattingMessageDomain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +26,13 @@ public class ChattingRoomUserDomain {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
-    @JoinColumn(name = "user_idx")
-    private UserDomain user;
-
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToOne
-    @JoinColumn(name = "chatting_room_idx")
+    @JoinColumn(name = "room_idx", nullable = false)
     private ChattingRoomDomain room;
+
+    @Column(nullable = false)
+    private String speaker;
+
+    private String message;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -45,7 +41,4 @@ public class ChattingRoomUserDomain {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    /** chatting room user function */
-
 }
