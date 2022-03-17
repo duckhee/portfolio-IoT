@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">won's</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!--meta tags-->
+    <!--css-->
 </head>
 <body>
+<header th:replace="~{layout/fragment/headerFragment::header}">
 
+</header>
+<!--header-->
+<aside th:replace="~{layout/fragment/leftNav::leftNav(${flag}, ${menu}, ${subMenu})}">
+
+</aside>
+<!--./sidebar-->
+<div>
+    <main>
+
+    </main>
+    <!--./main-->
+    <footer th:replace="~{layout/fragment/footerFragment::footer}">
+
+    </footer>
+    <!--./footer-->
+</div>
+<!--main-->
 </body>
 </html>
