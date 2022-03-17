@@ -3,6 +3,7 @@ package kr.co.won.blog.error.handler;
 import kr.co.won.blog.api.BlogApiController;
 import kr.co.won.blog.api.BlogReplyApiController;
 import kr.co.won.blog.api.BlogResourceApiController;
+import kr.co.won.blog.error.BlogError;
 import kr.co.won.main.MainApiController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.RepresentationModel;
@@ -33,7 +34,8 @@ public class BlogApiErrorHandler {
     public ResponseEntity wrongArgumentExceptionResource(HttpServletRequest request, Exception exception) {
         String requestURI = request.getRequestURI();
         log.warn("request ::: {}, wrong input value ::: {}", requestURI, exception);
-        RepresentationModel exceptionResource = RepresentationModel.of(null);
+        BlogError blogErrorDto = new BlogError(requestURI, exception);
+        RepresentationModel exceptionResource = RepresentationModel.of(blogErrorDto);
         WebMvcLinkBuilder webMvcLinkBuilder = WebMvcLinkBuilder.linkTo(MainApiController.class);
         exceptionResource.add(webMvcLinkBuilder.withRel("index"));
         return ResponseEntity.badRequest().body(exceptionResource);
@@ -44,7 +46,8 @@ public class BlogApiErrorHandler {
     public ResponseEntity accessDeniedExceptionResource(HttpServletRequest request, Exception exception) {
         String requestURI = request.getRequestURI();
         log.warn("request ::: {}, access denied ::: {}", requestURI, exception);
-        RepresentationModel exceptionResource = RepresentationModel.of(null);
+        BlogError blogErrorDto = new BlogError(requestURI, exception);
+        RepresentationModel exceptionResource = RepresentationModel.of(blogErrorDto);
         WebMvcLinkBuilder webMvcLinkBuilder = WebMvcLinkBuilder.linkTo(MainApiController.class);
         exceptionResource.add(webMvcLinkBuilder.withRel("index"));
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionResource);

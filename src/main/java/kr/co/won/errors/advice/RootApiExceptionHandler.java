@@ -41,7 +41,7 @@ public class RootApiExceptionHandler {
     public ResponseEntity accessDeniedExceptionResources(Exception exception, HttpServletRequest request) {
         log.info("access denied");
         ErrorDto errorDto = ErrorDto.builder()
-                .message(exception.getMessage())
+                .message(exception.getLocalizedMessage())
                 .uri(request.getRequestURI())
                 .build();
         EntityModel<ErrorDto> errorResources = AccessDeniedErrorResource.modelOf(errorDto);
