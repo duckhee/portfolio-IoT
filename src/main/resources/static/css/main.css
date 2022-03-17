@@ -50,7 +50,7 @@ a {
     /* fix position left */
     position: absolute;
     text-align: center;
-    line-height: 70px;
+    line-height: 90px;
     left: 15px;
     top: 0;
     bottom: 0;
@@ -104,18 +104,18 @@ a {
 
 /* TODO Check */
 .main-header .header-wrapper > .menu-wrapper .user-wrapper {
-    width: 45px;
-    height: 100px;
-    line-height: 1.4;
+    /*width: 45px;*/
+    /*height: 100px;*/
+    /*line-height: 100px;*/
     position: relative;
+    font-size: 16px;
+    margin: auto 0;
 }
 
 /* TODO Check */
-.main-header .header-wrapper > .menu-wrapper > .user-wrapper > .info {
+.main-header .header-wrapper > .menu-wrapper .user-wrapper > .info {
     /*position: absolute;*/
-    width: 45px;
-    height: 100px;
-    font-size: 16px;
+    background-color: #0f74a8;
     /*position: absolute;
     right: 15px;
     top: 0;
