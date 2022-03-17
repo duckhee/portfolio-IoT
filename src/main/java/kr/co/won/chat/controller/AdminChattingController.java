@@ -80,21 +80,6 @@ public class AdminChattingController {
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * chatting create page call
-     */
-    @PostMapping(path = "/room/create")
-    public String chattingRoomCreateDo(@AuthUser UserDomain loginUser, @Validated CreateChattingRoomForm form, Errors errors, Model model, RedirectAttributes flash) {
-        if (errors.hasErrors()) {
-            model.addAttribute("user", loginUser);
-            return "";
-        }
-        ChattingRoomDomain mappedRoom = modelMapper.map(form, ChattingRoomDomain.class);
-        ChattingRoomDomain savedRoom = chattingService.createChatRoom(mappedRoom, loginUser);
-        flash.addFlashAttribute("msg", savedRoom.getName() + " room created.");
-        return "redirect:/admin/chatting/room";
-    }
-
     @GetMapping(path = "/room/{roomId}/update")
     public String chattingRoomUpdatePage(@AuthUser UserDomain loginUser, @PathVariable(name = "roomId") String id, Model model) {
         ChattingRoomDomain findChatRoom = chattingService.findChatRoom(id, loginUser);
