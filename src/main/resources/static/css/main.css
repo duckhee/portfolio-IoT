@@ -28,8 +28,12 @@ a {
     height: 100px;
     background-color: #1a2226;
     color: #FFFFFF;
-    font-family: 'Gugi', cursive, Sans-Serif;
-    font-size: 35px;
+    /*font-family: 'Gugi', cursive, Sans-Serif;*/
+    /*font-family: 'Anton', sans-serif;*/
+    /*font-family: 'Bungee', cursive;*/
+    font-family: 'Monoton', cursive;
+    /*font-family: 'Alfa Slab One', cursive;*/
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -48,6 +52,7 @@ a {
     height: 100px;
     display: block;
     /* fix position left */
+    font-size: 24px;
     position: absolute;
     text-align: center;
     line-height: 90px;
@@ -59,7 +64,7 @@ a {
 
 /* Header Menu Wrapper */
 .main-header .header-wrapper > .menu-wrapper {
-    font-size: 24px;
+    font-size: 20px;
     line-height: 45px;
     height: 100px;
     width: 940px;
@@ -94,7 +99,7 @@ a {
 /* Header Menu Hover */
 .main-header .header-wrapper > .menu-wrapper ul.header-menu li a:hover {
     color: #fffaf5;
-    font-size: 32px;
+    font-size: 23px;
 }
 
 /* Header Menu After */
