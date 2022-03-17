@@ -92,6 +92,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .sameOrigin()
                 .disable();
+        http.antMatcher("io/socket/**")
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+                .disable();
        /* http
                 .antMatcher("/sock/**")
                 .headers()
