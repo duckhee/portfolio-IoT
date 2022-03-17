@@ -6,6 +6,7 @@ import kr.co.won.chat.form.CreateChattingRoomForm;
 import kr.co.won.chat.service.ChattingService;
 import kr.co.won.chat.validation.CreateRoomValidator;
 import kr.co.won.user.domain.UserDomain;
+import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.modelmapper.ModelMapper;
@@ -42,12 +43,27 @@ public class AdminChattingController {
         webDataBinder.addValidators(createRoomValidator);
     }
 
+    @GetMapping(path = "/room")
+    public String chattingRoomListPage(@AuthUser UserDomain loginUser, PageDto pageDto, Model model) {
+
+        return "admin/chat/listChattingPage";
+    }
 
     @GetMapping(path = "/room/create")
     public String chattingRoomCreatePage(@AuthUser UserDomain loginUser, Model model) {
         model.addAttribute(new CreateChattingRoomForm());
         model.addAttribute("user", loginUser);
-        return "";
+        return "admin/chat/createChattingPage";
+    }
+
+    @PostMapping(path = "/room/create")
+    public String chattingRoomCreateDo(@AuthUser UserDomain loginUser, @Validated CreateChattingRoomForm form, Errors errors, Model model, RedirectAttributes flash) {
+        if (errors.hasErrors()) {
+            model.addAttribute("user", loginUser);
+            return "admin/chat/createChattingPage";
+        }
+        flash.addFlashAttribute("msg", form.getName() + " create chatting room.");
+        return "redirect:/admin/chatting/room";
     }
 
     /**
@@ -83,16 +99,16 @@ public class AdminChattingController {
     public String chattingRoomUpdatePage(@AuthUser UserDomain loginUser, @PathVariable(name = "roomId") String id, Model model) {
         ChattingRoomDomain findChatRoom = chattingService.findChatRoom(id, loginUser);
         model.addAttribute("room", findChatRoom);
-        return "";
+        return "admin/chat/updateChattingPage";
     }
 
     @PostMapping(path = "/room/{roomId}/update")
     public String chattingRoomUpdateDo(@AuthUser UserDomain loginUser, @PathVariable(name = "roomId") String id, Model model) {
-        return "";
+        return "redirect:/admin/chatting/room";
     }
 
     @PutMapping(path = "/room/{roomId}")
-    public ResponseEntity updateChattingRoomReosurce(@AuthUser UserDomain loginUser, @PathVariable(name = "roomId") String roomId) {
+    public ResponseEntity updateChattingRoomResource(@AuthUser UserDomain loginUser, @PathVariable(name = "roomId") String roomId) {
         return ResponseEntity.ok().body("");
     }
 }
