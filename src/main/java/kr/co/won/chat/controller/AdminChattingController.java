@@ -7,6 +7,7 @@ import kr.co.won.chat.service.ChattingService;
 import kr.co.won.chat.validation.CreateRoomValidator;
 import kr.co.won.user.domain.UserDomain;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.UpdateProvider;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,10 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
@@ -79,5 +77,22 @@ public class AdminChattingController {
         ChattingRoomDomain savedRoom = chattingService.createChatRoom(mappedRoom, loginUser);
         flash.addFlashAttribute("msg", savedRoom.getName() + " room created.");
         return "redirect:/admin/chatting/room";
+    }
+
+    @GetMapping(path = "/room/{roomId}/update")
+    public String chattingRoomUpdatePage(@AuthUser UserDomain loginUser, @PathVariable(name = "roomId") String id, Model model) {
+        ChattingRoomDomain findChatRoom = chattingService.findChatRoom(id, loginUser);
+        model.addAttribute("room", findChatRoom);
+        return "";
+    }
+
+    @PostMapping(path = "/room/{roomId}/update")
+    public String chattingRoomUpdateDo(@AuthUser UserDomain loginUser, @PathVariable(name = "roomId") String id, Model model) {
+        return "";
+    }
+
+    @PutMapping(path = "/room/{roomId}")
+    public ResponseEntity updateChattingRoomReosurce(@AuthUser UserDomain loginUser, @PathVariable(name = "roomId") String roomId) {
+        return ResponseEntity.ok().body("");
     }
 }

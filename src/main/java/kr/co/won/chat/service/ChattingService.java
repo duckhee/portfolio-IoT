@@ -19,5 +19,11 @@ public interface ChattingService {
         return null;
     }
 
+    /**
+     * find use chatting room UUID
+     */
+    public default ChattingRoomDomain findChatRoom(String roomIdx, UserDomain loginUser) {
+        return null;
+    }
 
 }
