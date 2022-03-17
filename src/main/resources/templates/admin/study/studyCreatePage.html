@@ -40,7 +40,7 @@
             </div>
             <!--./box-header-->
             <div class="box-body">
-                <form th:id="blog" th:name="blog" th:object="${createStudyForm}" th:method="POST" method="post"
+                <form th:id="study" th:name="study" th:object="${createStudyForm}" th:method="POST" method="post"
                       action="#create-blog" th:action="@{/admin/study/create}" enctype="multipart/form-data">
                     <div class="form-group" th:class="${#fields.hasErrors('name')}?'has-error':''">
                         <label for="name" class="control-label">Study Name</label>
@@ -50,13 +50,13 @@
                     </div>
                     <!--./study-name Input-->
                     <div class="form-group" th:class="${#fields.hasErrors('path')}?'has-error':''">
-                        <label for="path" class="control-label">Study URI Path</label>
+                        <label for="path" class="control-label">Study Path</label>
                         <input th:field="*{path}" id="path" name="path" class="form-control"
-                               type="url" placeholder="study url path setting...">
+                               type="text" placeholder="study url path setting...">
                         <span class="help-block" th:if="${#fields.hasErrors('path')}"
                               th:errors="*{path}"></span>
                     </div>
-                    <!--./study-url-path-->
+                    <!--./study-path-->
                     <div class="form-group" th:class="${#fields.hasErrors('shortDescription')} ? 'has-error':''">
                         <label for="shortDescription" class="control-label">Study Short Description</label>
                         <input th:fields="*{shortDescription}" id="shortDescription" name="shortDescription"
@@ -65,6 +65,12 @@
                               th:erros="*{shortDescription}"></span>
                     </div>
                     <!--./short-description-->
+                    <!--<div class="form-group" th:class="${#fields.hasErrors('')} ? 'has-error:''">
+                        <label for="file" class="control-label">Study File</label>
+                        <input type="file" name="file" id="file" th:fields="*{file}">
+                        <span class="help-block" th:if="${#fields.hasErrors('file')}" th:errors="*{file}"></span>
+                    </div>-->
+                    <!--study file -->
                     <div class="form-group" th:class="${#fields.hasErrors('allowMemberNumber')} ? 'has-error':''">
                         <label for="allowMemberNumber" class="control-label">Study Allow Member Number</label>
                         <input th:fields="*{allowMemberNumber}" id="allowMemberNumber" name="allowMemberNumber"
@@ -81,8 +87,10 @@
                         </textarea>
                         <span class="help-block" th:if="${#fields.hasErrors('description')}"
                               th:errors="*{description}"></span>
+                        <!--./description-->
                     </div>
                     <!--./form-group-->
+
                 </form>
                 <!--./form-->
             </div>

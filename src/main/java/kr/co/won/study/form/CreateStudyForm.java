@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -25,6 +26,8 @@ public class CreateStudyForm {
 
     @Length(max = 255, message = "max length is 255.")
     private String shortDescription;
+
+//    private MultipartFile file;
 
     private String description;
 
