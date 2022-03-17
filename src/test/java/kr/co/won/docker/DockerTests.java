@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import javax.sql.DataSource;
 
 @Slf4j
-@Disabled
+//@Disabled
 @ActiveProfiles(value = {"docker"})
 @DataJpaTest
 // set testing database

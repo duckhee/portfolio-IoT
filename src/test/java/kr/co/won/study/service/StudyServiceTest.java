@@ -48,12 +48,10 @@ class StudyServiceTest {
     private StudyDomainBuilderFactory studyFactory = new StudyDomainBuilderFactory();
 
     @Spy
-    @MockBean
     @Resource(name = "skipModelMapper")
     private ModelMapper modelMapper = configuration.modelMapper();
 
     @Spy
-    @MockBean
     @Resource(name = "notSkipModelMapper")
     private ModelMapper skipModelMapper = configuration.notSkipModelMapper();
 
