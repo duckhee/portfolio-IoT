@@ -29,12 +29,12 @@ public class ChattingStompController {
         log.info("get enter msg ::: {}", message);
         message.setMessage(message.getWriter() + " user enter chatting room.");
         String getRoomId = message.getRoomId();
+        // send chatting room enter user message
         // send msg chatting room in user
         MessageForm sendEnterMsg = MessageForm.builder()
                 .roomId(getRoomId)
                 .message(message.getWriter() + "user enter")
                 .build();
-        // send chatting room enter user message
         template.convertAndSend("/topic/chat/room/" + getRoomId + "/enter", message);
     }
 
