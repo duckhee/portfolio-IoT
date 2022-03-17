@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en"
-      lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
@@ -8,12 +7,27 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">won's</title>
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!--meta tags-->
+    <meta property="og:type" content="website /">
+    <meta property="og:site_name" content="Portfolio-won"/>
+    <meta property="og:title" content="index"/>
+    <meta property="og:description" content="portfolio web site - Developer Doukhee Won"/>
+    <meta property="og:image" content="" th:content=""/>
+    <meta property="og:url" content=""/>
+    <!--favicon-->
+    <link rel="shortcut" type="image/x-icon" href="">
     <!--css-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css"/>
     <!--./css clean-->
+    <!--font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+
+
 </head>
 <body>
 <header th:replace="~{layout/fragment/headerFragment::header}">
