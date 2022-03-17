@@ -13,16 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@RestControllerAdvice(assignableTypes = {
-        UserApiController.class,
-        BlogApiController.class,
-        StudyApiController.class
-})
+@RestControllerAdvice(
+        annotations = {RestController.class})
 @RequiredArgsConstructor
 public class RootApiExceptionHandler {
     /**
@@ -63,7 +61,7 @@ public class RootApiExceptionHandler {
                 .build();
         EntityModel<ErrorDto> errorResources = AccessDeniedErrorResource.modelOf(errorDto);
         exception.printStackTrace();
-        log.error("access denied uri ::: {}, url ::: {}", request.getRequestURI(), request.getRequestURL());
+        log.error("wrong parameter denied uri ::: {}, url ::: {}", request.getRequestURI(), request.getRequestURL());
         return ResponseEntity.badRequest().body(errorResources);
     }
 

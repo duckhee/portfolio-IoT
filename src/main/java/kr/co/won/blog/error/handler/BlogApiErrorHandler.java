@@ -13,16 +13,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@RestControllerAdvice(assignableTypes = {
-        BlogApiController.class,
-        BlogReplyApiController.class,
-        BlogResourceApiController.class
-})
+@RestControllerAdvice(
+        annotations = {RestController.class},
+        assignableTypes = {
+                BlogApiController.class,
+                BlogReplyApiController.class,
+                BlogResourceApiController.class
+        })
 public class BlogApiErrorHandler {
 
 
