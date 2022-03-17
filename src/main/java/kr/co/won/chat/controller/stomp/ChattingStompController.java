@@ -1,8 +1,10 @@
 package kr.co.won.chat.controller.stomp;
 
 import kr.co.won.chat.form.MessageForm;
+import kr.co.won.chat.persistence.ChattingRoomPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -13,25 +15,35 @@ import org.springframework.stereotype.Controller;
 public class ChattingStompController {
     // Broker sender
     private final SimpMessagingTemplate template;
+    // get chatting room
+    private final ChattingRoomPersistence chatRoomPersistence;
 
     /**
      * chatting room enter
      */
-    @MessageMapping(value = "/enter")
-    public void enter(MessageForm message) {
+    @MessageMapping(value = "/{roomId}/enter")
+    public void enter(@DestinationVariable(value = "roomId") String roomId, MessageForm message) {
+        // get room id
+        log.info("get room ID ::: {}", roomId);
         // log enter new User Message
         log.info("get enter msg ::: {}", message);
         message.setMessage(message.getWriter() + " user enter chatting room.");
+        String getRoomId = message.getRoomId();
         // send msg chatting room in user
-        template.convertAndSend("/chat/pub/room/" + message.getRoomId(), message);
+        MessageForm sendEnterMsg = MessageForm.builder()
+                .roomId(getRoomId)
+                .message(message.getWriter() + "user enter")
+                .build();
+        // send chatting room enter user message
+        template.convertAndSend("/topic/chat/room/" + getRoomId + "/enter", message);
     }
 
     /**
-     * chatting room chat
+     * chatting room chat subscription
      */
-    @MessageMapping(value = "/chat/message")
+    @MessageMapping(value = "/chat/room")
     public void message(MessageForm message) {
         log.info("send msg ::: {}", message);
-        template.convertAndSend("/chat/sub/room/" + message.getRoomId(), message);
+        template.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
     }
 }

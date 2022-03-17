@@ -1,7 +1,7 @@
 package kr.co.won.config.socket;
 
-import kr.co.won.websocket.SocketJsHandler;
-import kr.co.won.websocket.WebSocketHandler;
+import kr.co.won.websocket.handler.SocketJsHandler;
+import kr.co.won.websocket.handler.WebSocketHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -13,8 +13,6 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 @EnableWebSocket
 @RequiredArgsConstructor
 public class WebSocketConfiguration implements WebSocketConfigurer {
-
-
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {

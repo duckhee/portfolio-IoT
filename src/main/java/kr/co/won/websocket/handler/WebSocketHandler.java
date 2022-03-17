@@ -1,4 +1,4 @@
-package kr.co.won.websocket;
+package kr.co.won.websocket.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
