@@ -22,6 +22,11 @@ a {
     text-decoration: none;
 }
 
+/* image tag make block 1*/
+img {
+    display: block;
+}
+
 /* MAIN - HEADER */
 .main-header {
     width: 100%;
@@ -78,35 +83,34 @@ a {
     display: flex;
     justify-items: center;
     justify-content: space-between;
-    margin: auto 0;
+    /*margin: auto 0;*/
 }
 
 /* Header Menu item */
-.main-header .header-wrapper > .menu-wrapper ul.header-menu li {
+.main-header .header-wrapper > .menu-wrapper ul.header-menu > li {
     position: relative;
-    height: 75px;
+    display: block;
+    /* text align bottom */
+    align-self: flex-end;
+
 }
 
 /* Header Menu item */
-.main-header .header-wrapper > .menu-wrapper ul.header-menu li a {
+.main-header .header-wrapper > .menu-wrapper ul.header-menu .menu > a {
     display: block;
-    height: 75px;
-    /* text align bottom */
-    display: table-cell;
-    vertical-align: bottom;
     box-sizing: border-box;
-    padding: 0 11px 16px;
+    padding: 0 16px 26px 16px;
     color: #FFFFFF;
 }
 
 /* Header Menu Hover */
-.main-header .header-wrapper > .menu-wrapper ul.header-menu li a:hover {
+.main-header .header-wrapper > .menu-wrapper ul.header-menu .menu > a:hover {
     color: #fffaf5;
     font-size: 20px;
 }
 
 /* Header Menu After */
-.main-header .header-wrapper > .menu-wrapper ul.header-menu li a:after {
+.main-header .header-wrapper > .menu-wrapper ul.header-menu .menu > a:after {
     color: #FFFFFF;
     background-color: #FFFFFF;
 }
@@ -132,9 +136,7 @@ a {
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    line-height: 1.4;
     position: relative;
-
     /*position: absolute;
     right: 15px;
     top: 0;
