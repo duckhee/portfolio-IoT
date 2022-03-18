@@ -51,19 +51,20 @@ img {
 
 
 /* HEADER LOGO */
-.main-header .header-wrapper > .logo {
+.main-header .header-wrapper .logo {
     width: 120px;
     height: 75px;
-    display: block;
+    line-height: 75px;
     /* fix position left */
     font-size: 34px;
+    /*line-height: 90px;*/
     position: absolute;
-    text-align: center;
-    line-height: 90px;
+    box-sizing: border-box;
+    /*padding: 5px 5px 5px 5px;*/
     left: 15px;
-    top: 0;
     bottom: 0;
-    margin: auto 0;
+    top: 0;
+    margin: auto;
 }
 
 
