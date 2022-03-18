@@ -40,7 +40,7 @@ a {
 .main-header .header-wrapper {
     position: relative;
     height: 100%;
-    max-width: 980px;
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -65,9 +65,8 @@ a {
 /* Header Menu Wrapper */
 .main-header .header-wrapper > .menu-wrapper {
     font-size: 15px;
-
     height: 75px;
-    width: 750px;
+    width: 850px;
     display: block;
     position: absolute;
     right: 15px;
@@ -114,35 +113,48 @@ a {
 
 /* TODO Check */
 .main-header .header-wrapper > .menu-wrapper .user-wrapper {
-    width: 120px;
+    /*width: 120px;*/
     height: 75px;
     /*height: 100px;*/
     /*line-height: 100px;*/
     position: relative;
     display: block;
-
     /*margin: auto 0;*/
 
 }
 
 /* TODO Check */
 .main-header .header-wrapper > .menu-wrapper .user-wrapper > .info {
-
     /*position: absolute;*/
-    background-color: #0f74a8;
     height: 75px;
-    width: 100%;
+    /*width: 100%;*/
+    width: 150px;
     box-sizing: border-box;
-    display: table-cell;
-    vertical-align: bottom;
+    display: flex;
+    justify-content: space-between;
     line-height: 1.4;
-
+    position: relative;
 
     /*position: absolute;
     right: 15px;
     top: 0;
     bottom: 5px;*/
+}
 
+/* SIGN IN SIGN UP */
+.main-header .header-wrapper > .menu-wrapper .user-wrapper > .info a {
+    color: #FFFFFF;
+    /* Nanum Gothic */
+    font-family: 'Alfa Slab One', cursive;
+    /*background-color: #0f74a8;*/
+    box-sizing: border-box;
+    display: block;
+    /* text position vertical bottom */
+    align-self: flex-end;
+    padding: 0 2px 15px;
 
 }
 
+.main-header .header-wrapper > .menu-wrapper .user-wrapper > .info a:after {
+    color: #FFFFFF;
+}
