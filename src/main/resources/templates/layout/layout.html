@@ -25,8 +25,17 @@
     <!--font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Nanum+Gothic:wght@400;700&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+    <!--./font-->
+    <!---->
+    <!--./-->
+    <!--custom css-->
+    <link rel="stylesheet" href="../static/css/main.css" th:href="@{/css/main.css}"/>
 
 </head>
 <body>
@@ -40,7 +49,9 @@
 <!--./sidebar-->
 <div>
     <main>
+        <th:block layout:fragment="mainContent">
 
+        </th:block>
     </main>
     <!--./main-->
     <footer th:replace="~{layout/fragment/footerFragment::footer}">
@@ -49,5 +60,11 @@
     <!--./footer-->
 </div>
 <!--main-->
+<!--javas script-->
+<!---->
+<!--custom-javascript-->
+<script type="application/javascript" src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
+<th:block layout:fragment="addScript">
+</th:block>
 </body>
 </html>
