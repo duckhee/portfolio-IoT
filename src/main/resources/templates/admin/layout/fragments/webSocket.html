@@ -7,13 +7,62 @@
 </head>
 <body>
 
+<!-- web socket -->
 <script type="application/javascript" th:inline="javascript" th:fragment="web-socket-before">
+    var socket = new WebSocket("ws://localhost:8080");
 
+    // socket open
+    socket.onopen = function (event) {
+        let readyState = socket.readyState;
+        if (readyState === 2 || readyState === 3) {
+            let msg = `"${socket} not using socket state :: ${readyState}`;
+            console.log(msg);
+            return;
+        }
+        // socket conn and get message
+        socket.onmessage = function (event) {
+
+        }
+    };
+
+    // socket close
+    socket.onclose = function (event) {
+
+    };
+
+    // socket error
+    socket.onerror = function (error) {
+
+    };
 </script>
 <script type="application/javascript" th:inline="javascript" th:fragment="web-socket-alarm">
 
 </script>
 <script type="application/javascript" th:inline="javascript" th:fragment="web-socket-chat">
+
+</script>
+
+<!-- socket Io -->
+<script type="application/javascript" th:include="javascript" th:fragment="socketjs-before">
+    // get socketIo connection socket
+    var socketIo = io.connect("http:;//localhost:8080");
+
+</script>
+<script type="application/javascript" th:include="javascript" th:fragment="socketjs-chat">
+
+</script>
+<script type="application/javascript" th:include="javascript" th:fragment="socketjs-alarm">
+
+</script>
+
+<!-- socket Stomp -->
+<script type="application/javascript" th:include="javascript" th:fragment="stomp-before">
+
+</script>
+<script type="application/javascript" th:include="javascript" th:fragment="stomp-chat">
+
+</script>
+<script type="application/javascript" th:include="javascript" th:fragment="stomp-alarm">
 
 </script>
 </body>
