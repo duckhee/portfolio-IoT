@@ -1,6 +1,7 @@
 package kr.co.won.websocket.stomp.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -16,13 +17,13 @@ public class ChattingStompControllers {
     // send message
     private final SimpMessagingTemplate msgTemplate;
 
-    @MessageMapping(value = "/stomp/chat/enter")
+    @MessageMapping(value = "/room/enter")
     @SendTo(value = "/stomp/chat/enter")
-    public void enterChattingRoom(){
+    public void enterChattingRoom() {
     }
 
-    @MessageMapping(value = "stomp/chat/msg")
-    public void chattingMessage(){
+    @MessageMapping(value = "room/{roomId}/msg")
+    public void chattingMessage(@DestinationVariable(value = "roomId") String roomId) {
 
     }
 }
