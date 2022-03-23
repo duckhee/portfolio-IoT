@@ -5,13 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class BlogRootException extends RuntimeException {
 
     private BlogDomain blog;
 
-    public BlogRootException(BlogDomain blog) {
+    public BlogRootException(){
         super();
+    }
+
+    public BlogRootException(BlogDomain blog) {
+        super(blog.getTitle() + " error");
         this.blog = blog;
     }
 

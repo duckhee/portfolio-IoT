@@ -126,8 +126,15 @@ public class StudyApiController {
         return ResponseEntity.ok().body(studyReadResourceDto);
     }
 
+    /**
+     * Update User ALl
+     */
     @PutMapping(path = "/{studyPath}")
-    public ResponseEntity updateStudyResource(@PathVariable(name = "studyPath") String studyPath) {
+    public ResponseEntity updateStudyResource(@PathVariable(name = "studyPath") String studyPath, @AuthUser UserDomain loginUser, @Validated @RequestBody UpdateStudyForm form, Errors errors) {
+        if (errors.hasErrors()) {
+            return validationResources(errors);
+        }
+
         return null;
     }
 

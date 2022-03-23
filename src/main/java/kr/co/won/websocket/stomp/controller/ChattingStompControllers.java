@@ -24,6 +24,8 @@ public class ChattingStompControllers {
     @MessageMapping(value = "/room/enter")
     @SendTo(value = "/stomp/chat/enter")
     public void enterChattingRoom() {
+        log.info("enter room ");
+
     }
 
     @MessageMapping(value = "room/{roomId}/msg")
