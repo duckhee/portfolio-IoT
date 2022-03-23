@@ -52,6 +52,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * File Name        : StudyApiControllerTest
+ * Author           : Doukhee Won
+ * Date             : 2022/03/23
+ * Version          : v0.0.1
+ * <p>
+ * study api controller test code
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -100,7 +108,6 @@ class StudyApiControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-
 
     @TestUser(authLevel = UserRoleType.ADMIN, email = "tester@co.kr")
     @DisplayName(value = "01. study Create Test - with ADMIN")
@@ -164,7 +171,6 @@ class StudyApiControllerTest {
                         )
                 ));
     }
-
 
     @TestUser(authLevel = UserRoleType.ADMIN)
     @DisplayName(value = "02. study List Test - with ADMIN")
@@ -282,7 +288,6 @@ class StudyApiControllerTest {
                 ));
     }
 
-
     @TestUser(authLevel = UserRoleType.ADMIN, email = "tester@co.kr")
     @DisplayName(value = "05. study delete Tests - with ADMIN")
     @Test
@@ -316,7 +321,6 @@ class StudyApiControllerTest {
                                 linkWithRel("profile").description("현재 호출된 API의 기능에 대해서 설명이 되어 있는 document를 볼 수 있는 링크이다.").optional()
                         )
                 ));
-
     }
 
 

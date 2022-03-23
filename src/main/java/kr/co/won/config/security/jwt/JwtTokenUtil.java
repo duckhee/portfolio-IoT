@@ -25,7 +25,7 @@ public class JwtTokenUtil {
     // setting token live time 5 min
     public static final long JWT_TOKEN_VALIDITY = 5 * 60;
 
-    // get user name get
+    // get username get
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getId);
     }
