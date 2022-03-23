@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>kr.co.won</groupId>
-    <artifactId>portfolio-IoT</artifactId>
+    <artifactId>portfolio-won</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>portfolioIoT</name>
     <description>portfolioIoT</description>
