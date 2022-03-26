@@ -1,11 +1,13 @@
 package kr.co.won.config.security.jwt;
 
+import com.auth0.jwt.JWT;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import kr.co.won.auth.LoginUser;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -64,6 +66,7 @@ public class JwtTokenUtil {
 
     // token build
     private String doGenerateToken(String id, Map<String, Object> claims) {
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setId(id)

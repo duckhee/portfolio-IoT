@@ -1,5 +1,7 @@
 package kr.co.won.auth.jwt;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
+//import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.ExpiredJwtException;
 import kr.co.won.auth.AuthBasicService;
 import kr.co.won.auth.LoginUser;
@@ -46,26 +48,33 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String requestHeader = request.getHeader("Authorization");
         String userName = null;
         String jwtToken = null;
-        if(requestHeader != null && requestHeader.startsWith("Bearer")){
+        if (requestHeader != null && requestHeader.startsWith("Bearer")) {
             // get token name
             jwtToken = requestHeader.substring(7);
-            try{
+            try {
                 userName = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            }catch (IllegalArgumentException exception){
+            } catch (IllegalArgumentException exception) {
                 log.info("unable to get JWT Token");
-            }catch (ExpiredJwtException exception){
+            }
+            catch (ExpiredJwtException exception){
                 log.info("expired time over token.");
             }
+            // oauth2 lib style
+            /*
+            catch (TokenExpiredException exception) {
+                log.info("expired time over token.");
+            }
+            */
             // token get user name
-        }else{
+        } else {
             log.warn("JWT Token does not have.");
         }
         // user token verified
-        if(userName != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // login user check
             UserDetails user = authBasicService.loadUserByUsername(userName);
 
-            if(jwtTokenUtil.validateToken(jwtToken, user)){
+            if (jwtTokenUtil.validateToken(jwtToken, user)) {
                 // make jwt token
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 // security context add principal
@@ -79,6 +88,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     // ignore path
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return EXCUTED_URL.stream().anyMatch(execute->execute.equalsIgnoreCase(request.getServletPath()));
+        return EXCUTED_URL.stream().anyMatch(execute -> execute.equalsIgnoreCase(request.getServletPath()));
     }
 }
