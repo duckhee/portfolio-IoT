@@ -33,12 +33,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final AuthBasicService authBasicService;
 
-    private final String LOGIN_PATH = "/api/auth-login";
+    private static final String LOGIN_PATH = "/api/auth-login";
 
     // token util
     private final JwtTokenUtil jwtTokenUtil;
     // api login path
-    private static final List<String> EXCUTED_URL = Collections.unmodifiableList(Arrays.asList("/api/auth-login"));
+    private static final List<String> EXCUTED_URL = Collections.unmodifiableList(Arrays.asList(LOGIN_PATH));
 
     // jwt filter
     @Override
@@ -55,8 +55,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 userName = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException exception) {
                 log.info("unable to get JWT Token");
-            }
-            catch (ExpiredJwtException exception){
+            } catch (ExpiredJwtException exception) {
                 log.info("expired time over token.");
             }
             // oauth2 lib style
@@ -73,12 +72,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // login user check
             UserDetails user = authBasicService.loadUserByUsername(userName);
-
+            // jwt token valid
             if (jwtTokenUtil.validateToken(jwtToken, user)) {
                 // make jwt token
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 // security context add principal
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                log.info("get valid done");
             }
         }
         // next filter do

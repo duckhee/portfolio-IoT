@@ -66,7 +66,6 @@ public class JwtTokenUtil {
 
     // token build
     private String doGenerateToken(String id, Map<String, Object> claims) {
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setId(id)
