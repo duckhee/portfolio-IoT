@@ -306,7 +306,19 @@ left-nav > .nav-wrapper > .nav-header {
 /** CONTENT-Wrapper */
 .content-wrapper > .main-wrapper {
     display: block;
-    max-width:1200px;
-    margin:auto;
+    max-width: 1200px;
+    margin: auto;
     padding: 15px;
+}
+
+/** MAIN CONTENT */
+.content-wrapper > .main-wrapper > .main-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.content-wrapper > .main-wrapper > .main-content .inner-banner-section {
+    height: 450px;
 }
