@@ -18,11 +18,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Disabled
@@ -55,8 +57,11 @@ class BlogApiControllerSliceTest {
     @Test
     void createSliceBlogApiTests_withADMIN() throws Exception {
 
-        mockMvc.perform(post("/api/blogs"))
-                .andExpect(status().isCreated());
+        mockMvc.perform(post("/api/blogs")
+                        .contentType(MediaTypes.HAL_JSON)
+                )
+                .andExpect(status().isCreated())
+                .andDo(print());
 
     }
 }
