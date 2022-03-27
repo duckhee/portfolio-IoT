@@ -68,6 +68,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } else {
             log.warn("JWT Token does not have.");
         }
+        // token user name not null
+        if (userName != null) {
+            log.info("get userName ::: {}, get auth ::: {}", userName, SecurityContextHolder.getContext().getAuthentication());
+        }
         // user token verified
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // login user check
