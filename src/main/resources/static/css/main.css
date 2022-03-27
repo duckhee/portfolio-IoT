@@ -12,6 +12,7 @@ body {
     font-size: 16px;
     /*line setting font-size * 1.4 */
     line-height: 1.4;
+    height: 100%;
 }
 
 
@@ -321,4 +322,17 @@ left-nav > .nav-wrapper > .nav-header {
 
 .content-wrapper > .main-wrapper > .main-content .inner-banner-section {
     height: 450px;
+}
+
+
+/** FOOTER */
+.footer {
+    /*display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    left: 0;
+    left: 280px;
+*/
 }
