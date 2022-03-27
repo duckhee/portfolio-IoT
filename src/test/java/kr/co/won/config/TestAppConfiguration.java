@@ -1,6 +1,8 @@
 package kr.co.won.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.won.config.security.jwt.JwtAuthEntryPoint;
+import kr.co.won.config.security.jwt.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
@@ -69,5 +71,17 @@ public class TestAppConfiguration {
         return passwordEncoder;
     }
 
+    /**
+     * JWT Token util
+     */
+    @Bean
+    public JwtTokenUtil jwtTokenUtil() {
+        return new JwtTokenUtil();
+    }
+
+    @Bean
+    public JwtAuthEntryPoint jwtAuthEntryPoint(){
+        return new JwtAuthEntryPoint();
+    }
 
 }

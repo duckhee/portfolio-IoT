@@ -5,6 +5,7 @@ import kr.co.won.auth.TestMockUser;
 import kr.co.won.config.TestAppConfiguration;
 import kr.co.won.config.WebSliceTest;
 import kr.co.won.config.security.ApiSecurityConfiguration;
+import kr.co.won.config.security.SecurityConfiguration;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.service.StudyService;
@@ -46,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = {AdminStudyController.class},
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-                        SecurityConfig.class,
+                        SecurityConfiguration.class,
                         ApiSecurityConfiguration.class
                 })
         })
