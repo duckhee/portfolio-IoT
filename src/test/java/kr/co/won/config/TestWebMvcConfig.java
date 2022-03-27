@@ -10,22 +10,24 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @TestConfiguration
 @ExtendWith(value = {MockitoExtension.class})
 public class TestWebMvcConfig {
 
     @MockBean
-    private LoginSuccessHandler loginSuccessHandler;
+    LoginSuccessHandler loginSuccessHandler;
     @MockBean
-    private LoginFailedHandler loginFailedHandler;
+    LoginFailedHandler loginFailedHandler;
     @MockBean
-    private SessionRegistry sessionRegistry;
+    SessionRegistry sessionRegistry;
     @MockBean
-    private AuthBasicService authBasicService;
+    AuthBasicService authBasicService;
     @MockBean
-    private AppProperties appProperties;
+    AppProperties appProperties;
     @MockBean
-    private MessageSource messageSource;
+    MessageSource messageSource;
+
 
 }

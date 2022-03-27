@@ -6,6 +6,7 @@ import kr.co.won.config.TestAppConfiguration;
 import kr.co.won.config.TestWebMvcConfig;
 import kr.co.won.config.datasources.DataSourceConfiguration;
 import kr.co.won.config.datasources.RedisConfiguration;
+import kr.co.won.config.security.AdminSecurityConfiguration;
 import kr.co.won.config.security.ApiSecurityConfiguration;
 import kr.co.won.user.domain.UserRoleType;
 import kr.co.won.user.service.UserService;
