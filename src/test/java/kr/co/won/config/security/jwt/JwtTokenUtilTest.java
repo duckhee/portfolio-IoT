@@ -15,7 +15,7 @@ class JwtTokenUtilTest {
     private final String secretKey = "secretKey-test-authorization-jwt-manage-token";
 
 
-    @DisplayName("토큰 정상 발급")
+    @DisplayName("01. jwt token generate Tests")
     @Test
     void successTest() {
         JwtTokenUtil jwtManager = new JwtTokenUtil();
