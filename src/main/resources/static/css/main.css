@@ -169,7 +169,7 @@ img {
     width: 280px;
     height: 100%;
     display: none;
-    display: block;
+    /*display: block;*/
     position: fixed;
     border-right: 1px #8a8a8a;
     background-color: #efefef;
@@ -178,7 +178,7 @@ img {
 }
 
 /* left nav active */
-.left-nav > .active {
+.left-nav.active {
     display: block;
 
 }
@@ -288,3 +288,25 @@ left-nav > .nav-wrapper > .nav-header {
 
 }
 
+/** CONTENT WRAPPER */
+
+.content-wrapper {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+/** CONTENT WRAPPER LEFT NAV ACTIVE */
+
+.content-wrapper.active {
+    width: calc(100% - 280px);
+    margin-left: 280px;
+}
+
+/** CONTENT-Wrapper */
+.content-wrapper > .main-wrapper {
+    display: block;
+    max-width:1200px;
+    margin:auto;
+    padding: 15px;
+}
