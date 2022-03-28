@@ -47,7 +47,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(jwtAuthEntryPoint);
 
         http.antMatcher("/api/**").headers()
-                .frameOptions().sameOrigin(); //x-frame-options 동일 출처일경우만
+                .frameOptions().sameOrigin().disable(); //x-frame-options 동일 출처일경우만
         /** http csrf disable setting */
         http
                 .csrf()

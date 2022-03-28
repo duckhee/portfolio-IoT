@@ -17,6 +17,7 @@ import kr.co.won.user.validation.CreateMemberValidation;
 import kr.co.won.user.validation.CreateUserValidation;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -35,6 +36,7 @@ import java.net.URI;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/users")
@@ -59,7 +61,8 @@ public class UserApiController {
     private final UserAssembler userAssembler;
 
     @GetMapping
-    public ResponseEntity listUserResource(PageDto page) {
+    public ResponseEntity listUserResource(@AuthUser UserDomain loginUser, PageDto page) {
+        log.info("get loginUser ::: {}", loginUser);
         Page pagingResult = adminUserService.pagingUser(page);
         PagedModel resultResource = pagedResourcesAssembler.toModel(pagingResult, userAssembler);
 

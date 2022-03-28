@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.common.SuppressLoggerChecks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.MessageHandler;
 
 
