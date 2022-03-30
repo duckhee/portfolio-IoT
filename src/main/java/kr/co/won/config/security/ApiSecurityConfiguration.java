@@ -2,7 +2,7 @@ package kr.co.won.config.security;
 
 import kr.co.won.auth.AuthBasicService;
 import kr.co.won.config.security.jwt.JwtAuthEntryPoint;
-import kr.co.won.auth.jwt.JwtAuthFilter;
+import kr.co.won.config.security.jwt.JwtAuthFilter;
 import kr.co.won.config.security.jwt.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;

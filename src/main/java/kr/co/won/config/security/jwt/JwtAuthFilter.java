@@ -1,4 +1,4 @@
-package kr.co.won.auth.jwt;
+package kr.co.won.config.security.jwt;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 //import io.jsonwebtoken.ExpiredJwtException;
