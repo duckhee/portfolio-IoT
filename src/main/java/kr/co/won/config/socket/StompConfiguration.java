@@ -1,6 +1,9 @@
 package kr.co.won.config.socket;
 
+import kr.co.won.config.socket.stomp.StompAuthHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -9,7 +12,13 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 @Configuration
 @EnableWebSocketMessageBroker
+@RequiredArgsConstructor
 public class StompConfiguration implements WebSocketMessageBrokerConfigurer {
+
+    /**
+     * STOMP Auth Handler
+     */
+    private final StompAuthHandler stompAuthHandler;
 
     // client msg send controller
     @Override
@@ -31,5 +40,14 @@ public class StompConfiguration implements WebSocketMessageBrokerConfigurer {
         // controller end point pub prefix client send message request handle
         //setApplicationDestinationPrefixes는 클라이언트에서 메세지 송신 시 붙여줄 prefix를 정의한다.
         registry.setApplicationDestinationPrefixes("/");
+    }
+
+    /**
+     * Login Filter Interceptor config
+     */
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        // interceptor add
+        registration.interceptors(stompAuthHandler);
     }
 }
