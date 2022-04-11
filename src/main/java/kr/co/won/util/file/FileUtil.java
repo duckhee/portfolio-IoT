@@ -21,6 +21,23 @@ public interface FileUtil {
     public default void fileUpload(ServletFileUpload servletFileUpload) {
         return;
     }
+
+    /*
+
+    public default void fileUpload(File file) throws IOException {
+        return;
+    }
+
+    public default void fileUpload(List<File> files) throws IOException {
+        return;
+    }
+
+    public default void fileUpload(File servletFileUpload) {
+        return;
+    }
+
+     */
+
 /*
     public default MultipartFile fileDownload(String path) {
         return null;
