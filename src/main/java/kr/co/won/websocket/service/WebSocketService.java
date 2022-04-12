@@ -15,7 +15,6 @@ import org.springframework.web.socket.WebSocketSession;
 public interface WebSocketService {
 
 
-
     public default void chat(WebSocketSession socketSession, TextMessage message) {
         return;
     }
