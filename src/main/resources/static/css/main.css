@@ -320,11 +320,18 @@ left-nav > .nav-wrapper > .nav-header {
     display: block;
 }
 
-.content-wrapper > .main-wrapper > .main-content .inner-banner-section {
+/** banner section */
+.content-wrapper > .main-wrapper > .main-content .banner-section {
+    display: block;
     height: 450px;
     background-color: #FFFFFF;
     margin-top: 25px;
     margin-bottom: 25px;
+}
+
+/** banner inner section */
+.content-wrapper > .main-wrapper > .main-content .inner-banner-section {
+
 }
 
 
