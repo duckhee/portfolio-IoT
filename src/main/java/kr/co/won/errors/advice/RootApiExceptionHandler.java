@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@RestControllerAdvice(
-        annotations = {RestController.class})
+@RestControllerAdvice
 @RequiredArgsConstructor
 public class RootApiExceptionHandler {
     /**
