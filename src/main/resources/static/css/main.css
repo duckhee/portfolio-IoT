@@ -322,6 +322,9 @@ left-nav > .nav-wrapper > .nav-header {
 
 .content-wrapper > .main-wrapper > .main-content .inner-banner-section {
     height: 450px;
+    background-color: #FFFFFF;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 
