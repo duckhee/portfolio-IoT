@@ -9,9 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 @RestController
@@ -32,9 +34,21 @@ public class IoTApiController {
      */
     private final PageAssembler pageAssembler;
 
+    /**
+     * IoT Device Or Site Paging
+     */
     @GetMapping
     public ResponseEntity IoTListResource(@AuthUser UserDomain loginUser) {
         return null;
     }
+
+    /**
+     * IoT Device Or Site Create
+     */
+    @PostMapping
+    public ResponseEntity IoTDeviceCreateResource(@AuthUser UserDomain loginUser) {
+        return null;
+    }
+
 
 }
