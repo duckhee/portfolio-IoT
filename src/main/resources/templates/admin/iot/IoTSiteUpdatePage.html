@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{admin/layout/adminLayout(menu='study', currentMenu='')}">
+<head>
+    <title>BLOG CREATE</title>
+</head>
+<body>
+<th:block layout:fragment="mainContent">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Portfolio Won
+            <small>Version 1.0</small>
+        </h1>
+        <!--./header title-->
+        <ol class="breadcrumb">
+            <li><a href="#" th:href="@{/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
+            <li><a href="#"> Study</a></li>
+            <li class="active">Study Update Page</li>
+        </ol>
+    </section>
+    <!--./content-header-->
+    <!-- Main content -->
+    <section class="content">
+        <article class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">[[${Study}]] Update</h3>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-danger" id="cancelBtn">
+                        GO TO LIST
+                    </button>
+                    <button type="button" class="btn btn-primary" id="updateBtn">
+                        UPDATE STUDY
+                    </button>
+                </div>
+                <!--./registe blog button-->
+            </div>
+            <!--./box-header-->
+            <div class="box-body">
+                <form th:id="blog" th:name="blog" th:object="${updateStudyForm}" th:method="POST" method="post"
+                      action="#create-blog" th:action="@{/admin/study/update}" enctype="multipart/form-data">
+                    <div class="form-group" th:class="${#fields.hasErrors('name')}?'has-error':''">
+                        <label for="name" class="control-label">Study Name</label>
+                        <input th:field="*{name}" id="name" name="name" type="text" class="form-control"
+                               placeholder="study name..." readonly>
+                        <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                    </div>
+                    <!--./study-name Input-->
+                    <div class="form-group" th:class="${#fields.hasErrors('path')}?'has-error':''">
+                        <label for="path" class="control-label">Study URI Path</label>
+                        <input th:field="*{path}" id="path" name="path" class="form-control"
+                               type="url" placeholder="study url path setting...">
+                        <span class="help-block" th:if="${#fields.hasErrors('path')}"
+                              th:errors="*{path}"></span>
+                    </div>
+                    <!--./study-url-path-->
+                    <div class="form-group" th:class="${#fields.hasErrors('shortDescription')} ? 'has-error':''">
+                        <label for="shortDescription" class="control-label">Study Short Description</label>
+                        <input th:fields="*{shortDescription}" id="shortDescription" name="shortDescription"
+                               th:class="form-control" type="text" placeholder="study short description ....">
+                        <span class="help-block" th:if="${#fields.hasErrors('shortDescription')}"
+                              th:erros="*{shortDescription}"></span>
+                    </div>
+                    <!--./short-description-->
+                    <div class="form-group" th:class="${#fields.hasErrors('allowMemberNumber')} ? 'has-error':''">
+                        <label for="allowMemberNumber" class="control-label">Study Allow Member Number</label>
+                        <input th:fields="*{allowMemberNumber}" id="allowMemberNumber" name="allowMemberNumber"
+                               th:class="form-control" type="number" placeholder="study allow member ....">
+                        <span class="help-block" th:if="${#fields.hasErrors('allowMemberNumber')}"
+                              th:erros="*{allowMemberNumber}"></span>
+                    </div>
+                    <!--./short-description-->
+                    <!--./form-group-->
+                    <div class="form-group" th:class="${#fields.hasErrors('description')}?'has-error':''">
+                        <label for="content" class="control-label">Study Description</label>
+                        <textarea th:field="*{description}" id="content" name="content" rows="10" cols="30">
+
+                        </textarea>
+                        <span class="help-block" th:if="${#fields.hasErrors('description')}"
+                              th:errors="*{description}"></span>
+                    </div>
+                    <!--./form-group-->
+                </form>
+                <!--./form-->
+            </div>
+            <!--./box-body-->
+            <div class="box-footer">
+
+            </div>
+            <!--./box-footer-->
+        </article>
+        <!--./blogs-box-->
+    </section>
+    <!-- /.content -->
+</th:block>
+<th:block layout:fragment="addScript">
+    <script th:replace="~{admin/layout/fragments/csrfBefore :: ajax-csrf-header}"></script>
+    <script src="../../../static/admin-resource/plugins/ckeditor/ckeditor.js"
+            th:src="@{/admin-resource/plugins/ckeditor/ckeditor.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                var csrfToken = /*[[${_csrf.token}]]*/ null;
+                var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using default configuration.
+
+                let editor = CKEDITOR.replace('content', {
+                    language: 'ko',
+                    height: 450,
+                    removePlugins: 'resize',
+                    resize_enabled: false,
+                    toolbarGroups: [
+                        {name: 'document', groups: ['mode', 'document', 'doctools']},
+                        {name: 'clipboard', groups: ['clipboard', 'undo']},
+                        {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
+                        {name: 'forms', groups: ['forms']},
+                        {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
+                        {name: 'links', groups: ['links']},
+                        {name: 'insert', groups: ['insert']},
+                        {name: 'styles', groups: ['styles']},
+                        {name: 'colors', groups: ['colors']}
+                    ],
+                    format_tags: 'p;h1;h2;h3;pre',
+                    enterMode: CKEDITOR.ENTER_BR,
+                    removePlugins: 'elementspath',
+                    removeDialogTabs: 'image:advanced;link:advanced',
+                    htmlEncodeOutput: false,
+                    // filebrowserUploadMethod: "form", // file upload javascript function
+                    // fileTools_requestHeaders:{}
+                    filebrowserUploadUrl: "/study/resources/upload"
+                });
+                // editor.addCss('.cke_editable img { max-width: 100% !important; height: auto !important; }');
+                // check editor obj
+                console.log("get editor :::: ", editor);
+                //
+                CKEDITOR.on('dialogDefinition', function (ev) {
+
+                    var dialog = ev.data.definition.dialog;
+                    var dialogName = ev.data.name;
+                    var dialogDefinition = ev.data.definition;
+
+                    switch (dialogName) {
+                        case 'image': // 이미지 속성창이 보일때 안보이게 하기 위해서 .
+
+                            // dialogDefinition.removeContents('info');
+                            dialogDefinition.removeContents('Link');
+                            dialogDefinition.removeContents('advanced');
+                            dialog.on('show', function (obj) {
+                                this.selectPage('Upload'); //업로드텝으로 시작
+                            });
+                            break;
+                    }
+
+                });
+                // file upload request
+                editor.on('fileUploadRequest', function (evt) {
+                    // setting _csrf token
+
+                    // Copy contents of 'upload' image field to a new field with 'new_name'
+                    var requestDataObject = evt.data.requestData;
+                    requestDataObject['[(${_csrf.parameterName})]'] = '[[${_csrf.token}]]';
+                    // requestDataObject['new_name'] = requestDataObject['upload'];
+                    // Delete old 'upload' image field from the request data object
+                    // delete requestDataObject['upload'];
+                    window.parent.CKEDITOR.tools.callFunction(1, '"+fileUrl+"', '파일이 업로드되었습니다.');
+
+                });
+                // file upload response
+                editor.on('fileUploadResponse', function (evt) {
+                    let resource = $("#resources").val();
+                    var data = evt.data,
+                        xhr = data.fileLoader.xhr,
+                        response = JSON.parse(xhr.responseText);
+                    if (resource == null || resource == "") {
+                        $("#resources").val(response.savedName);
+                    } else {
+                        $("#resources").val(resource + "," + response.savedName);
+                    }
+                    window.parent.CKEDITOR.tools.callFunction(1, '"+fileUrl+"', '파일이 업로드되었습니다.');
+                });
+
+            });
+
+
+            $("#cancelBtn").click(function () {
+                location.replace('/admin/study/list');
+            });
+            // create button
+            $("#createBtn").click(function (event) {
+                event.preventDefault();
+                // const content = CKEDITOR.instances.content.getData();
+                // $("#content").val(content);
+                $("#blog").submit();
+            });
+        });
+    </script>
+    <!--./custom javascript-->
+</th:block>
+</body>
+</html>
