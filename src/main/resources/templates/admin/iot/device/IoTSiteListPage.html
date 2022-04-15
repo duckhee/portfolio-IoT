@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{admin/layout/adminLayout(menu='study', currentMenu='studyList')}">
+      layout:decorate="~{admin/layout/adminLayout(menu='iot', currentMenu='iotDeviceList')}">
 <head>
     <title>STUDY LIST</title>
 </head>
@@ -17,7 +17,7 @@
         </h1>
         <!--./header title-->
         <ol class="breadcrumb">
-            <li><a href="#" th:href="@{/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
+            <li><a href="#" th:href="@{/templates/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
             <li><a href="#"> Study</a></li>
             <li class="active">Study List Page</li>
         </ol>

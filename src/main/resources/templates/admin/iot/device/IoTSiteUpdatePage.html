@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{admin/layout/adminLayout(menu='study', currentMenu='')}">
+      layout:decorate="~{admin/layout/adminLayout(menu='iot', currentMenu='')}">
 <head>
     <title>BLOG CREATE</title>
 </head>
@@ -17,9 +17,9 @@
         </h1>
         <!--./header title-->
         <ol class="breadcrumb">
-            <li><a href="#" th:href="@{/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
+            <li><a href="#" th:href="@{/templates/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
             <li><a href="#"> Study</a></li>
-            <li class="active">Study Create Page</li>
+            <li class="active">Study Update Page</li>
         </ol>
     </section>
     <!--./content-header-->
@@ -27,25 +27,25 @@
     <section class="content">
         <article class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Study Create</h3>
+                <h3 class="box-title">[[${Study}]] Update</h3>
                 <div class="pull-right">
                     <button type="button" class="btn btn-danger" id="cancelBtn">
                         GO TO LIST
                     </button>
-                    <button type="button" class="btn btn-primary" id="createBtn">
-                        CREATE STUDY
+                    <button type="button" class="btn btn-primary" id="updateBtn">
+                        UPDATE STUDY
                     </button>
                 </div>
                 <!--./registe blog button-->
             </div>
             <!--./box-header-->
             <div class="box-body">
-                <form th:id="blog" th:name="blog" th:object="${study}" th:method="POST" method="post"
-                      action="#create-blog" th:action="@{/admin/study/create}" enctype="multipart/form-data">
+                <form th:id="blog" th:name="blog" th:object="${updateStudyForm}" th:method="POST" method="post"
+                      action="#create-blog" th:action="@{/admin/study/update}" enctype="multipart/form-data">
                     <div class="form-group" th:class="${#fields.hasErrors('name')}?'has-error':''">
                         <label for="name" class="control-label">Study Name</label>
                         <input th:field="*{name}" id="name" name="name" type="text" class="form-control"
-                               placeholder="study name..." required>
+                               placeholder="study name..." readonly>
                         <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                     </div>
                     <!--./study-name Input-->
@@ -98,7 +98,7 @@
 </th:block>
 <th:block layout:fragment="addScript">
     <script th:replace="~{admin/layout/fragments/csrfBefore :: ajax-csrf-header}"></script>
-    <script src="../../../static/admin-resource/plugins/ckeditor/ckeditor.js"
+    <script src="../../../../static/admin-resource/plugins/ckeditor/ckeditor.js"
             th:src="@{/admin-resource/plugins/ckeditor/ckeditor.js}"></script>
     <script>
         $(document).ready(function () {

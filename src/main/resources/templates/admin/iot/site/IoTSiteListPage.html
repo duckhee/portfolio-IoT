@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{admin/layout/adminLayout(menu='iot', currentMenu='iotSiteList')}">
+<head>
+    <title>STUDY LIST</title>
+</head>
+<body>
+<th:block layout:fragment="mainContent">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Portfolio Won
+            <small>Version 1.0</small>
+        </h1>
+        <!--./header title-->
+        <ol class="breadcrumb">
+            <li><a href="#" th:href="@{/templates/admin}"><i class="fa fa-newspaper-o"></i>Home</a></li>
+            <li><a href="#"> Study</a></li>
+            <li class="active">Study List Page</li>
+        </ol>
+    </section>
+    <!--./content-header-->
+    <!-- Main content -->
+    <section class="content">
+        <article class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Study List Page</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i></button>
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip"
+                            title="Remove">
+                        <i class="fa fa-times"></i></button>-->
+                </div>
+                <!--./box-tool-tip-->
+            </div>
+            <!--./box-header-->
+            <div class="box-body">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <td style="width:10px;">
+                            <input type="checkbox" name="th_checkAll" id="th_checkAll" onclick="allCheck();">
+                        </td>
+                        <th>number</th>
+                        <th>Study name</th>
+                        <th>Study organizer</th>
+                        <th>path</th>
+                        <th>allow member number</th>
+                        <th>Study Join Member Number</th>
+                        <th>status</th>
+                        <th>status Time</th>
+                        <th>Study create Time</th>
+                    </tr>
+                    </thead>
+                    <!--./table-header-->
+                    <tbody style="text-align: center;">
+                    <tr th:if="${page?.result != null}" th:each="study : ${page?.result}">
+                        <td><input type="checkbox" name="checkRow" th:value="${study.idx}"></td>
+                        <td th:text="${page.getCurrentPage().getPageNumber()*10+studyStat.index+1}"></td>
+                        <td><a th:href="@{/admin/study/}+${study.idx}" th:text="${study.name}"></a></td>
+                        <td th:text="${study.organizer}"></td>
+                        <td th:text="${study.path}"></td>
+                        <td th:text="${study.allowMemberNumber}"></td>
+                        <td th:text="${study.joinMemberNumber}"></td>
+                        <td th:text="${study.status}"></td>
+                        <td th:text="${study.statusTime}"></td>
+                        <td th:text="${study.statusTime}"></td>
+                        <td th:text="${study.createdAt}"></td>
+                        <td th:text="${study.updatedAt}"></td>
+                    </tr>
+                    </tbody>
+                    <!--./tbody-->
+                </table>
+                <!--./list-content-->
+            </div>
+            <!--./box-body-->
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="dataTables_paginate paging_simple_numbers" style="text-align: center;">
+                            <ul class="pagination" th:if="${page != null}">
+                                <li id="previousPage" class="paginate_button previous" th:if="${page.prevPage}">
+                                    <a th:href="@{'/admin/study/list'(page=${page.prevPage.pageNumber}+1)}">Previous</a>
+                                </li>
+                                <li id="previousPage" class="paginate_button previous disabled"
+                                    th:if="${page.prevPage} == null">
+                                    <a href="#">Previous</a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${p.pageNumber == page.currentPageNum -1}?active: '' "
+                                    th:each="p:${page.pageList}">
+                                    <a th:href="@{'/admin/study/list'(page=${p.pageNumber}+1)}">[[${p.pageNumber}
+                                        +1]]</a>
+                                </li>
+
+                                <li id="nextPage" class="paginate_button next" th:if="${page.nextPage}">
+                                    <a th:href="@{'/admin/study/list'(page=${page.nextPage.pageNumber} + 1)}">Next</a>
+                                </li>
+                                <li id="nextPage" class="paginate_button next disabled"
+                                    th:if="${page.nextPage} == null">
+                                    <a href="#">Next</a>
+                                </li>
+                            </ul>
+                            <!--./paging-info-->
+                        </div>
+                    </div>
+                    <!--./col-sm-12-->
+                    <div class="col-sm-12">
+                        <div class="pull-left">
+                            <button id="deleteBtn" type="button" class="btn btn-flat btn-danger"><i
+                                    class="fa fa-fw fa-trash" style="margin-right:10px;"></i>Delete
+                            </button>
+                        </div>
+                        <!-- ./pull-left -->
+                        <div class="pull-right">
+                            <button id="registeBtn" type="button" class="btn btn-flat btn-primary"><i
+                                    class="fa fa-fw fa-save" style="margin-right:10px;"></i>Regite
+                            </button>
+                        </div>
+                        <!-- ./pull-right -->
+                    </div>
+                    <!--./col-sm-12-->
+                </div>
+                <!--./row-->
+            </div>
+            <!--./box-footer-->
+        </article>
+        <!--./box-->
+    </section>
+    <!-- /.content -->
+</th:block>
+<!--./main-content-->
+<th:block layout:fragment="addScript">
+    <script>
+        /** Check All Row */
+        function allCheck() {
+            if ($("#th_checkAll").is(":checked")) {
+                $("input[name=checkRow]").prop("checked", true);
+            } else {
+                $("input[name=checkRow]").prop("checked", false);
+            }
+        };
+
+        /** create blog page move */
+        function createPageMove() {
+            $("#registeBtn").click(function (event) {
+                location.href = "/admin/study/create";
+
+            });
+        };
+
+        /** delete blog */
+        function deleteBlogs() {
+            $("#deleteBtn").click(function (event) {
+                let values = [];
+
+                $("input[name=checkRow]:checked").each(function () {
+                    values.push($(this).val());
+                });
+                console.log("get values ::: ", values);
+            });
+        }
+
+        $(document).ready(function () {
+            allCheck();
+            createPageMove();
+            deleteBlogs();
+        });
+    </script>
+</th:block>
+<!--./add javascript-->
+</body>
+</html>
