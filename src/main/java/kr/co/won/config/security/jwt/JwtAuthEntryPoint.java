@@ -21,6 +21,6 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         // response send 401 Error
         response.sendRedirect("/api/");
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "UnAuthentication.");
+//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "UnAuthentication.");
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class TestAppConfiguration {
 
+
     /**
      * null skip model mapping
      */
@@ -74,6 +75,7 @@ public class TestAppConfiguration {
     /**
      * JWT Token util
      */
+
     @Bean
     public JwtTokenUtil jwtTokenUtil() {
         return new JwtTokenUtil();

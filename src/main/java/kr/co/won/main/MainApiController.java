@@ -4,6 +4,7 @@ import kr.co.won.auth.AuthBasicService;
 import kr.co.won.auth.LoginUser;
 import kr.co.won.blog.api.BlogApiController;
 import kr.co.won.config.security.jwt.JwtTokenUtil;
+import kr.co.won.iot.api.IoTApiController;
 import kr.co.won.main.dto.LoginFailedDto;
 import kr.co.won.study.api.StudyApiController;
 import kr.co.won.user.api.UserApiController;
@@ -38,13 +39,17 @@ public class MainApiController {
     public ResponseEntity indexApiInformation() {
         var indexResource = new RepresentationModel<>();
         // make link
+        WebMvcLinkBuilder indexLinker = linkTo(MainApiController.class);
         WebMvcLinkBuilder userLinker = linkTo(UserApiController.class);
         WebMvcLinkBuilder blogLinker = linkTo(BlogApiController.class);
         WebMvcLinkBuilder studyLinker = linkTo(StudyApiController.class);
+        WebMvcLinkBuilder iotLinker = linkTo(IoTApiController.class);
         // add link
         indexResource.add(userLinker.withRel("users"));
         indexResource.add(blogLinker.withRel("blogs"));
         indexResource.add(studyLinker.withRel("studies"));
+        indexResource.add(iotLinker.withRel("iot"));
+        indexResource.add(indexLinker.withSelfRel());
         return ResponseEntity.ok().body(indexResource);
     }
 

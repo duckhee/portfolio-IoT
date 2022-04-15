@@ -35,10 +35,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private static final String LOGIN_PATH = "/api/auth-login";
 
+    private static final String INDEX_PATH = "/api";
+
     // token util
     private final JwtTokenUtil jwtTokenUtil;
     // api login path
-    private static final List<String> EXCUTED_URL = Collections.unmodifiableList(Arrays.asList(LOGIN_PATH));
+    private static final List<String> EXCUTED_URL = Collections.unmodifiableList(Arrays.asList(LOGIN_PATH, INDEX_PATH));
 
     // jwt filter
     @Override

@@ -5,7 +5,10 @@ import kr.co.won.auth.AuthUser;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageAssembler;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/api/iot")
 @RequiredArgsConstructor
@@ -32,7 +36,7 @@ public class IoTApiController {
     /**
      * Paging Assembler
      */
-    private final PageAssembler pageAssembler;
+    private final PagedResourcesAssembler pageAssembler;
 
     /**
      * IoT Device Or Site Paging
