@@ -64,6 +64,11 @@ portfolio-won;
 | 요청한 리소스가 없음.
 |===
 
+[[index-resources]]
+== 사용 가능한 목차 API
+
+operation::index-link-resource[snippets='http-request,curl-request,httpie-request,http-response,links,response-body']
+
 [[user-resources]]
 == USER RESOURCE
 

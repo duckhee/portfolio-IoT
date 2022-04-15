@@ -22,7 +22,7 @@ public class ChattingStompControllers {
     private final SimpMessagingTemplate msgTemplate;
 
     @MessageMapping(value = "/room/enter")
-    @SendTo(value = "/stomp/chat/enter")
+    @SendTo(value = "topic/chat/enter")
     public void enterChattingRoom() {
         log.info("enter room ");
 

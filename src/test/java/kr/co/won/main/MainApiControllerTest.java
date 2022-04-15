@@ -79,7 +79,8 @@ class MainApiControllerTest {
                                 linkWithRel("users").description("사용자에 관련된 기능에 대한 링크 정보").optional(),
                                 linkWithRel("blogs").description("블로그에 관련된 기능에 대한 링크 정보").optional(),
                                 linkWithRel("studies").description("스터디에 관련된 기능에 대한 링크 정보").optional(),
-                                linkWithRel("iot").description("IoT에 관련된 기능에 대한 링크 정보").optional()
+                                linkWithRel("iot").description("IoT에 관련된 기능에 대한 링크 정보").optional(),
+                                linkWithRel("login").description("로그인 경로를 담고 있는 링크").optional()
                         )
                 ));
     }

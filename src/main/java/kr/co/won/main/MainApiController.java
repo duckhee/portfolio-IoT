@@ -15,6 +15,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,11 +45,14 @@ public class MainApiController {
         WebMvcLinkBuilder blogLinker = linkTo(BlogApiController.class);
         WebMvcLinkBuilder studyLinker = linkTo(StudyApiController.class);
         WebMvcLinkBuilder iotLinker = linkTo(IoTApiController.class);
+        // login path
+        WebMvcLinkBuilder loginLinker = linkTo(methodOn(MainApiController.class).jwtTokenLoginResource(new LoginForm()));
         // add link
         indexResource.add(userLinker.withRel("users"));
         indexResource.add(blogLinker.withRel("blogs"));
         indexResource.add(studyLinker.withRel("studies"));
         indexResource.add(iotLinker.withRel("iot"));
+        indexResource.add(loginLinker.withRel("login").withType(HttpMethod.POST.name()));
         indexResource.add(indexLinker.withSelfRel());
         return ResponseEntity.ok().body(indexResource);
     }
