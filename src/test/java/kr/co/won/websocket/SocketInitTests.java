@@ -10,6 +10,7 @@ import kr.co.won.user.persistence.UserPersistence;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,7 @@ public class SocketInitTests {
                 .get(1, SECONDS)).isInstanceOf(ExecutionException.class);
     }
 
+    @Disabled
     @DisplayName(value = "00. stomp socket subscript and publish Tests")
     @Test
     void subscriptMsgTest() throws ExecutionException, InterruptedException, TimeoutException, IOException {
