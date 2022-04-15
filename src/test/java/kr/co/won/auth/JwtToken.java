@@ -29,6 +29,9 @@ public class JwtToken {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .build();
+        // generate token
+        String emailToken = testUser.makeEmailToken();
+        testUser.join();
         // test user Role
         UserRoleDomain testUserRole = UserRoleDomain.builder()
                 .role(auth)
@@ -46,9 +49,12 @@ public class JwtToken {
         // test user domain make
         UserDomain testUser = UserDomain.builder()
                 .name("testingUser")
-                .email("testingUser@co.kr")
+                .email(id)
                 .password(passwordEncoder.encode(password))
                 .build();
+        // generate token
+        String emailToken = testUser.makeEmailToken();
+        testUser.join();
         // test user Role
         UserRoleDomain testUserRole = UserRoleDomain.builder()
                 .role(auth)
@@ -66,9 +72,14 @@ public class JwtToken {
         // test user domain make
         UserDomain testUser = UserDomain.builder()
                 .name("testingUser")
-                .email("testingUser@co.kr")
+                .email(id)
                 .password(passwordEncoder.encode(password))
+                .emailVerified(true)
+                .deleteFlag(false)
                 .build();
+        // generate token
+        String emailToken = testUser.makeEmailToken();
+        testUser.join();
         // test user Role
         UserRoleDomain testUserRole = UserRoleDomain.builder()
                 .role(auth)

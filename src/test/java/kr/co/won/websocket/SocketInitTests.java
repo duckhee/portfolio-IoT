@@ -114,7 +114,7 @@ public class SocketInitTests {
                 .get(1, SECONDS)).isInstanceOf(ExecutionException.class);
     }
 
-    @Disabled
+//    @Disabled
     @DisplayName(value = "00. stomp socket subscript and publish Tests")
     @Test
     void subscriptMsgTest() throws ExecutionException, InterruptedException, TimeoutException, IOException {
@@ -128,7 +128,7 @@ public class SocketInitTests {
         }).get(1, SECONDS);
         log.info("get stomp connection session ::: {}", connectionSession.toString());
         // connection subscript setting
-        connectionSession.subscribe("/topic/alarm/tester", new DefaultStompFrameHandler());
+        connectionSession.subscribe("/topic/iot/tester", new DefaultStompFrameHandler());
 //        connectionSession.subscribe("/test", new DefaultStompFrameHandler());
         // send msg
         connectionSession.send("/test", "test".getBytes(StandardCharsets.UTF_8));
@@ -153,7 +153,7 @@ public class SocketInitTests {
 
     //get stomp path default path
     private String getStompPath() {
-        return String.format("ws://localhost:%d/socket/stomp", serverPort);
+        return String.format("ws://localhost:%d/sb/sockets", serverPort);
     }
 
 }
