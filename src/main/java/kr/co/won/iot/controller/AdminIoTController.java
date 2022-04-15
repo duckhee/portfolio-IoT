@@ -3,7 +3,6 @@ package kr.co.won.iot.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.iot.form.CreateAdminSiteForm;
-import kr.co.won.iot.form.CreateSiteForm;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class AdminIoTController {
         log.info("login user information ::: {}", loginUser);
         // model setting create site form
         model.addAttribute(new CreateAdminSiteForm());
-        return "";
+        return "admin/iot/site/IoTSiteCreatePage";
     }
 
     /**
@@ -52,7 +51,7 @@ public class AdminIoTController {
     @GetMapping(path = "/site/list")
     public String iotSiteListPage(@AuthUser UserDomain loginUser, PageDto pageDto, Model model) {
         log.info("login user information ::: {}", loginUser);
-        return "";
+        return "admin/iot/site/IoTSiteListPage";
     }
 
 
@@ -62,7 +61,7 @@ public class AdminIoTController {
     @GetMapping(path = "/device/create")
     public String iotDeviceCreatePage(@AuthUser UserDomain loginUser, Model model) {
         log.info("login user information ::: {}", loginUser);
-        return "";
+        return "admin/iot/device/IoTDeviceCreatePage";
     }
 
     /**
@@ -80,6 +79,6 @@ public class AdminIoTController {
     @GetMapping(path = "/device/list")
     public String iotDeviceListPage(@AuthUser UserDomain loginUser, PageDto pageDto, Model model) {
         log.info("login user information ::: {}", loginUser);
-        return "";
+        return "admin/iot/device/IoTDeviceListPage";
     }
 }
