@@ -4,19 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.asm.Advice;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateDeviceForm {
+public class CreateAdminSiteForm {
 
-    // device name
+    // site name
     @NotBlank
-    private String name;
+    private String siteName;
 
+    // site user email
+    @Email
+    @NotBlank
+    private String userEmail;
 
 }

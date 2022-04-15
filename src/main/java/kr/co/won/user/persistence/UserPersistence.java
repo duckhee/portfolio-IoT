@@ -13,6 +13,8 @@ public interface UserPersistence extends JpaRepository<UserDomain, Long>, UserPe
      */
     boolean existsByEmail(String email);
 
+    boolean existsByEmailAndActiveFlagFalseAndDeleteFlagFalse(String userEmail);
+
     Optional<UserDomain> findByEmail(String email);
 
     @EntityGraph(value = "user.withRole", type = EntityGraph.EntityGraphType.FETCH)

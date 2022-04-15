@@ -2,6 +2,8 @@ package kr.co.won.iot.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.won.auth.AuthUser;
+import kr.co.won.iot.form.CreateAdminSiteForm;
+import kr.co.won.iot.form.CreateSiteForm;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,8 @@ public class AdminIoTController {
     @GetMapping(path = "/site/create")
     public String iotSiteCreatePage(@AuthUser UserDomain loginUser, Model model) {
         log.info("login user information ::: {}", loginUser);
+        // model setting create site form
+        model.addAttribute(new CreateAdminSiteForm());
         return "";
     }
 

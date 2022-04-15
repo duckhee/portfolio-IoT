@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.asm.Advice;
 
 import javax.validation.constraints.NotBlank;
 
@@ -12,11 +11,10 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateDeviceForm {
+public class CreateSiteForm {
 
-    // device name
+    // iot site
     @NotBlank
-    private String name;
-
+    private String siteName;
 
 }
