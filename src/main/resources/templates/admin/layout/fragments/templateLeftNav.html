@@ -100,7 +100,20 @@
                     <li class="" th:classappend="${currentMenu == 'studyList'}? 'active'"><a href="#study-list" th:href="@{/admin/study/list}"><i class="fa fa-circle-o"></i> Study List</a></li>
                 </ul>
             </li>
-
+            <li class="treeview" th:classappend="${menu == 'iot'}? 'active'">
+                <a href="#">
+                    <i class="fa  fa-newspaper-o"></i> <span>IoT</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="" th:classappend="${currentMenu == 'iotSiteCreate'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/create}"><i class="fa fa-circle-o"></i> IoT Site Create</a></li>
+                    <li class="" th:classappend="${currentMenu == 'iotSiteList'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/create}"><i class="fa fa-circle-o"></i> IoT Site List</a></li>
+                    <li class="" th:classappend="${currentMenu == 'iotDeviceCreate'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/create}"><i class="fa fa-circle-o"></i> IoT Device Create</a></li>
+                    <li class="" th:classappend="${currentMenu == 'iotDeviceList'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/create}"><i class="fa fa-circle-o"></i> IoT Device List</a></li>
+                </ul>
+            </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-files-o"></i>
