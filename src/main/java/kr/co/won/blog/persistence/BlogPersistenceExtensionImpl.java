@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 
 import static kr.co.won.blog.domain.QBlogDomain.blogDomain;
 import static kr.co.won.blog.domain.QBlogReplyDomain.blogReplyDomain;
@@ -72,12 +73,15 @@ public class BlogPersistenceExtensionImpl extends QuerydslRepositorySupport impl
 
         /** blog search writer and title */
         if (type != null) {
-            switch (type) {
-                case "writer":
+            switch (type.toUpperCase(Locale.ROOT)) {
+                case "WRITER":
                     baseQuery.where(blog.writer.like("%" + keyword + "%"));
                     break;
-                case "title":
+                case "TITLE":
                     baseQuery.where(blog.title.like("%" + keyword + "%"));
+                    break;
+                case "CONTENT":
+                    baseQuery.where(blog.content.contains(keyword));
                     break;
             }
         }

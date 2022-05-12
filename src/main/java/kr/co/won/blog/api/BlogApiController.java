@@ -61,6 +61,7 @@ public class BlogApiController {
     public ResponseEntity listBlogResources(@AuthUser UserDomain authUser, PageDto pageDto) {
         Page pageList = blogService.pagingBlog(pageDto);
         PagedModel resultResource = pagedResourcesAssembler.toModel(pageList, blogAssembler);
+        
         /*  PageMetadata pageMetadata = new PageMetadata(pageDto.getSize(), pageList.getNumber(), pageList.getTotalElements(), pageList.getTotalPages());
 
          *//** Paging *//*

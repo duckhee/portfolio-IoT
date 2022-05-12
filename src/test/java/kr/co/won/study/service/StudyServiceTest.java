@@ -54,7 +54,7 @@ class StudyServiceTest {
 
     @Spy
     @Resource(name = "notSkipModelMapper")
-    private ModelMapper skipModelMapper = configuration.notSkipModelMapper();
+    private ModelMapper notSkipModelMapper = configuration.notSkipModelMapper();
 
     @Mock
     private UserPersistence userPersistence;
