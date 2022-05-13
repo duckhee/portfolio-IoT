@@ -9,7 +9,11 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FileUtil {
+    /** Using MultipartFile */
 
+    /**
+     * Upload File Using Multipart File
+     */
     public default void fileUpload(MultipartFile file) throws IOException {
         return;
     }
