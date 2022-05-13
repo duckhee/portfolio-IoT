@@ -6,6 +6,8 @@ public class StudyCreateException extends Exception {
         super();
     }
 
+
+
     public StudyCreateException(String message) {
         super(message);
     }
