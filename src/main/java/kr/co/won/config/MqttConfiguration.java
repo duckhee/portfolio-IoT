@@ -3,7 +3,10 @@ package kr.co.won.config;
 import kr.co.won.mqtt.MqttSubScript;
 import kr.co.won.properties.MqttProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttConnect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +27,7 @@ import org.springframework.integration.support.ErrorMessageStrategy;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class MqttConfiguration {
@@ -39,7 +43,7 @@ public class MqttConfiguration {
         DefaultMqttPahoClientFactory defaultMqttPahoClientFactory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions connectOptions = new MqttConnectOptions();
         // mqtt server url
-        connectOptions.setServerURIs(new String[]{"tcp://" + mqttProperties.getHost() +":"+ mqttProperties.getPort()});
+        connectOptions.setServerURIs(new String[]{"tcp://" + mqttProperties.getHost() + ":" + mqttProperties.getPort()});
         // mqtt server user setting
         connectOptions.setUserName(mqttProperties.getUserName());
         // mqtt server user password information
@@ -53,6 +57,20 @@ public class MqttConfiguration {
         defaultMqttPahoClientFactory.setConnectionOptions(connectOptions);
 
         return defaultMqttPahoClientFactory;
+    }
+
+
+    /**
+     * mqtt client using publishing topic
+     */
+    @Bean
+    public IMqttClient mqttClient() throws MqttException {
+        MqttPahoClientFactory factory = mqttPahoClientFactory();
+        MqttConnectOptions connectionOptions = factory.getConnectionOptions();
+        log.info("connection option get server uri ::: {}", connectionOptions.getServerURIs().toString());
+        IMqttClient mqttClient = factory.getClientInstance("tcp://" + mqttProperties.getHost() + ":" + mqttProperties.getPort(), "portfolio-won-mqtt");
+        log.info("get mqtt client ::: {}", mqttClient);
+        return mqttClient;
     }
 
     /**
