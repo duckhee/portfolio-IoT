@@ -12,11 +12,19 @@ import org.springframework.messaging.MessageHandler;
 public interface MqttSubScript {
 
     /**
+     * TODO Delete
      * log factory
      */
     public default MessageHandler subscript() {
         Logger log = LoggerFactory.getLogger("log");
         MessageHandler messageHandler = message -> log.info("get default subscript interface message ::: {}", message);
         return messageHandler;
+    }
+
+    /**
+     * this using
+     */
+    public default MessageHandler subscript(String subscriptTopic) {
+        return null;
     }
 }
