@@ -42,6 +42,13 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
     }
 
-    /** Social Login Url */
+    /**
+     * Social Login Url
+     */
+    @GetMapping(path = "/social-login/kakao/oauth")
+    public String kakaoRedirectPage() {
+        return "";
+    }
+
 
 }
