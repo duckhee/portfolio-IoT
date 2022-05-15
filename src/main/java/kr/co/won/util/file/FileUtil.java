@@ -1,6 +1,7 @@
 package kr.co.won.util.file;
 
 import kr.co.won.blog.domain.BlogResourceDomain;
+import kr.co.won.user.domain.UserDomain;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +25,39 @@ public interface FileUtil {
 
     public default void fileUpload(ServletFileUpload servletFileUpload) {
         return;
+    }
+
+    /** Upload Encoding Base64 Encoding File */
+
+    /**
+     * Upload File Encoding BASE 64
+     */
+
+    public default boolean fileUpload(Class<?> file, String imageBase64) {
+        return false;
+    }
+
+    /**
+     * Login User Check and Upload File Encoding BASE 64
+     */
+    public default boolean fileUpload(UserDomain loginUser, Class<?> file, String imageBase64) {
+        return false;
+    }
+
+    /** Download Encoding Base64 Encoding File */
+
+    /**
+     * Download File Encoding BASE 64
+     */
+    public default File fileDownload(Long fileIdx) throws IOException {
+        return null;
+    }
+
+    /**
+     * Download File Login Check And Encoding BASE 64
+     */
+    public default File fileDownload(UserDomain loginUser, Class<?> fileIdx) throws IOException {
+        return null;
     }
 
     /*
