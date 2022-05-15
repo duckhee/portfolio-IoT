@@ -68,6 +68,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/")
                 .defaultSuccessUrl("/")
                 .successHandler(loginSuccessHandler)
+                .and()
+                .oauth2Login()
                 .permitAll();
         /** Social Login */
         /**
