@@ -9,7 +9,7 @@ import kr.co.won.study.form.UpdateStudyForm;
 import kr.co.won.study.service.StudyService;
 import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;

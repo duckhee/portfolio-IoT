@@ -7,7 +7,7 @@ import kr.co.won.blog.factory.BlogFactory;
 import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.extern.slf4j.Slf4j;

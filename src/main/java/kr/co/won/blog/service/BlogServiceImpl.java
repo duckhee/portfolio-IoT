@@ -7,22 +7,19 @@ import kr.co.won.blog.persistence.BlogPersistence;
 import kr.co.won.blog.persistence.BlogReplyPersistence;
 import kr.co.won.blog.persistence.BlogResourcePersistence;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

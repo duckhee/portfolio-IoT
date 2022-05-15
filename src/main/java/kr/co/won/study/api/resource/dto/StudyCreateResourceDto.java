@@ -1,17 +1,13 @@
 package kr.co.won.study.api.resource.dto;
 
-import kr.co.won.blog.api.BlogApiController;
-import kr.co.won.study.api.StudyApiController;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.domain.StudyStatusType;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
 

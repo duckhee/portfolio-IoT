@@ -1,17 +1,14 @@
 package kr.co.won.blog.api.resource.dto;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import kr.co.won.blog.api.BlogApiController;
 import kr.co.won.blog.api.BlogReplyApiController;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.rest.core.mapping.HttpMethods;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

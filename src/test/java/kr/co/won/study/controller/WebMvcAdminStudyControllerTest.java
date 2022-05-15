@@ -2,7 +2,6 @@ package kr.co.won.study.controller;
 
 import kr.co.won.auth.LoginUser;
 import kr.co.won.auth.TestMockUser;
-import kr.co.won.config.TestAppConfiguration;
 import kr.co.won.config.WebSliceTest;
 import kr.co.won.config.security.ApiSecurityConfiguration;
 import kr.co.won.config.security.SecurityConfiguration;
@@ -11,10 +10,8 @@ import kr.co.won.study.form.CreateStudyForm;
 import kr.co.won.study.service.StudyService;
 import kr.co.won.study.validation.CreateStudyValidation;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.security.SecurityConfig;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,12 +26,9 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;

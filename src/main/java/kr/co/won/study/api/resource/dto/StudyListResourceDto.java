@@ -4,7 +4,7 @@ import kr.co.won.study.api.StudyApiController;
 import kr.co.won.study.domain.StudyDomain;
 import kr.co.won.study.domain.StudyStatusType;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

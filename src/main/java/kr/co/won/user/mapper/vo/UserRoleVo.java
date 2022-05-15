@@ -1,6 +1,6 @@
 package kr.co.won.user.mapper.vo;
 
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

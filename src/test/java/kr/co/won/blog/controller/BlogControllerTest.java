@@ -3,7 +3,7 @@ package kr.co.won.blog.controller;
 import kr.co.won.auth.TestUser;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.blog.persistence.BlogPersistence;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;

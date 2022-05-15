@@ -1,6 +1,7 @@
 package kr.co.won.user.domain;
 
 import kr.co.won.common.Address;
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;

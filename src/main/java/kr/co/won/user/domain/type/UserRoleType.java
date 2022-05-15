@@ -1,4 +1,4 @@
-package kr.co.won.user.domain;
+package kr.co.won.user.domain.type;
 
 public enum UserRoleType {
 

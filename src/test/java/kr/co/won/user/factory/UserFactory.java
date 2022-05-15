@@ -3,7 +3,7 @@ package kr.co.won.user.factory;
 import kr.co.won.common.Address;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestComponent;

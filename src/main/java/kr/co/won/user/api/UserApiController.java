@@ -9,7 +9,7 @@ import kr.co.won.user.api.resource.dto.UserCreateResourceDto;
 import kr.co.won.user.api.resource.UserCreateResource;
 import kr.co.won.user.api.resource.dto.UserResourceDto;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.user.form.CreateMemberForm;
 import kr.co.won.user.form.CreateUserForm;
 import kr.co.won.user.service.UserService;

@@ -3,7 +3,7 @@ package kr.co.won.blog.api.resource.dto;
 import kr.co.won.blog.api.BlogApiController;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

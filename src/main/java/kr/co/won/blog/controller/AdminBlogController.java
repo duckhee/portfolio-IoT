@@ -7,7 +7,7 @@ import kr.co.won.blog.domain.BlogReplyDomain;
 import kr.co.won.blog.form.BlogForm;
 import kr.co.won.blog.service.BlogService;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import kr.co.won.util.page.PageMaker;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

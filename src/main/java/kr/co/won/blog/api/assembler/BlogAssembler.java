@@ -1,11 +1,10 @@
 package kr.co.won.blog.api.assembler;
 
 import kr.co.won.blog.api.BlogApiController;
-import kr.co.won.blog.api.resource.BlogCollectResources;
 import kr.co.won.blog.api.resource.dto.BlogReadResourcesDto;
 import kr.co.won.blog.domain.BlogDomain;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;

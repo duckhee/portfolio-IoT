@@ -6,7 +6,7 @@ import kr.co.won.mail.form.VerifiedMessage;
 import kr.co.won.properties.AppProperties;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.user.persistence.UserPersistence;
 import kr.co.won.util.page.PageDto;
 import lombok.RequiredArgsConstructor;

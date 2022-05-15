@@ -1,7 +1,7 @@
 package kr.co.won.user.service;
 
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.util.page.PageDto;
 import org.springframework.data.domain.Page;
 

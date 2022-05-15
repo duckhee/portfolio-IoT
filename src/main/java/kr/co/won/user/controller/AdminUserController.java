@@ -3,7 +3,7 @@ package kr.co.won.user.controller;
 import kr.co.won.auth.AuthUser;
 import kr.co.won.common.Address;
 import kr.co.won.user.domain.UserDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.user.form.CreateMemberForm;
 import kr.co.won.user.service.UserService;
 import kr.co.won.user.validation.CreateMemberValidation;

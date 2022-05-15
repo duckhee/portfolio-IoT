@@ -1,9 +1,9 @@
 package kr.co.won.user.domain;
 
+import kr.co.won.user.domain.type.UserRoleType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;

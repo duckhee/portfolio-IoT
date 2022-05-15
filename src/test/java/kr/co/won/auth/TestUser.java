@@ -1,11 +1,10 @@
 package kr.co.won.auth;
 
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import org.springframework.security.test.context.support.WithSecurityContext;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 @Retention(value = RetentionPolicy.RUNTIME)
 @WithSecurityContext(factory = TestUserFactory.class)

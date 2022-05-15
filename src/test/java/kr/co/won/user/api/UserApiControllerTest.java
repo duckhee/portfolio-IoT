@@ -6,7 +6,7 @@ import kr.co.won.auth.TestUser;
 import kr.co.won.config.RestDocsConfiguration;
 import kr.co.won.user.domain.UserDomain;
 import kr.co.won.user.domain.UserRoleDomain;
-import kr.co.won.user.domain.UserRoleType;
+import kr.co.won.user.domain.type.UserRoleType;
 import kr.co.won.user.factory.UserFactory;
 import kr.co.won.user.form.CreateUserForm;
 import kr.co.won.user.persistence.UserPersistence;

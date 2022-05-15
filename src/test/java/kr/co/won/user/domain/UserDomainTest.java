@@ -1,5 +1,6 @@
 package kr.co.won.user.domain;
 
+import kr.co.won.user.domain.type.UserRoleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
