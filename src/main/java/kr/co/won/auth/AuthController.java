@@ -42,13 +42,22 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
     }
 
+    /** Social Login Url */
+
     /**
-     * Social Login Url
+     * Kakao Login
      */
     @GetMapping(path = "/social-login/kakao/oauth")
     public String kakaoRedirectPage() {
         return "";
     }
 
+    /**
+     * Google Login
+     */
+    @GetMapping(path = "/social-login/google/oauth")
+    public String googleRedirectPage() {
+        return "";
+    }
 
 }

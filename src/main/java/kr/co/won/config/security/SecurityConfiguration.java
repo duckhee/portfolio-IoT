@@ -69,7 +69,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .successHandler(loginSuccessHandler)
                 .permitAll();
-
+        /** Social Login */
+        http
+                .antMatcher("/social-login/**")
+                .authorizeRequests()
+                .mvcMatchers("/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2Login()
+                .loginPage("/login");
         /** logout setting */
         http
                 .antMatcher("/**")
