@@ -18,21 +18,30 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
 
 
+    /**
+     * Oauth Login Failed
+     */
     @GetMapping(path = "/auth/failed")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String oauthFailedPage(@AuthUser UserDomain loginUser) {
-        if(loginUser != null){
+        if (loginUser != null) {
 
         }
         return "";
     }
 
+    /**
+     * JWT Token Login Failed
+     */
     @GetMapping(path = "/api/login-failed")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity loginFaileResourceResponse(@AuthUser UserDomain loginUser){
-        if(loginUser != null){
+    public ResponseEntity loginFaileResourceResponse(@AuthUser UserDomain loginUser) {
+        if (loginUser != null) {
 
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
     }
+
+    /** Social Login Url */
+
 }
