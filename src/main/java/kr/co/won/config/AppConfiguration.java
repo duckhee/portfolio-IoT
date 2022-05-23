@@ -1,10 +1,16 @@
 package kr.co.won.config;
 
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -14,6 +20,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.filter.ForwardedHeaderFilter;
+import org.thymeleaf.context.IContext;
 
 @Configuration
 public class AppConfiguration {
@@ -65,6 +72,18 @@ public class AppConfiguration {
     @Bean
     public static ServletListenerRegistrationBean httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
+    }
+    @Bean
+    public ServletWebServerFactory servletWebServerFactory(){
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
+        tomcat.addAdditionalTomcatConnectors(createStandardConnector());
+        return tomcat;
+    }
+
+    private Connector createStandardConnector(){
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setPort(443);
+        return connector;
     }
 /**
  @Bean FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter()
