@@ -73,18 +73,52 @@ public class AppConfiguration {
     public static ServletListenerRegistrationBean httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
     }
+
+
+    /**
     @Bean
-    public ServletWebServerFactory servletWebServerFactory(){
+    public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
-        tomcat.addAdditionalTomcatConnectors(createStandardConnector());
+        tomcat.addAdditionalTomcatConnectors(createSslConnector());
         return tomcat;
     }
 
-    private Connector createStandardConnector(){
+    private Connector createSslConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setScheme("http");
+        connector.setSecure(false);
         connector.setPort(443);
         return connector;
     }
+*/
+
+    /**
+    @Bean
+    public ServletWebServerFactory servletWebServerFactory(){
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory(){
+            @Override
+            protected void postProcessContext(Context context) {
+                SecurityConstraint securityConstraint = new SecurityConstraint();
+                securityConstraint.setUserConstraint("CONFIDENTIAL");
+                SecurityCollection collection = new SecurityCollection();
+                collection.addPattern("/*");
+                securityConstraint.addCollection(collection);
+                context.addConstraint(securityConstraint);
+            }
+        };
+        tomcat.addAdditionalTomcatConnectors(createSslConnector());
+        return tomcat;
+    }
+
+    private Connector createSslConnector() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setScheme("http");
+        connector.setSecure(false);
+        connector.setPort(80);
+        connector.setRedirectPort(443);
+        return connector;
+    }
+    */
 /**
  @Bean FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter()
  {
