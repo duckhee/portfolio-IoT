@@ -1,0 +1,43 @@
+# docker version setting
+version: '2'
+# network setting
+networks:
+  portfolio:
+    driver: bridge
+# service setting
+services:
+  # default database setting
+  defaultDB:
+    # database image
+    image: mysql:last
+    # database volume setting
+    volumes:
+      - ./mysql/data/:/var/lib/mysql
+    # database default setting
+    environment:
+      MYSQL_ROOT_PASSWORD: won1228A!
+      MYSQL_DATABASE: portfolio
+      MYSQL_USER: won
+      MYSQL_PASSWORD: won1228
+    ports:
+      - "3307:3306"
+    networks:
+      - portfolio
+    # MQTT server
+  mqttServer:
+    # MQTT Server image
+    image: eclipse-mosquitto
+    # MQTT Server Volume Set
+    volumes:
+      - ./mqtt/data/:/mosquitto/data
+      - ./mqtt/config/:/mosquitto/config
+      - ./mqtt/logs/:/mosquitto/log
+    # MQTT Network Setting
+    networks:
+      - portfolio
+    # MQTT Server Port Set
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+
+
