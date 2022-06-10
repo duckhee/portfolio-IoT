@@ -9,10 +9,10 @@ services:
   # default database setting
   portfolio-defaultDB:
     # database image
-    image: mysql:last
+    image: mysql:latest
     # database volume setting
     volumes:
-      - ./mysql/data/:/var/lib/mysql
+      - ./docker/mysql/data/:/var/lib/mysql
     # database default setting
     environment:
       MYSQL_ROOT_PASSWORD: won1228A!
@@ -26,12 +26,12 @@ services:
     # MQTT server
   portfolio-mqttServer:
     # MQTT Server image
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
     # MQTT Server Volume Set
     volumes:
-      - ./mqtt/data/:/mosquitto/data
-      - ./mqtt/config/:/mosquitto/config
-      - ./mqtt/logs/:/mosquitto/log
+      - ./docker/mqtt/data/:/mosquitto/data
+      - ./docker/mqtt/config/:/mosquitto/config
+      - ./docker/mqtt/logs/:/mosquitto/log
     # MQTT Network Setting
     networks:
       - portfolio
