@@ -7,7 +7,7 @@ networks:
 # service setting
 services:
   # default database setting
-  defaultDB:
+  portfolio-defaultDB:
     # database image
     image: mysql:last
     # database volume setting
@@ -24,7 +24,7 @@ services:
     networks:
       - portfolio
     # MQTT server
-  mqttServer:
+  portfolio-mqttServer:
     # MQTT Server image
     image: eclipse-mosquitto
     # MQTT Server Volume Set
