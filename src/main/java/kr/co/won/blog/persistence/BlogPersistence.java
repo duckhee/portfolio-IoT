@@ -29,5 +29,5 @@ public interface BlogPersistence extends JpaRepository<BlogDomain, Long>, BlogPe
     List<BlogDomain> findByIdxIn(List<Long> idxes);
 
     // get title and writer
-    <T> List<T> findAll(Class<T> type);
+//    <T> List<T> findAll(Class<T> type);
 }

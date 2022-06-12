@@ -108,13 +108,14 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="" th:classappend="${currentMenu == 'iotSiteCreate'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/create}"><i class="fa fa-circle-o"></i> IoT Site Create</a></li>
-                    <li class="" th:classappend="${currentMenu == 'iotSiteList'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/create}"><i class="fa fa-circle-o"></i> IoT Site List</a></li>
-                    <li class="" th:classappend="${currentMenu == 'iotDeviceCreate'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/create}"><i class="fa fa-circle-o"></i> IoT Device Create</a></li>
-                    <li class="" th:classappend="${currentMenu == 'iotDeviceList'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/create}"><i class="fa fa-circle-o"></i> IoT Device List</a></li>
+                    <li class="" th:classappend="${currentMenu == 'iotSiteCreate'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/site/create}"><i class="fa fa-circle-o"></i> IoT Site Create</a></li>
+                    <li class="" th:classappend="${currentMenu == 'iotSiteList'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/site/list}"><i class="fa fa-circle-o"></i> IoT Site List</a></li>
+                    <li class="" th:classappend="${currentMenu == 'iotDeviceCreate'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/device/create}"><i class="fa fa-circle-o"></i> IoT Device Create</a></li>
+                    <li class="" th:classappend="${currentMenu == 'iotDeviceList'}? 'active'"><a href="#study-create" th:href="@{/admin/IoT/device/list}"><i class="fa fa-circle-o"></i> IoT Device List</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <!--IoT-->
+          <!--  <li class="treeview">
                 <a href="#">
                     <i class="fa fa-files-o"></i>
                     <span>Layout Options</span>
@@ -173,8 +174,8 @@
               <small class="label pull-right bg-red">5</small>
             </span>
                 </a>
-            </li>
-
+            </li>-->
+<!--
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-share"></i> <span>Multilevel</span>
@@ -207,11 +208,11 @@
                     </li>
                     <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
                 </ul>
-            </li>
-            <li class="header">LABELS</li>
+            </li>-->
+            <!--<li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>-->
         </ul>
     </section>
     <!-- /.sidebar -->

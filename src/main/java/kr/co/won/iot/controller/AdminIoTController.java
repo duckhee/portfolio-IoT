@@ -61,6 +61,7 @@ public class AdminIoTController {
     @GetMapping(path = "/device/create")
     public String iotDeviceCreatePage(@AuthUser UserDomain loginUser, Model model) {
         log.info("login user information ::: {}", loginUser);
+        model.addAttribute(new CreateAdminSiteForm());
         return "admin/iot/device/IoTDeviceCreatePage";
     }
 
