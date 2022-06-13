@@ -25,7 +25,45 @@
     <!--./content-header-->
     <!-- Main content -->
     <section class="content">
-
+        <article class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">IoT Site Create</h3>
+                <div class="pull-right">
+                    <button type="button" calss="btn btn-danger" id="cancelBtn">
+                        GO TO LIST
+                    </button>
+                    <button type="button" calss="btn btn-primary" id="createBtn">
+                        CREATE IoT SITE
+                    </button>
+                </div>
+                <!--./registe IoT Site Button-->
+            </div>
+            <!--./box-header-->
+            <div calss="box-body">
+                <from th:id="IoTSite" th:name="IoTSite" th:object="${createAdminSiteForm}" id="IoTSite" name="IoTSite"
+                      th:action="@{/admin/IoT/site/create}" action="#IoTSite" th:method="POST" method="POST">
+                    <div class="form-group" th:class="${#fields.hasErrors('siteName')} ? 'has-error'">
+                        <label for="SiteName" class="control-label">IoT Site Name</label>
+                        <input type="text" id="SiteName" name="SiteName" class="control-label" th:field="*{siteName}"
+                               required>
+                        <span class="help-block" th:if="${#fields.hasErrors('siteName')}"
+                              th:errors="*{siteName}"></span>
+                    </div>
+                    <!--./IoT Site Name-->
+                    <div class="form-group" th:class="${#fields.hasErrors('userEmail')} ? 'has-error'">
+                        <label for="UserEmail" class="control-label">USER Email(Site Owner)</label>
+                        <input type="text" id="UserEmail" name="UserEmail" class="control-label" th:field="*{userEmail}"
+                               required>
+                        <span class="help-block" th:if="${#fields.hasErrors('userEmail')}"
+                              th:errors="*{userEmail}"></span>
+                    </div>
+                    <!--./user-Email-->
+                </from>
+                <!--./IoT Site Form-->
+            </div>
+            <!--./box-body-->
+        </article>
+        <!--./article-->
     </section>
     <!-- /.content -->
 </th:block>
