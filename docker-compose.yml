@@ -39,6 +39,28 @@ services:
     ports:
       - "1883:1883"
       - "9001:9001"
+  # RabbitMQ Server
+  portfolio-rabbitMQ:
+    # RabbitMQ Image
+    image:
+      rabbitmq:3-management-alpine
+    # RabbitMQ Volume Setting
+    volumes:
+      - ./docker/rabbitMQ/etc/:/etc/rabbitmq
+      - ./docker/rabbitMQ/data/:/var/lib/rabbitmq
+      - ./docker/rabbitMQ/logs/:/var/log/rabbitmq
+    # network setting
+    networks:
+      - portfolio
+    # RabbitMQ Environment Setting
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "portfolio-rabbitMQ-cookie"
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "1234"
+    # RabbitMQ Port Setting
+    ports:
+      - "15672:15672"
+      - "5672:5672"
   # Redis Server
   portfolio-redis:
     # Redis Server Image
@@ -55,4 +77,5 @@ services:
     # redis port setting
     ports:
       - "7000:7000"
+
 
