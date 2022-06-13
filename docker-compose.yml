@@ -15,7 +15,7 @@ services:
       - ./docker/mysql/data/:/var/lib/mysql
     # database default setting
     environment:
-      MYSQL_ROOT_PASSWORD: won1228A!
+      MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: portfolio
       MYSQL_USER: won
       MYSQL_PASSWORD: won1228
