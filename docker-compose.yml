@@ -39,5 +39,11 @@ services:
     ports:
       - "1883:1883"
       - "9001:9001"
-
+  # Redis Server
+#   portfolio-redis:
+#     # Redis Server Image
+#     image: redis
+#     #Redis Server Volume Set
+#     volumes:
+#       - ./docker/redis/config/:/usr/local/etc/redis
 
