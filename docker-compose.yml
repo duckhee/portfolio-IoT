@@ -40,10 +40,19 @@ services:
       - "1883:1883"
       - "9001:9001"
   # Redis Server
-#   portfolio-redis:
-#     # Redis Server Image
-#     image: redis
-#     #Redis Server Volume Set
-#     volumes:
-#       - ./docker/redis/config/:/usr/local/etc/redis
+  portfolio-redis:
+    # Redis Server Image
+    image: redis
+    # redis environment setting
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    # network setting
+    networks:
+      - portfolio
+    #Redis Server Volume Set
+    volumes:
+      - ./docker/redis/config/:/usr/local/etc/redis
+    # redis port setting
+    ports:
+      - "7000:7000"
 
