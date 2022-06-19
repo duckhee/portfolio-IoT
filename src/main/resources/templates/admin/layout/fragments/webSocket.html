@@ -56,9 +56,14 @@
 </script>
 
 <!-- socket Stomp -->
-<script type="application/javascript" th:include="javascript" th:fragment="stomp-before">
+<th:block th:fragment="stomp-before">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+            integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="application/javascript" th:include="javascript">
 
-</script>
+    </script>
+</th:block>
 <script type="application/javascript" th:include="javascript" th:fragment="stomp-chat">
 
 </script>
