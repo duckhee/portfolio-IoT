@@ -15,6 +15,9 @@ RUN mkdir /portfolio
 # making config directory
 RUN mkdir /portfolio/config
 #
+# making upload folder
+RUN mkdir /portfolio/upload
+#
 # making log directory
 RUN mkdir /portfolio/logs
 #
