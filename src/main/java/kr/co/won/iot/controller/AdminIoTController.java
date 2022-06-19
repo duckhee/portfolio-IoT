@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,8 @@ public class AdminIoTController {
 
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
+
+    /** IoT Service */
 
 
     /**
@@ -40,9 +44,17 @@ public class AdminIoTController {
      * Create IoT Site List Do
      */
     @PostMapping(path = "/site/create")
-    public String iotSiteCreateDo(@AuthUser UserDomain loginUser, Model model, RedirectAttributes flash) {
+    public String iotSiteCreateDo(@AuthUser UserDomain loginUser, @Validated CreateAdminSiteForm siteForm, Errors errors, Model model, RedirectAttributes flash) {
         log.info("login user information ::: {}", loginUser);
-        return "";
+        // server side validation
+        if (errors.hasErrors()) {
+            return "/admin/iot/site/IoTSiteCreatePage";
+        }
+
+        // flash message setting
+        flash.addFlashAttribute("msg", "create IoT Site ");
+        // redirect site list page
+        return "redirect:/admin/IoT/site/list";
     }
 
     /**
