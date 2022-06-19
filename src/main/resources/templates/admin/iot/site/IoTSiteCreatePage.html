@@ -25,7 +25,7 @@
     <!--./content-header-->
     <!-- Main content -->
     <section class="content">
-        <article class="box box-default">
+        <article class="box box-default" style="width: 70%; margin: 100px auto;" >
             <div class="box-header with-border">
                 <h3 class="box-title">IoT Site Create</h3>
                 <div class="pull-right">
@@ -45,6 +45,7 @@
                     <div class="form-group" th:class="${#fields.hasErrors('siteName')} ? 'has-error'">
                         <label for="SiteName" class="control-label">IoT Site Name</label>
                         <input type="text" id="SiteName" name="SiteName" class="form-control" th:field="*{siteName}"
+                               placeholder="IoT Site Name set..."
                                required>
                         <span class="help-block" th:if="${#fields.hasErrors('siteName')}"
                               th:errors="*{siteName}"></span>
@@ -53,6 +54,7 @@
                     <div class="form-group" th:class="${#fields.hasErrors('userEmail')} ? 'has-error'">
                         <label for="UserEmail" class="control-label">USER Email(Site Owner)</label>
                         <input type="text" id="UserEmail" name="UserEmail" class="form-control" th:field="*{userEmail}"
+                               placeholder="site owner user email ...."
                                required>
                         <span class="help-block" th:if="${#fields.hasErrors('userEmail')}"
                               th:errors="*{userEmail}"></span>
@@ -61,7 +63,7 @@
                     <div class="form-group" th:class="${#fields.hasErrors('shortDescription')} ? 'has-error'">
                         <label for="shortDescription" class="control-label">Site Short Description</label>
                         <input type="text" id="shortDescription" name="shortDescription" class="form-control"
-                               th:field="*{shortDescription}">
+                               th:field="*{shortDescription}" placeholder="short description ..">
                         <span class="help-block" th:if="${#fields.hasErrors('shortDescription')}"
                               th:errors="*{shortDescription}"></span>
                     </div>
