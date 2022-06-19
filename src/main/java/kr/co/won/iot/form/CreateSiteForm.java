@@ -17,4 +17,8 @@ public class CreateSiteForm {
     @NotBlank
     private String siteName;
 
+    // short description
+    private String shortDescription;
+
+
 }

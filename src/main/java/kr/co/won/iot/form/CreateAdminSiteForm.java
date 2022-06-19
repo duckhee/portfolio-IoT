@@ -23,4 +23,6 @@ public class CreateAdminSiteForm {
     @NotBlank
     private String userEmail;
 
+    // site short description
+    private String shortDescription;
 }

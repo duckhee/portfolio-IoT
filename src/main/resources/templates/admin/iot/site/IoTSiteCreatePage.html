@@ -5,7 +5,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{admin/layout/adminLayout(menu='iot', currentMenu='iotSiteCreate')}">
 <head>
-    <title>ADMIN MAIN</title>
+    <title>IoT MAIN</title>
 </head>
 <body>
 <th:block layout:fragment="mainContent">
@@ -29,22 +29,22 @@
             <div class="box-header with-border">
                 <h3 class="box-title">IoT Site Create</h3>
                 <div class="pull-right">
-                    <button type="button" calss="btn btn-danger" id="cancelBtn">
+                    <button type="button" class="btn btn-danger" id="cancelBtn">
                         GO TO LIST
                     </button>
-                    <button type="button" calss="btn btn-primary" id="createBtn">
+                    <button type="button" class="btn btn-primary" id="createBtn">
                         CREATE IoT SITE
                     </button>
                 </div>
                 <!--./registe IoT Site Button-->
             </div>
             <!--./box-header-->
-            <div calss="box-body">
+            <div class="box-body">
                 <from th:id="IoTSite" th:name="IoTSite" th:object="${createAdminSiteForm}" id="IoTSite" name="IoTSite"
                       th:action="@{/admin/IoT/site/create}" action="#IoTSite" th:method="POST" method="POST">
                     <div class="form-group" th:class="${#fields.hasErrors('siteName')} ? 'has-error'">
                         <label for="SiteName" class="control-label">IoT Site Name</label>
-                        <input type="text" id="SiteName" name="SiteName" class="control-label" th:field="*{siteName}"
+                        <input type="text" id="SiteName" name="SiteName" class="form-control" th:field="*{siteName}"
                                required>
                         <span class="help-block" th:if="${#fields.hasErrors('siteName')}"
                               th:errors="*{siteName}"></span>
@@ -52,12 +52,20 @@
                     <!--./IoT Site Name-->
                     <div class="form-group" th:class="${#fields.hasErrors('userEmail')} ? 'has-error'">
                         <label for="UserEmail" class="control-label">USER Email(Site Owner)</label>
-                        <input type="text" id="UserEmail" name="UserEmail" class="control-label" th:field="*{userEmail}"
+                        <input type="text" id="UserEmail" name="UserEmail" class="form-control" th:field="*{userEmail}"
                                required>
                         <span class="help-block" th:if="${#fields.hasErrors('userEmail')}"
                               th:errors="*{userEmail}"></span>
                     </div>
                     <!--./user-Email-->
+                    <div class="form-group" th:class="${#fields.hasErrors('shortDescription')} ? 'has-error'">
+                        <label for="shortDescription" class="control-label">Site Short Description</label>
+                        <input type="text" id="shortDescription" name="shortDescription" class="form-control"
+                               th:field="*{shortDescription}">
+                        <span class="help-block" th:if="${#fields.hasErrors('shortDescription')}"
+                              th:errors="*{shortDescription}"></span>
+                    </div>
+                    <!--./short-Description-->
                 </from>
                 <!--./IoT Site Form-->
             </div>
@@ -66,6 +74,11 @@
         <!--./article-->
     </section>
     <!-- /.content -->
+</th:block>
+<th:block layout:fragment="addScript">
+    <script th:replace="~{admin/layout/fragments/csrfBefore :: ajax-csrf-header}"></script>
+    <script src="../../../static/admin-resource/plugins/ckeditor/ckeditor.js"
+            th:src="@{/admin-resource/plugins/ckeditor/ckeditor.js}"></script>
 </th:block>
 </body>
 </html>

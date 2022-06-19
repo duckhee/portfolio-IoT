@@ -27,6 +27,9 @@ public class SiteDomain {
     @Column(nullable = false)
     private String name;
 
+    @Column
+    private String shortDescription;
+
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;
