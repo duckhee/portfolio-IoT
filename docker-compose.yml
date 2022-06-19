@@ -77,5 +77,29 @@ services:
     # redis port setting
     ports:
       - "7000:7000"
+  # portfolio application service
+  portfolio-app:
+    # portfolio application container name
+    container_name: portfolioApp
+    # docker file build
+    build:
+      # dockerfile location
+      context: .
+    # network setting
+    networks:
+      - portfolio
+    # service binding volume
+    volumes:
+      - ./docker/app/config/:/portfolio/config/
+      - ./docker/app/log/:/portfolio/logs/
+      - ./docker/app/uploadFile/:/portfolio/upload/
+      # server port setting
+    ports:
+      - "8080:8080"
+    # depend on service
+    depends_on:
+      - portfolio-defaultDB
+      - portfolio-mqttServer
+
 
 
