@@ -21,6 +21,9 @@ RUN mkdir /portfolio/upload
 # making log directory
 RUN mkdir /portfolio/logs
 #
+# working directory setting
+WORKDIR /portfolio
+#
 # spring boot package
 CMD ["./mvnw","clean","package"]
 #

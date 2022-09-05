@@ -458,6 +458,7 @@
             </plugin>
             <!--docker file get make-->
             <plugin>
+
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.8</version>
