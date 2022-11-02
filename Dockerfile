@@ -25,7 +25,7 @@ RUN mkdir /portfolio/logs
 WORKDIR /portfolio
 #
 # spring boot package
-CMD ["./mvnw","clean","package"]
+#CMD ["./mvnw","clean","package"]
 #
 # build java jar file path
 ARG PORTFOLIO_IOT_PATH=target/*.jar
